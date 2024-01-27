@@ -1,0 +1,5 @@
+# Rewrite a path
+[[redirects]]
+from = "/pages"
+to = "/index.html"
+status = 200
