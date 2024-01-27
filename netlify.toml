@@ -1,5 +1,5 @@
 # Rewrite a path
 [[redirects]]
-from = "/pages"
-to = "/index.html"
+from = "/index.html"
+to = "/pages"
 status = 200
