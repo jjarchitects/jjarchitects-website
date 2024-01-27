@@ -10,7 +10,7 @@
   status = 200
 
 [[redirects]]
-  from = "/pages/aboutus"
+  from = "/aboutus"
   to = "/pages/aboutus.html"
   status = 200
 
