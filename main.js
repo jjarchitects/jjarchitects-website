@@ -1,5 +1,7 @@
 import carousel_data from "./carousel_data.json";
 
+console.log("Entered The main.js")
+
 const left_btn = document.querySelector(".left-btn");
 const right_btn = document.querySelector(".right-btn");
 

@@ -5,9 +5,9 @@
 #first-section{
     /* height: calc(100vh - 80px); */
 }
-#second-section{
-    /* height: calc(100vh); */
-}
+/* #second-section{
+    height: calc(100vh);
+} */
 .bg-blur{
     backdrop-filter: blur(5px);
 }
@@ -45,10 +45,10 @@
 
 
 @media only screen and (min-width: 768px) {
-    #first-section{
+    .first-section{
         height: calc(100vh - 80px);
     }
-    #second-section{
+    .second-section{
         height: calc(100vh);
     }
     .home-page-img {
