@@ -5,21 +5,16 @@
   status = 200
 
 [[redirects]]
-  from = "/pages/"
-  to = "/pages/index.html"
-  status = 200
-
-[[redirects]]
   from = "/aboutus"
   to = "/pages/aboutus.html"
   status = 200
 
 [[redirects]]
-  from = "/pages/projects"
+  from = "/projects"
   to = "/pages/projects.html"
   status = 200
 
 [[redirects]]
-  from = "/pages/contactus"
+  from = "/contactus"
   to = "/pages/contactus.html"
   status = 200
