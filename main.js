@@ -1,4 +1,4 @@
-import carousel_data from "./carousel_data";
+import carousel_data from "./carousel_data.js";
 
 console.log("Entered The main.js");
 
