@@ -1,21 +1,32 @@
 import carousel_data from "./carousel_data.js";
 
-console.log("Entered The main.js");
-
 const left_btn = document.querySelector(".left-btn");
 const right_btn = document.querySelector(".right-btn");
 
 const image = document.querySelector(".home-page-img");
 
 let i = 0;
+let intervalId;
 
 right_btn.addEventListener("click", () => {
   changeImage("next");
+  resetInterval();
 });
 
 left_btn.addEventListener("click", () => {
   changeImage("prev");
+  resetInterval();
 });
+
+function resetInterval() {
+  // Clear the existing interval timer (if any)
+  clearInterval(intervalId);
+
+  // Set a new interval timer
+  intervalId = setInterval(() => {
+    changeImage("next");
+  }, 6000);
+}
 
 function changeImage(direction) {
   if (direction === "next") {
@@ -27,7 +38,5 @@ function changeImage(direction) {
   image.src = carousel_data[i].path;
 }
 
-// Automatically change image every 5 seconds
-setInterval(() => {
-  changeImage("next");
-}, 5000);
+// Initially, start the interval
+resetInterval();
