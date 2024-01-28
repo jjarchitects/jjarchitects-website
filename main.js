@@ -1,6 +1,6 @@
-import carousel_data from "./carousel_data.json";
+import carousel_data from "./carousel_data";
 
-console.log("Entered The main.js")
+console.log("Entered The main.js");
 
 const left_btn = document.querySelector(".left-btn");
 const right_btn = document.querySelector(".right-btn");
@@ -24,12 +24,10 @@ function changeImage(direction) {
     i = i === 0 ? carousel_data.length - 1 : i - 1;
   }
 
-  setTimeout(() => {
-    image.src = carousel_data[i].path;
-  }, 700); // Adjust the timeout value to match the transition duration
+  image.src = carousel_data[i].path;
 }
 
-// Automatically change image every 3 seconds
+// Automatically change image every 5 seconds
 setInterval(() => {
   changeImage("next");
 }, 5000);

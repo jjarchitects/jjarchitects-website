@@ -1,4 +1,4 @@
-[
+export default [
     {
         "index": 0,
         "path": "../src/00_HOME PAGE/HOME PAGE_01.jpg"
