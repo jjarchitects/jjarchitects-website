@@ -1,0 +1,12 @@
+{
+    "contactDetails": {
+        "email": "contact@jjarchitects.co.in",
+        "phone": "+91 12345 67890",
+        "address": {
+            "street": "Pier 70, Dogpatch",
+            "city": "San Francisco",
+            "state": "California",
+            "pinCode": "94107"
+        }
+    }
+}

@@ -1,0 +1,151 @@
+[
+    {
+        "id": "project-1",
+        "title": "Elegant 3BHK Residence, Bhuj",
+        "description": "A modern residential retreat blending industrial materials with serene design.",
+        "thumbnail": "https://res.cloudinary.com/jj-architects/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1745836171/LIVING_ROOM_10_vjdmnw.jpg",
+        "images": [
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836171/LIVING_ROOM_10_vjdmnw.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836171/001_jrjrk0.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836170/GF-A2_wdz5xm.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836170/LIVING_ROOM_09_xj7m1m.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/LIVING_ROOM_12_xeprwm.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/KITCHEN-2_qdq8q1.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/KITCHEN-1_soatn6.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/GF-A1_j5jlu8.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/07_eodoe2.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836167/KITCHEN-3_rrbedr.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836167/KITCHEN-4_ejwmhw.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836165/TV_UNIT_DESIGN_hzxwxh.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836164/M.BEDROOM2_pfli82.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836163/LIVING_ROOM_11_tegi7i.jpg"
+        ],
+        "aboutProject": "This 3BHK residence in Bhuj, completed in 2023, is a masterful fusion of industrial materials and serene design elements. The project showcases a thoughtful integration of raw materials like exposed steel, concrete, and glass with subtle, calming tones and textures, resulting in a modern, yet inviting living space. Designed to offer a seamless connection between indoor and outdoor environments, expansive windows allow natural light to flood the interiors, highlighting the intricate details of the space. Each room is crafted with precision to achieve a harmonious balance between functionality and aesthetic appeal, making this residence a contemporary retreat that perfectly embodies both comfort and style.",
+        "location": "Bhuj, Gujarat",
+        "year": 2023,
+        "type": "Residential",
+        "featured": true,
+        "tour360Link": "https://jjarchitects-360-tour-01.netlify.app/",
+        "vrTourLink": "https://jjarchitects-360-tour-01.netlify.app/"
+    },
+    {
+        "id": "project-2",
+        "title": "Sunset Lounge",
+        "description": "An open lounge concept focused on natural light and warm tones.",
+        "thumbnail": "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8",
+        "images": [
+            "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8"
+        ],
+        "location": "Bhuj, Gujarat",
+        "year": 2022,
+        "type": "Commercial",
+        "featured": false,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-3",
+        "title": "Desert Pavilion",
+        "description": "Sustainable design in arid climates with earthy textures and minimal form.",
+        "thumbnail": "https://images.unsplash.com/photo-1524026986132-000404263b59",
+        "images": [
+            "https://images.unsplash.com/photo-1524026986132-000404263b59"
+        ],
+        "location": "Rajasthan, India",
+        "year": 2021,
+        "type": "Cultural",
+        "featured": false,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-4",
+        "title": "Skyline Workspace",
+        "description": "Contemporary office space with clean lines and smart use of glass.",
+        "thumbnail": "https://images.unsplash.com/photo-1518005020951-eccb494ad742",
+        "images": [
+            "https://images.unsplash.com/photo-1518005020951-eccb494ad742"
+        ],
+        "location": "Mumbai, India",
+        "year": 2024,
+        "type": "Office",
+        "featured": true,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-5",
+        "title": "Green Atrium",
+        "description": "Eco-friendly atrium that breathes life into public architecture.",
+        "thumbnail": "https://plus.unsplash.com/premium_photo-1680382578857-c331ead9ed51",
+        "images": [
+            "https://plus.unsplash.com/premium_photo-1680382578857-c331ead9ed51"
+        ],
+        "location": "Delhi, India",
+        "year": 2023,
+        "type": "Public",
+        "featured": false,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-6",
+        "title": "Hilltop Villa",
+        "description": "Private luxury villa overlooking lush landscapes and sunrise views.",
+        "thumbnail": "https://images.unsplash.com/photo-1502005097973-6a7082348e28",
+        "images": [
+            "https://images.unsplash.com/photo-1502005097973-6a7082348e28"
+        ],
+        "location": "Lonavala, India",
+        "year": 2020,
+        "type": "Residential",
+        "featured": true,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-7",
+        "title": "Concrete Calm",
+        "description": "Bold brutalist form softened with plant integration and acoustic design.",
+        "thumbnail": "https://images.unsplash.com/photo-1701602443009-99dd109ac543",
+        "images": [
+            "https://images.unsplash.com/photo-1701602443009-99dd109ac543"
+        ],
+        "location": "Pune, India",
+        "year": 2021,
+        "type": "Studio",
+        "featured": false,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-8",
+        "title": "The Light House",
+        "description": "Minimalist design where sunlight plays with surfaces throughout the day.",
+        "thumbnail": "https://images.unsplash.com/photo-1663811397302-8268848ca312",
+        "images": [
+            "https://images.unsplash.com/photo-1663811397302-8268848ca312"
+        ],
+        "location": "San Francisco, USA",
+        "year": 2024,
+        "type": "Residential",
+        "featured": true,
+        "tour360Link": null,
+        "vrTourLink": null
+    },
+    {
+        "id": "project-9",
+        "title": "Tiled Tranquility",
+        "description": "Color-rich retreat using artisan tiles and local materials.",
+        "thumbnail": "https://images.unsplash.com/photo-1520587393050-c5298e1a8486",
+        "images": [
+            "https://images.unsplash.com/photo-1520587393050-c5298e1a8486"
+        ],
+        "location": "Goa, India",
+        "year": 2019,
+        "type": "Vacation Home",
+        "featured": false,
+        "tour360Link": null,
+        "vrTourLink": null
+    }
+]
