@@ -169,7 +169,7 @@ const ProjectsPage: React.FC = () => {
               ref={(el) => {
                 filterRefs.current[index] = el;
               }}
-              className={`cursor-pointer. px-4 py-2 rounded-lg border border-gray-400 text-gray-600 hover:bg-black hover:text-white hover:border-black transition-colors duration-300 text-sm md:text-base font-medium ${
+              className={`cursor-pointer. px-4 py-2 border border-gray-400 text-gray-600 hover:bg-black hover:text-white hover:border-black transition-colors duration-300 text-sm md:text-base font-medium ${
                 activeFilter === filter
                   ? "bg-black text-white border-black"
                   : ""
@@ -190,7 +190,7 @@ const ProjectsPage: React.FC = () => {
             ref={(el) => {
               projectRefs.current[index] = el;
             }}
-            className="project-card relative break-inside-avoid rounded-md drop-shadow-lg overflow-hidden group cursor-pointer. mb-4 transform-gpu"
+            className="project-card relative break-inside-avoid drop-shadow-lg overflow-hidden group cursor-pointer. mb-4 transform-gpu"
           >
             <Link href={`/projects/${project.id}`}>
               <div className="overflow-hidden">

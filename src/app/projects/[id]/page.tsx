@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import projectsData from "@/data/projectsData.json";
+import { Fullscreen } from "lucide-react";
 
 export default function ProjectPage() {
   const { id } = useParams();
@@ -156,11 +157,11 @@ export default function ProjectPage() {
       />
 
       {/* Back Button */}
-      <div className="fixed top-6 left-6 z-40">
+      {/* <div className="fixed top-6 left-6 z-40">
         <button
           onClick={() => window.history.back()}
           aria-label="Go back"
-          className="flex items-center gap-2 bg-white/80 backdrop-blur-sm text-zinc-800 px-4 py-2 rounded-full shadow-md hover:bg-white transition"
+          className="flex items-center mt-16 gap-2 bg-white/80 backdrop-blur-sm text-zinc-800 px-4 py-2 rounded-full shadow-md hover:bg-white transition"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +179,7 @@ export default function ProjectPage() {
           </svg>
           Back
         </button>
-      </div>
+      </div> */}
 
       {/* Hero Section */}
       <section
@@ -255,7 +256,7 @@ export default function ProjectPage() {
                     href={project.tour360Link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition overflow-hidden"
+                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 rounded-lg. hover:bg-stone-600 transition overflow-hidden"
                   >
                     <span className="relative z-10">Experience 360° Tour</span>
                     <svg
@@ -270,7 +271,7 @@ export default function ProjectPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-stone-500 to-stone-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 )}
                 {project.vrTourLink && (
@@ -278,7 +279,7 @@ export default function ProjectPage() {
                     href={project.vrTourLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 rounded-lg hover:bg-indigo-600 transition overflow-hidden"
+                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 hover:bg-stone-600 transition overflow-hidden"
                   >
                     <span className="relative z-10">VR Experience</span>
                     <svg
@@ -293,7 +294,7 @@ export default function ProjectPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-stone-500 to-stone-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 )}
               </div>
@@ -316,7 +317,7 @@ export default function ProjectPage() {
             {project.images.map((src, index) => (
               <div
                 key={index}
-                className="group relative aspect-square rounded-xl overflow-hidden shadow-lg cursor-pointer."
+                className="group relative aspect-square overflow-hidden shadow-lg rounded-sm"
                 onClick={() => openLightbox(index)}
               >
                 <div className="absolute inset-0 bg-zinc-200 animate-pulse z-0"></div>
@@ -336,21 +337,8 @@ export default function ProjectPage() {
                   }}
                 />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
-                  <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-zinc-900"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
+                  <div className="w-12 h-12 bg-white/80 flex items-center justify-center">
+                    <Fullscreen />
                   </div>
                 </div>
               </div>
@@ -470,7 +458,7 @@ export default function ProjectPage() {
       {/* Continue Exploring - Improved version with light background */}
       <section className="bg-zinc-100 py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-white rounded-2xl shadow-lg">
+          <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-white rounded-sm shadow-lg">
             <div className="mb-6 md:mb-0 md:mr-8">
               <h2 className="text-2xl font-bold text-zinc-900 mb-2">
                 Continue Exploring
@@ -481,7 +469,7 @@ export default function ProjectPage() {
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/projects"
-                  className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-lg transition shadow-md"
+                  className="inline-flex items-center gap-2 bg-stone-600 hover:bg-stone-700 text-white px-5 py-3 transition shadow-md"
                 >
                   <span>View All Projects</span>
                   <svg
@@ -503,7 +491,7 @@ export default function ProjectPage() {
                 {nextProject && (
                   <Link
                     href={`/projects/${nextProject.id}`}
-                    className="inline-flex items-center gap-2 bg-white border border-zinc-300 hover:border-indigo-600 hover:text-indigo-600 text-zinc-700 px-5 py-3 rounded-lg transition shadow-sm"
+                    className="inline-flex items-center gap-2 bg-white border border-zinc-300 hover:border-stone-600 hover:text-stone-600 text-zinc-700 px-5 py-3 transition shadow-sm"
                   >
                     <span>Next Project</span>
                     <svg
@@ -526,7 +514,7 @@ export default function ProjectPage() {
             </div>
 
             {nextProject && (
-              <div className="relative w-full md:w-1/3 aspect-square rounded-xl overflow-hidden shadow-md">
+              <div className="relative w-full md:w-1/3 aspect-square rounded-sm overflow-hidden shadow-md">
                 <div className="absolute inset-0 bg-zinc-200 animate-pulse"></div>
                 <Image
                   src={nextProject.thumbnail}

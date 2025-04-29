@@ -251,7 +251,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="rounded-lg inline-flex items-center justify-center px-8 py-3 bg-[#1b1b1b] text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center px-8 py-3 bg-[#1b1b1b] text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -368,19 +368,19 @@ const Contact = () => {
               <div className="flex space-x-4">
                 <a
                   href="#"
-                  className="rounded-lg p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
+                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="rounded-lg p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
+                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
                 >
                   <Twitter className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="rounded-lg p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
+                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
