@@ -18,8 +18,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 const Footer = () => {
   const footerRef = useRef(null);
-  const linksRef = useRef(null);
-  const socialRef = useRef(null);
+  const linksRef = useRef<HTMLUListElement>(null);
+  const socialRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -42,7 +42,7 @@ const Footer = () => {
 
     // Links stagger animation
     gsap.fromTo(
-      linksRef.current.children,
+      linksRef.current?.children || [],
       { opacity: 0, x: -20 },
       {
         opacity: 1,
@@ -58,14 +58,16 @@ const Footer = () => {
     );
 
     // Social icons float animation
-    gsap.to(socialRef.current.children, {
-      y: -5,
-      duration: 1.5,
-      ease: "power1.inOut",
-      stagger: 0.2,
-      repeat: -1,
-      yoyo: true,
-    });
+    if (socialRef.current) {
+      gsap.to(socialRef.current.children, {
+        y: -5,
+        duration: 1.5,
+        ease: "power1.inOut",
+        stagger: 0.2,
+        repeat: -1,
+        yoyo: true,
+      });
+    }
   }, []);
 
   return (

@@ -7,7 +7,7 @@ export default function AutoCADCursor() {
   const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
-    const move = (e) => {
+    const move = (e: MouseEvent): void => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
 

@@ -12,9 +12,9 @@ export default function ProjectPage() {
   const { id } = useParams();
   const containerRef = useRef(null);
   const heroRef = useRef(null);
-  const infoRef = useRef(null);
-  const galleryRef = useRef(null);
-  const [activeImage, setActiveImage] = useState(null);
+  const infoRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const [activeImage, setActiveImage] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
 
@@ -54,30 +54,34 @@ export default function ProjectPage() {
       });
 
       // Staggered info section animation
-      gsap.from(infoRef.current.children, {
-        y: 30,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: infoRef.current,
-          start: "top 80%",
-        },
-      });
+      if (infoRef.current) {
+        gsap.from(infoRef.current.children, {
+          y: 30,
+          opacity: 0,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: infoRef.current,
+            start: "top 80%",
+          },
+        });
+      }
 
       // Gallery animations
-      gsap.from(galleryRef.current.children, {
-        y: 50,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: galleryRef.current,
-          start: "top 75%",
-        },
-      });
+      if (galleryRef.current) {
+        gsap.from(galleryRef.current.children, {
+          y: 50,
+          opacity: 0,
+          stagger: 0.1,
+          duration: 0.7,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: galleryRef.current,
+            start: "top 75%",
+          },
+        });
+      }
     }, containerRef);
 
     return () => ctx.revert();
@@ -85,7 +89,11 @@ export default function ProjectPage() {
 
   // Handle keyboard navigation for lightbox
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    interface KeyboardEventWithKey extends KeyboardEvent {
+      key: string;
+    }
+
+    const handleKeyDown = (e: KeyboardEventWithKey): void => {
       if (activeImage === null) return;
 
       if (e.key === "ArrowLeft") {
@@ -106,7 +114,11 @@ export default function ProjectPage() {
     return notFound();
   }
 
-  const openLightbox = (index) => {
+  interface OpenLightboxFunction {
+    (index: number): void;
+  }
+
+  const openLightbox: OpenLightboxFunction = (index) => {
     setActiveImage(index);
     setImageLoading(true);
     document.body.style.overflow = "hidden";
@@ -120,14 +132,14 @@ export default function ProjectPage() {
   const nextImage = () => {
     setImageLoading(true);
     setActiveImage((prev) =>
-      prev === project.images.length - 1 ? 0 : prev + 1
+      (prev ?? 0) === project.images.length - 1 ? 0 : (prev ?? 0) + 1
     );
   };
 
   const prevImage = () => {
     setImageLoading(true);
     setActiveImage((prev) =>
-      prev === 0 ? project.images.length - 1 : prev - 1
+      (prev ?? 0) === 0 ? project.images.length - 1 : (prev ?? 0) - 1
     );
   };
 
@@ -316,8 +328,10 @@ export default function ProjectPage() {
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-110 z-10"
                   onLoad={(e) => {
                     // Remove animation once image is loaded
-                    e.target.parentElement
-                      .querySelector(".animate-pulse")
+                    const parentElement = (e.target as HTMLElement)
+                      .parentElement;
+                    parentElement
+                      ?.querySelector(".animate-pulse")
                       ?.classList.remove("animate-pulse");
                   }}
                 />
@@ -521,8 +535,10 @@ export default function ProjectPage() {
                   sizes="(max-width: 768px) 90vw, 33vw"
                   className="object-cover"
                   onLoad={(e) => {
-                    e.target.parentElement
-                      .querySelector(".animate-pulse")
+                    const parentElement = (e.target as HTMLElement)
+                      .parentElement;
+                    parentElement
+                      ?.querySelector(".animate-pulse")
                       ?.classList.remove("animate-pulse");
                   }}
                 />

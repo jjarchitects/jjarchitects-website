@@ -42,6 +42,7 @@ const ProjectsPage: React.FC = () => {
     // Load and shuffle data on component mount
     setProjects(
       shuffleArray<Project>(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (projectsData as any[]).map((project) => ({
           ...project,
           category: project.category || "Uncategorized", // Provide a default value for missing fields

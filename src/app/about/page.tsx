@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -9,7 +9,7 @@ const AboutPage = () => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
-  const textRef = useRef(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef(null);
   const statsSectionRef = useRef(null);
   const statsItems = useRef<(HTMLSpanElement | null)[]>([]);
@@ -57,17 +57,19 @@ const AboutPage = () => {
         );
 
       // Content section animation
-      gsap.from(textRef.current.querySelectorAll("p"), {
-        y: 30,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
+      if (textRef.current) {
+        gsap.from(textRef.current.querySelectorAll("p"), {
+          y: 30,
+          opacity: 0,
+          stagger: 0.15,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: textRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        });
+      }
 
       // Image animation
       gsap.fromTo(
@@ -104,8 +106,8 @@ const AboutPage = () => {
       });
 
       // Stats counter animation
-      statsItems.current.forEach((item, index) => {
-        const value = parseInt(item.getAttribute("data-value"), 10);
+      statsItems.current.forEach((item) => {
+        // const value = parseInt(item.getAttribute("data-value"), 10);
         gsap.from(item, {
           textContent: 0,
           duration: 2,
@@ -118,7 +120,11 @@ const AboutPage = () => {
             toggleActions: "play none none none",
           },
           onUpdate: function () {
-            item.textContent = Math.ceil(this.targets()[0].textContent);
+            if (item) {
+              item.textContent = Math.ceil(
+                Number(this.targets()[0].textContent)
+              ).toString();
+            }
           },
         });
       });
@@ -153,23 +159,23 @@ const AboutPage = () => {
               John Doe is a passionate architect and designer with a strong
               focus on sustainable innovation, user-centered design, and modern
               aesthetics. With over a decade of experience crafting immersive
-              spaces, John's vision bridges timeless elegance with contemporary
-              function.
+              spaces, John&#39;s vision bridges timeless elegance with
+              contemporary function.
             </p>
 
             <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
               At the heart of every project lies a story—one that John
-              translates into every line, curve, and texture. Whether it's a
+              translates into every line, curve, and texture. Whether it&#39;s a
               residential haven or a public installation, his work is a fusion
               of form, functionality, and emotion.
             </p>
 
             <div className="relative pl-5 border-l-2 border-[#a53838]/30 my-10 text-justify">
               <p className="text-lg md:text-xl italic text-[#1b1b1b]/90 font-light">
-                "Architecture is not about building the impossible, which we can
-                do if we have enough money and enough tools and enough
-                computers. It's about building what is appropriate and about
-                attaining beauty through such an approach."
+                &quot;Architecture is not about building the impossible, which
+                we can do if we have enough money and enough tools and enough
+                computers. It&apos;s about building what is appropriate and
+                about attaining beauty through such an approach.&quot;
               </p>
               <p className="text-right text-sm text-[#a53838] mt-3">
                 — John Doe
@@ -184,7 +190,7 @@ const AboutPage = () => {
             </p>
 
             <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
-              John's prior experience has shaped a uniquely versatile design
+              John&#39;s prior experience has shaped a uniquely versatile design
               language—equally comfortable with traditional craftsmanship and
               cutting-edge digital fabrication. Today, he continues to push
               boundaries, experimenting with materials, light, and spatial
@@ -218,7 +224,9 @@ const AboutPage = () => {
               {/* Stat Item 1 */}
               <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
-                  ref={(el) => (statsItems.current[0] = el)}
+                  ref={(el) => {
+                    statsItems.current[0] = el;
+                  }}
                   data-value="12"
                   className="text-4xl font-bold text-[#a53838]"
                 >
@@ -232,7 +240,9 @@ const AboutPage = () => {
               {/* Stat Item 2 */}
               <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
-                  ref={(el) => (statsItems.current[1] = el)}
+                  ref={(el) => {
+                    statsItems.current[1] = el;
+                  }}
                   data-value="75"
                   className="text-4xl font-bold text-[#a53838]"
                 >
