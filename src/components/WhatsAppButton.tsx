@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 
 const WhatsAppButton = () => {
   // WhatsApp Business parameters
-  const phoneNumber = "7201949464";
-  const businessName = "JJ Architects"; // Replace with your actual business name
+  const phoneNumber = "+919601451268";
+  const businessName = "JJ Architects";
   const message =
     "Hey! Looking forward to discussing my project with you. Let's chat about transforming my space into something truly special.";
 
