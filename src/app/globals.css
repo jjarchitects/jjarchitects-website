@@ -1,12 +1,54 @@
 @import "tailwindcss";
 
+/* Tailwind CSS Theme */
+@theme {
+  /* Carbon */
+  --color-carbon: #1b1b1b; /* DEFAULT */
+  --color-carbon-100: #d2d2d2;
+  --color-carbon-200: #a4a4a4;
+  --color-carbon-300: #777777;
+  --color-carbon-400: #494949;
+  --color-carbon-500: #1b1b1b; /* DEFAULT */
+  --color-carbon-600: #161616;
+  --color-carbon-700: #111111;
+  --color-carbon-800: #0b0b0b;
+  --color-carbon-900: #060606;
+  
+  /* Taupe */
+  --color-taupe: #dad6cb; /* DEFAULT */
+  --color-taupe-100: #f8f7f5;
+  --color-taupe-200: #f1efeb;
+  --color-taupe-300: #e9e7e1;
+  --color-taupe-400: #e2dfd6;
+  --color-taupe-500: #dad6cb; /* DEFAULT */
+  --color-taupe-600: #b8b09b;
+  --color-taupe-700: #958969;
+  --color-taupe-800: #635b46;
+  --color-taupe-900: #322e23;
+
+  /* Copper */
+  --color-copper: #a55838;
+  --color-copper-100: #f0dcd4;
+  --color-copper-200: #e1b9a8;
+  --color-copper-300: #d3977d;
+  --color-copper-400: #c47452;
+  --color-copper-500: #a55838; /* DEFAULT */
+  --color-copper-600: #83472d;
+  --color-copper-700: #623522;
+  --color-copper-800: #412316;
+  --color-copper-900: #21120b;
+
+  /* a53838 */
+}
 
 
 :root {
-  --dark: #1b1b1b;
-  --light: #ffffff;
-  --primary: #a53838;
-  --secondary: #dad6cb;
+  cursor: none !important;
+  color: var(--color-carbon);
+}
+
+a, button, label, input, textarea {
+  cursor: none !important;
 }
 
 .text-dark {
@@ -23,27 +65,10 @@
   background-color: var(--primary);
 }
 
-/* :root {
-  --background: #ffffff;
-  --foreground: #171717;
+.form-label {
+  @apply block text-sm text-carbon-400 mb-2 uppercase tracking-wide;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.form-input {
+ @apply w-full px-4 py-3 bg-transparent border-b border-carbon-200 focus:border-copper focus:outline-none transition-all text-carbon;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */

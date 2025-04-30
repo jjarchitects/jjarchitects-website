@@ -136,73 +136,54 @@ const AboutPage = () => {
   return (
     <div
       ref={containerRef}
-      className=" bg-white text-[#1b1b1b] z-10 w-11/12 py-16 max-w-7xl mx-auto"
+      className=" bg-white text-carbon z-10 w-11/12 py-16 max-w-7xl mx-auto"
     >
-      <div ref={titleRef} className="mb-16 contact-title">
+      <div ref={titleRef} className="mb-12 contact-title">
         <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">
           About us
         </h1>
-        <div ref={decorRef} className="w-20 h-1 bg-[#a53838] mt-6"></div>
+        <div ref={decorRef} className="w-20 h-1 bg-copper mt-6"></div>
       </div>
 
       {/* Hero Section */}
 
       {/* Content Section */}
-      <div className="container mx-auto px-6 py-16 md:py-24">
+      <div className="container mx-auto px-6 py-10">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 md:gap-16">
           {/* Text Content */}
           <div ref={textRef} className="lg:w-1/2 space-y-6">
-            <h3 className="text-2xl md:text-3xl font-semibold text-[#a53838]">
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper">
               Who Is John Doe?
             </h3>
-            <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
               John Doe is a passionate architect and designer with a strong
               focus on sustainable innovation, user-centered design, and modern
               aesthetics. With over a decade of experience crafting immersive
               spaces, John&#39;s vision bridges timeless elegance with
               contemporary function.
             </p>
-
-            <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
               At the heart of every project lies a story—one that John
               translates into every line, curve, and texture. Whether it&#39;s a
               residential haven or a public installation, his work is a fusion
               of form, functionality, and emotion.
             </p>
-
-            <div className="relative pl-5 border-l-2 border-[#a53838]/30 my-10 text-justify">
-              <p className="text-lg md:text-xl italic text-[#1b1b1b]/90 font-light">
+            <div className="relative pl-5 border-l-2 border-copper/40 my-10 text-justify">
+              <p className="text-lg md:text-xl italic text-carbon/80 font-light">
                 &quot;Architecture is not about building the impossible, which
                 we can do if we have enough money and enough tools and enough
                 computers. It&apos;s about building what is appropriate and
                 about attaining beauty through such an approach.&quot;
               </p>
-              <p className="text-right text-sm text-[#a53838] mt-3">
-                — John Doe
-              </p>
+              <p className="text-right text-sm text-copper mt-3">— John Doe</p>
             </div>
-
-            <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
-              Before founding his own studio, John led design teams at several
-              renowned firms across Europe and the Middle East, where he worked
-              on award-winning architectural landmarks, luxury interiors, and
-              large-scale urban design projects.
-            </p>
-
-            <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80 text-justify">
-              John&#39;s prior experience has shaped a uniquely versatile design
-              language—equally comfortable with traditional craftsmanship and
-              cutting-edge digital fabrication. Today, he continues to push
-              boundaries, experimenting with materials, light, and spatial
-              narratives to create spaces that inspire, engage, and endure.
-            </p>
           </div>
 
           {/* Image and Stats */}
           <div className="lg:w-1/2 flex flex-col items-center gap-12">
             {/* Image with decorative elements */}
             <div ref={imageRef} className="relative w-full max-w-md mx-auto">
-              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-[#a53838] opacity-30"></div>
+              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-copper opacity-30"></div>
               <div className="relative overflow-hidden">
                 <Image
                   src="/assets/aboutus/john-doe.png"
@@ -211,17 +192,16 @@ const AboutPage = () => {
                   height={600}
                   className="w-full object-cover h-auto shadow-lg transition-all duration-700 ease-in-out hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1b1b1b]/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100  transition-opacity duration-300"></div>
               </div>
-              <div className="absolute -bottom-4 -right-4 w-2/3 h-1/2 border-2 border-[#a53838] opacity-30"></div>
+              <div className="absolute -bottom-4 -right-4 w-2/3 h-1/2 border-2 border-copper opacity-30"></div>
             </div>
 
             {/* Stats Section */}
-            <div
+            {/* <div
               ref={statsSectionRef}
               className="w-full grid grid-cols-2 gap-4 mt-8"
             >
-              {/* Stat Item 1 */}
               <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
                   ref={(el) => {
@@ -230,14 +210,13 @@ const AboutPage = () => {
                   data-value="12"
                   className="text-4xl font-bold text-[#a53838]"
                 >
-                  12
+                  7
                 </span>
                 <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
                   Years Experience
                 </span>
               </div>
 
-              {/* Stat Item 2 */}
               <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
                   ref={(el) => {
@@ -246,15 +225,15 @@ const AboutPage = () => {
                   data-value="75"
                   className="text-4xl font-bold text-[#a53838]"
                 >
-                  75
+                  45
                 </span>
                 <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
                   Projects Completed
                 </span>
               </div>
 
-              {/* Stat Item 3 */}
-              {/* <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
+
+              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
                   ref={(el) => (statsItems.current[2] = el)}
                   data-value="18"
@@ -265,10 +244,10 @@ const AboutPage = () => {
                 <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
                   Awards Won
                 </span>
-              </div> */}
+              </div>
 
-              {/* Stat Item 4 */}
-              {/* <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
+
+              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
                 <span
                   ref={(el) => (statsItems.current[3] = el)}
                   data-value="9"
@@ -279,14 +258,14 @@ const AboutPage = () => {
                 <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
                   Countries
                 </span>
-              </div> */}
-            </div>
+              </div>
+            </div> */}
           </div>
         </div>
       </div>
 
       {/* Approach Section */}
-      <div className="w-full bg-[#f8f8f8] py-16 md:py-20">
+      {/* <div className="w-full bg-[#f8f8f8] py-16 md:py-20">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-1/3">
@@ -300,9 +279,7 @@ const AboutPage = () => {
                 those who inhabit it.
               </p>
             </div>
-
             <div className="md:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Approach Item 1 */}
               <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
                 <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
                   <svg
@@ -329,7 +306,6 @@ const AboutPage = () => {
                 </p>
               </div>
 
-              {/* Approach Item 2 */}
               <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
                 <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
                   <svg
@@ -356,7 +332,6 @@ const AboutPage = () => {
                 </p>
               </div>
 
-              {/* Approach Item 3 */}
               <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
                 <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
                   <svg
@@ -385,7 +360,7 @@ const AboutPage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

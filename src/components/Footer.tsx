@@ -73,12 +73,12 @@ const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className="relative bg-gradient-to-b from-zinc-900 to-black text-zinc-200 pt-20 pb-10 overflow-hidden"
+      className="relative bg-gradient-to-b from-taupe-200 to-taupe from-[#DAD6CB]/70. to-[#DAD6CB].// from-zinc-900. to-black. text-zinc-200 pt-10 pb-10 overflow-hidden"
     >
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-500 to-transparent opacity-30"></div>
-      <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-indigo-500/10 to-transparent blur-3xl"></div>
-      <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-gradient-to-tr from-amber-500/10 to-transparent blur-3xl"></div>
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-carbon-300 to-transparent opacity-30"></div>
+      {/* <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-indigo-500 to-transparent blur-3xl"></div> */}
+      {/* <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-gradient-to-tr from-amber-500 to-transparent blur-3xl"></div> */}
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Main footer content */}
@@ -88,15 +88,17 @@ const Footer = () => {
             <Link href="/" className="block">
               <div className="inline-block">
                 <h3 className="text-2xl font-light tracking-wider mb-2">
-                  <span className="font-medium text-white">JATAN JOSHI</span>
+                  <span className="font-medium text-carbon-400">
+                    JATAN JOSHI
+                  </span>
                 </h3>
-                <span className="text-xs uppercase tracking-widest text-zinc-400">
+                <span className="text-xs uppercase tracking-widest text-carbon-400">
                   ARCHITECTS
                 </span>
               </div>
             </Link>
 
-            <p className="text-sm text-zinc-400 leading-relaxed max-w-xs">
+            <p className="text-sm text-carbon-300 leading-relaxed max-w-xs">
               Crafting spaces with purpose, vision, and emotion. Creating
               architecture that shapes human experiences and connects with the
               environment.
@@ -107,28 +109,28 @@ const Footer = () => {
                 <a
                   href="#"
                   aria-label="Instagram"
-                  className="text-zinc-500 hover:text-white transition-colors duration-300 transform hover:scale-110"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaInstagram />
                 </a>
                 <a
                   href="#"
                   aria-label="LinkedIn"
-                  className="text-zinc-500 hover:text-white transition-colors duration-300 transform hover:scale-110"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaLinkedinIn />
                 </a>
                 <a
                   href="#"
                   aria-label="Dribbble"
-                  className="text-zinc-500 hover:text-white transition-colors duration-300 transform hover:scale-110"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaDribbble />
                 </a>
                 <a
                   href="#"
                   aria-label="Twitter"
-                  className="text-zinc-500 hover:text-white transition-colors duration-300 transform hover:scale-110"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaTwitter />
                 </a>
@@ -138,43 +140,43 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm uppercase font-medium tracking-wider text-zinc-300 mb-6">
+            <h4 className="text-sm uppercase font-medium tracking-wider text-carbon-400 mb-6">
               Navigation
             </h4>
             <ul ref={linksRef} className="space-y-4">
               <li>
                 <Link
                   href="/"
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 group flex items-center"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 group flex items-center"
                 >
-                  <span className="w-0 group-hover:w-2 h-px bg-zinc-300 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  <span className="w-0 group-hover:w-2 h-px bg-copper transition-all duration-300 mr-0 group-hover:mr-2"></span>
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/about"
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 group flex items-center"
-                >
-                  <span className="w-0 group-hover:w-2 h-px bg-zinc-300 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/projects"
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 group flex items-center"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 group flex items-center"
                 >
-                  <span className="w-0 group-hover:w-2 h-px bg-zinc-300 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  <span className="w-0 group-hover:w-2 h-px bg-copper transition-all duration-300 mr-0 group-hover:mr-2"></span>
                   Projects
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/contact"
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 group flex items-center"
+                  href="/about"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 group flex items-center"
                 >
-                  <span className="w-0 group-hover:w-2 h-px bg-zinc-300 transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  <span className="w-0 group-hover:w-2 h-px bg-copper transition-all duration-300 mr-0 group-hover:mr-2"></span>
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 group flex items-center"
+                >
+                  <span className="w-0 group-hover:w-2 h-px bg-copper transition-all duration-300 mr-0 group-hover:mr-2"></span>
                   Contact
                 </Link>
               </li>
@@ -183,25 +185,25 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h4 className="text-sm uppercase font-medium tracking-wider text-zinc-300 mb-6">
+            <h4 className="text-sm uppercase font-medium tracking-wider text-carbon-400 mb-6">
               Contact
             </h4>
             <ul className="space-y-4">
               <li>
                 <a
                   href={`mailto:${businessData.contactDetails.email}`}
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 flex items-start gap-3 group"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlineMail className="mt-1 text-zinc-500 group-hover:text-white transition-colors duration-300" />
+                  <HiOutlineMail className="mt-[6px] text-carbon-300 group-hover:text-copper transition-colors duration-300" />
                   <span>{businessData.contactDetails.email}</span>
                 </a>
               </li>
               <li>
                 <a
                   href={`tel:${businessData.contactDetails.phone}`}
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 flex items-start gap-3 group"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlinePhone className="mt-1 text-zinc-500 group-hover:text-white transition-colors duration-300" />
+                  <HiOutlinePhone className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300" />
                   <span>{businessData.contactDetails.phone}</span>
                 </a>
               </li>
@@ -210,9 +212,9 @@ const Footer = () => {
                   href="https://google.com/maps/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-zinc-400 hover:text-white transition-colors duration-300 flex items-start gap-3 group"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlineLocationMarker className="mt-1 text-zinc-500 group-hover:text-white transition-colors duration-300" />
+                  <HiOutlineLocationMarker className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300" />
                   <span>
                     {businessData.contactDetails.address.street},{" "}
                     {businessData.contactDetails.address.city},{" "}
@@ -226,25 +228,11 @@ const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="pt-8 border-t border-zinc-800/50">
-          <div className="flex flex-col md:flex-row justify-between items-center text-zinc-500 text-sm">
+        <div className="pt-8 border-t border-carbon-200">
+          <div className="flex flex-col md:flex-row justify-end items-center text-carbon-300 text-sm">
             <div className="mb-4 md:mb-0">
               © {new Date().getFullYear()} Jatan Joshi Architects. All rights
               reserved.
-            </div>
-            <div className="flex space-x-6">
-              <Link
-                href="/privacy-policy"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Terms of Service
-              </Link>
             </div>
           </div>
         </div>

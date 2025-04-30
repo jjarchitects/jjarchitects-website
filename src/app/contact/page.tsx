@@ -3,16 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useForm } from "react-hook-form";
-import {
-  Send,
-  Mail,
-  Phone,
-  MapPin,
-  CheckCircle,
-  Linkedin,
-  Twitter,
-  Instagram,
-} from "lucide-react";
+import { Send, Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 
 type FormData = {
   name: string;
@@ -105,80 +96,76 @@ const Contact = () => {
   const decorRef = useRef(null);
 
   return (
-    <div ref={containerRef} className="w-full bg-white text-gray-900 py-16">
+    <div ref={containerRef} className="w-full bg-white text-carbon py-16">
       {/* Page Content */}
       <div className="max-w-7xl w-11/12 mx-auto px-4. sm:px-6. lg:px-8.">
         {/* Page Title */}
-        <div className="mb-16 contact-title">
+        <div className="md:mb-16. contact-title">
           <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">
             CONTACT US
           </h1>
-          <div ref={decorRef} className="w-20 h-1 bg-[#a53838] mt-6"></div>
+          <div ref={decorRef} className="w-20 h-1 bg-copper mt-6"></div>
         </div>
 
         <div className="contact-content grid grid-cols-1 md:grid-cols-2 gap-16">
           {/* Left - Contact Form */}
-          <div>
+          <div className="h-fit">
             {submitted ? (
-              <div className="success-message h-full flex flex-col justify-center py-10">
-                <div className="p-4 mb-6">
-                  <CheckCircle className="w-12 h-12 text-[#a53838]" />
+              <div className="success-message h-full flex gap-6 py-10">
+                <div className="p-4 mb-6 flex justify-center items-center">
+                  <CheckCircle className="w-12 h-12 text-copper" />
                 </div>
-                <h3 className="text-2xl font-light uppercase tracking-wider mb-4 text-[#1b1b1b]">
-                  Message Sent
-                </h3>
-                <p className="text-gray-600 mb-8 max-w-md">
-                  Thank you for reaching out. We&apos;ll review your message and
-                  get back to you shortly.
-                </p>
-                <button
-                  onClick={() => {
-                    gsap.to(".success-message", {
-                      y: 20,
-                      opacity: 0,
-                      duration: 0.5,
-                      ease: "power2.in",
-                      onComplete: () => setSubmitted(false),
-                    });
-                  }}
-                  className="px-6 py-3 bg-[#1b1b1b] text-white hover:bg-gray-800 transition-colors inline-flex items-center"
-                >
-                  Send Another Message
-                </button>
+                <div>
+                  <h3 className="text-2xl font-light uppercase tracking-wider mb-4 text-carbon">
+                    Message Sent
+                  </h3>
+                  <p className="text-carbon-300 mb-8 max-w-md">
+                    Thank you for reaching out. We&apos;ll review your message
+                    and get back to you shortly.
+                  </p>
+                  <button
+                    onClick={() => {
+                      gsap.to(".success-message", {
+                        y: 20,
+                        opacity: 0,
+                        duration: 0.5,
+                        ease: "power2.in",
+                        onComplete: () => setSubmitted(false),
+                      });
+                    }}
+                    className="px-6 py-3 bg-carbon text-white hover:bg-carbon-400 transition-colors inline-flex items-center"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
               </div>
             ) : (
               <form
                 ref={formRef}
                 onSubmit={handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-6 mt-16"
                 noValidate
               >
                 <div className="form-element">
-                  <label
-                    htmlFor="name"
-                    className="block text-sm text-gray-600 mb-2 uppercase tracking-wide"
-                  >
+                  <label htmlFor="name" className="form-label">
                     Full Name
                   </label>
                   <input
                     {...register("name", { required: "Name is required" })}
                     id="name"
                     type="text"
-                    className="w-full px-4 py-3 bg-transparent border-b border-gray-300 focus:border-[#a53838] focus:outline-none transition-all text-[#1b1b1b]"
+                    className="form-input"
                     placeholder="Your name"
                   />
                   {errors.name && (
-                    <p className="mt-2 text-sm text-[#a53838]">
+                    <p className="mt-2 text-sm text-copper-600">
                       {errors.name.message}
                     </p>
                   )}
                 </div>
 
                 <div className="form-element">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm text-gray-600 mb-2 uppercase tracking-wide"
-                  >
+                  <label htmlFor="email" className="form-label">
                     Email Address
                   </label>
                   <input
@@ -191,21 +178,18 @@ const Contact = () => {
                     })}
                     id="email"
                     type="email"
-                    className="w-full px-4 py-3 bg-transparent border-b border-gray-300 focus:border-[#a53838] focus:outline-none transition-all text-[#1b1b1b]"
+                    className="form-input"
                     placeholder="your@email.com"
                   />
                   {errors.email && (
-                    <p className="mt-2 text-sm text-[#a53838]">
+                    <p className="mt-2 text-sm text-copper-600">
                       {errors.email.message}
                     </p>
                   )}
                 </div>
 
                 <div className="form-element">
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm text-gray-600 mb-2 uppercase tracking-wide"
-                  >
+                  <label htmlFor="subject" className="form-label">
                     Subject
                   </label>
                   <input
@@ -214,21 +198,18 @@ const Contact = () => {
                     })}
                     id="subject"
                     type="text"
-                    className="w-full px-4 py-3 bg-transparent border-b border-gray-300 focus:border-[#a53838] focus:outline-none transition-all text-[#1b1b1b]"
+                    className="form-input"
                     placeholder="Project inquiry / Collaboration"
                   />
                   {errors.subject && (
-                    <p className="mt-2 text-sm text-[#a53838]">
+                    <p className="mt-2 text-sm text-copper-600">
                       {errors.subject.message}
                     </p>
                   )}
                 </div>
 
                 <div className="form-element">
-                  <label
-                    htmlFor="message"
-                    className="block text-sm text-gray-600 mb-2 uppercase tracking-wide"
-                  >
+                  <label htmlFor="message" className="form-label">
                     Message
                   </label>
                   <textarea
@@ -237,11 +218,11 @@ const Contact = () => {
                     })}
                     id="message"
                     rows={4}
-                    className="w-full px-4 py-3 bg-transparent border-b border-gray-300 focus:border-[#a53838] focus:outline-none transition-all text-[#1b1b1b] resize-none"
                     placeholder="Tell us about your project..."
+                    className="form-input resize-none bg-transparent"
                   />
                   {errors.message && (
-                    <p className="mt-2 text-sm text-[#a53838]">
+                    <p className="mt-2 text-sm text-copper-600">
                       {errors.message.message}
                     </p>
                   )}
@@ -251,7 +232,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center justify-center px-8 py-3 bg-[#1b1b1b] text-white hover:bg-gray-800 transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center px-8 py-3 bg-carbon text-white hover:bg-carbon-400 transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>
@@ -293,24 +274,24 @@ const Contact = () => {
           <div className="space-y-12">
             <div className="space-y-8">
               <div className="contact-info-item">
-                <h3 className="text-lg uppercase tracking-wide mb-6 font-light text-[#1b1b1b]">
+                <h3 className="text-xl uppercase tracking-wide mb-6 font-light text-carbon">
                   Contact Information
                 </h3>
-                <p className="text-gray-600 mb-10 max-w-md">
+                <p className="text-carbon-300 mb-10 max-w-md">
                   For project inquiries, collaborations or general information,
                   please reach out using the contact details below.
                 </p>
               </div>
 
               <div className="flex items-start space-x-6 contact-info-item">
-                <Mail className="w-5 h-5 mt-1 text-[#a53838]" />
+                <Mail className="w-5 h-5 mt-1 text-copper" />
                 <div>
-                  <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-1">
+                  <h4 className="text-sm uppercase tracking-wide text-carbon-300 mb-1">
                     Email
                   </h4>
                   <a
                     href="mailto:contact@jatanjoshi.co.in"
-                    className="text-[#1b1b1b] hover:text-[#a53838] transition-colors"
+                    className="text-carbon hover:text-copper transition-colors"
                   >
                     contact@jatanjoshi.co.in
                   </a>
@@ -318,14 +299,14 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start space-x-6 contact-info-item">
-                <Phone className="w-5 h-5 mt-1 text-[#a53838]" />
+                <Phone className="w-5 h-5 mt-1 text-copper" />
                 <div>
-                  <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-1">
+                  <h4 className="text-sm uppercase tracking-wide text-carbon-300 mb-1">
                     Phone
                   </h4>
                   <a
                     href="tel:+911234567890"
-                    className="text-[#1b1b1b] hover:text-[#a53838] transition-colors"
+                    className="text-carbon hover:text-copper transition-colors"
                   >
                     +91 12345 67890
                   </a>
@@ -333,12 +314,12 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start space-x-6 contact-info-item">
-                <MapPin className="w-5 h-5 mt-1 text-[#a53838]" />
+                <MapPin className="w-5 h-5 mt-1 text-copper" />
                 <div>
-                  <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-1">
+                  <h4 className="text-sm uppercase tracking-wide text-carbon-300 mb-1">
                     Studio Address
                   </h4>
-                  <p className="text-[#1b1b1b]">
+                  <p className="text-carbon hover:text-copper">
                     Pier 15, Embarcadero, San Francisco, <br />
                     California, 94105
                   </p>
@@ -361,7 +342,27 @@ const Contact = () => {
             </div>
 
             {/* Social Media */}
-            <div className="contact-info-item">
+            <div>
+              <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-4">
+                Follow Us
+              </h4>
+              <div className="flex gap-4 md:gap-6">
+                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                  <span className="text-sm">IG</span>
+                </div>
+                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                  <span className="text-sm">LI</span>
+                </div>
+                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                  <span className="text-sm">YT</span>
+                </div>
+                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                  <span className="text-sm">FB</span>
+                </div>
+              </div>
+            </div>
+
+            {/* <div className="contact-info-item">
               <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-4">
                 Follow Us
               </h4>
@@ -385,7 +386,7 @@ const Contact = () => {
                   <Instagram className="w-5 h-5" />
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

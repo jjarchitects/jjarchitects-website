@@ -37,7 +37,7 @@ export default function RootLayout({
       >
         <CustomCursor />
         <Navbar />
-        <div className="mt-[70px]">{children}</div>
+        <div className="mt-[60px]">{children}</div>
         <Footer />
         <WhatsAppButton />
       </body>

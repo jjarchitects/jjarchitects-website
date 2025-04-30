@@ -6,19 +6,19 @@
         "thumbnail": "https://res.cloudinary.com/jj-architects/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1745836171/LIVING_ROOM_10_vjdmnw.jpg",
         "images": [
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836171/LIVING_ROOM_10_vjdmnw.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836171/001_jrjrk0.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836170/GF-A2_wdz5xm.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836163/LIVING_ROOM_11_tegi7i.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836170/LIVING_ROOM_09_xj7m1m.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/LIVING_ROOM_12_xeprwm.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/KITCHEN-2_qdq8q1.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836169/KITCHEN-1_soatn6.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/GF-A1_j5jlu8.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/07_eodoe2.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836167/KITCHEN-3_rrbedr.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836167/KITCHEN-4_ejwmhw.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836165/TV_UNIT_DESIGN_hzxwxh.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836170/GF-A2_wdz5xm.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/GF-A1_j5jlu8.jpg",
             "https://res.cloudinary.com/jj-architects/image/upload/v1745836164/M.BEDROOM2_pfli82.jpg",
-            "https://res.cloudinary.com/jj-architects/image/upload/v1745836163/LIVING_ROOM_11_tegi7i.jpg"
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836165/TV_UNIT_DESIGN_hzxwxh.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836171/001_jrjrk0.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836168/07_eodoe2.jpg"
         ],
         "aboutProject": "This 3BHK residence in Bhuj, completed in 2023, is a masterful fusion of industrial materials and serene design elements. The project showcases a thoughtful integration of raw materials like exposed steel, concrete, and glass with subtle, calming tones and textures, resulting in a modern, yet inviting living space. Designed to offer a seamless connection between indoor and outdoor environments, expansive windows allow natural light to flood the interiors, highlighting the intricate details of the space. Each room is crafted with precision to achieve a harmonious balance between functionality and aesthetic appeal, making this residence a contemporary retreat that perfectly embodies both comfort and style.",
         "location": "Bhuj, Gujarat",
@@ -26,7 +26,8 @@
         "type": "Residential",
         "featured": true,
         "tour360Link": "https://jjarchitects-360-tour-01.netlify.app/",
-        "vrTourLink": "https://jjarchitects-360-tour-01.netlify.app/"
+        "vrTourLink": "https://jjarchitects-360-tour-01.netlify.app/",
+        "area": "2000 sq ft"
     },
     {
         "id": "project-2",
@@ -41,7 +42,8 @@
         "type": "Commercial",
         "featured": false,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "1500 sq ft"
     },
     {
         "id": "project-3",
@@ -56,7 +58,8 @@
         "type": "Cultural",
         "featured": false,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "3000 sq ft"
     },
     {
         "id": "project-4",
@@ -71,7 +74,8 @@
         "type": "Office",
         "featured": true,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "5000 sq ft"
     },
     {
         "id": "project-5",
@@ -86,7 +90,8 @@
         "type": "Public",
         "featured": false,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "4000 sq ft"
     },
     {
         "id": "project-6",
@@ -101,7 +106,8 @@
         "type": "Residential",
         "featured": true,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "3500 sq ft"
     },
     {
         "id": "project-7",
@@ -116,7 +122,8 @@
         "type": "Studio",
         "featured": false,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "2500 sq ft"
     },
     {
         "id": "project-8",
@@ -131,7 +138,8 @@
         "type": "Residential",
         "featured": true,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "4500 sq ft"
     },
     {
         "id": "project-9",
@@ -146,6 +154,7 @@
         "type": "Vacation Home",
         "featured": false,
         "tour360Link": null,
-        "vrTourLink": null
+        "vrTourLink": null,
+        "area": "1800 sq ft"
     }
 ]

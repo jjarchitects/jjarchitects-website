@@ -158,7 +158,7 @@ const ProjectsPage: React.FC = () => {
         <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">
           Projects
         </h1>
-        <div ref={decorRef} className="w-20 h-1 bg-[#a53838] mt-6"></div>
+        <div ref={decorRef} className="w-20 h-1 bg-copper mt-6"></div>
       </div>
 
       <div className="flex flex-col md:flex-row justify-end gap-6 mb-10">
@@ -169,9 +169,9 @@ const ProjectsPage: React.FC = () => {
               ref={(el) => {
                 filterRefs.current[index] = el;
               }}
-              className={`cursor-pointer. px-4 py-2 border border-gray-400 text-gray-600 hover:bg-black hover:text-white hover:border-black transition-colors duration-300 text-sm md:text-base font-medium ${
+              className={`cursor-pointer. px-4 py-2 border border-carbon-200 text-carbon-300 hover:bg-carbon hover:text-white hover:border-carbon-300 transition-colors duration-300 text-sm md:text-base font-medium ${
                 activeFilter === filter
-                  ? "bg-black text-white border-black"
+                  ? "bg-carbon text-white border-carbon"
                   : ""
               }`}
               onClick={() => handleFilterClick(filter)}
@@ -201,7 +201,7 @@ const ProjectsPage: React.FC = () => {
                   loading="lazy"
                 />
               </div>
-              <div className="p-4 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white transform-gpu">
+              <div className="p-4 absolute bottom-0 left-0 right-0 bg-gradient-to-t from-carbon to-transparent text-white transform-gpu">
                 <h3 className="text-lg font-semibold">{project.title}</h3>
                 <p className="text-sm mt-2">{project.description}</p>
               </div>

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import projectsData from "@/data/projectsData.json";
-import { Fullscreen } from "lucide-react";
+import { Calendar1, Fullscreen, Layers, MapPin, Square } from "lucide-react";
 
 export default function ProjectPage() {
   const { id } = useParams();
@@ -184,7 +184,7 @@ export default function ProjectPage() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative w-full h-[calc(100vh-65px)] overflow-hidden"
+        className="relative w-full h-[calc(100vh-60px)] overflow-hidden"
       >
         <div className="absolute inset-0 z-0">
           <Image
@@ -199,47 +199,97 @@ export default function ProjectPage() {
         </div>
 
         <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white z-10">
-          <div className="max-w-4xl">
-            <div className="inline-block px-3 py-1 mb-4 text-sm font-medium rounded-full bg-indigo-600/90">
-              {project.type}
-            </div>
-            <h1 className="text-4xl md:text-6xl lg:text-6xl font-bold mb-4 tracking-tight. font-heading">
-              {project.title}
-            </h1>
-            <div className="flex items-center gap-3 text-base font-mono">
-              <span>{project.location}</span>
-              <span className="w-1 h-1 rounded-full bg-white/70"></span>
-              <span>{project.year}</span>
+          <div className="absolute bottom-2 left-0 right-0 z-10">
+            <div className="mx-auto px-4">
+              <div className="bg-carbon/60 backdrop-blur-sm rounded-sm p-5 mx-auto">
+                <div className="mb-9 text-4xl font-light. tracking-wider">
+                  {project.title}
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  {/* Category */}
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                      <Layers className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-white/60 text-xs uppercase mb-1">
+                        Category
+                      </div>
+                      <div className="text-white font-medium">
+                        {project.type}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                      <MapPin className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-white/60 text-xs uppercase mb-1">
+                        Location
+                      </div>
+                      <div className="text-white font-medium">
+                        {project.location}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Area */}
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                      <Square className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-white/60 text-xs uppercase mb-1">
+                        Area
+                      </div>
+                      <div className="text-white font-medium">
+                        {project.area}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Year */}
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                      <Calendar1 className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-white/60 text-xs uppercase mb-1">
+                        Year
+                      </div>
+                      <div className="text-white font-medium">
+                        {project.year}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-8 w-8 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
+        {/* Scroll Indicator */}
+        {/* <div
+          // onClick={scrollToProjects}
+          className="text-white absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 animate-bounce"
+        >
+          <p className="text-xs tracking-widest mb-1. opacity-70">SCROLL</p>
+          <ChevronDown size={20} className="scroll-indicator opacity-70" />
+        </div> */}
       </section>
 
       {/* Project Info */}
       <section className="bg-white py-20 px-6">
         <div ref={infoRef} className="max-w-10/12 mx-auto space-y-12">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold text-zinc-900">
+            {/* <h2 className="text-3xl font-bold text-zinc-900"> */}
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
               About the Project
             </h2>
-            <p className="text-xl leading-relaxed text-zinc-700 text-justify">
+            <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
               {project?.aboutProject}
             </p>
           </div>
@@ -247,7 +297,7 @@ export default function ProjectPage() {
           {/* VR / 360 Links */}
           {(project.tour360Link || project.vrTourLink) && (
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-zinc-900">
+              <h2 className="text-3xl tracking-tight text-carbon">
                 Virtual Experience
               </h2>
               <div className="flex flex-wrap gap-4">
@@ -256,7 +306,7 @@ export default function ProjectPage() {
                     href={project.tour360Link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 rounded-lg. hover:bg-stone-600 transition overflow-hidden"
+                    className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 rounded-lg. hover:bg-copper transition overflow-hidden"
                   >
                     <span className="relative z-10">Experience 360° Tour</span>
                     <svg
@@ -271,7 +321,7 @@ export default function ProjectPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-stone-500 to-stone-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-copper-500 to-copper-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 )}
                 {project.vrTourLink && (
@@ -279,7 +329,7 @@ export default function ProjectPage() {
                     href={project.vrTourLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 hover:bg-stone-600 transition overflow-hidden"
+                    className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 hover:bg-copper transition overflow-hidden"
                   >
                     <span className="relative z-10">VR Experience</span>
                     <svg
@@ -294,7 +344,7 @@ export default function ProjectPage() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-stone-500 to-stone-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-copper-500 to-copper-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Link>
                 )}
               </div>
@@ -304,9 +354,9 @@ export default function ProjectPage() {
       </section>
 
       {/* Gallery Section */}
-      <section className="bg-zinc-50 py-20 px-6">
+      <section className="bg-taupe-100 py-20 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-zinc-900 mb-12 text-center">
+          <h2 className="mb-12 text-4xl md:text-5xl font-light tracking-tight text-carbon">
             Project Gallery
           </h2>
 
@@ -320,7 +370,7 @@ export default function ProjectPage() {
                 className="group relative aspect-square overflow-hidden shadow-lg rounded-sm"
                 onClick={() => openLightbox(index)}
               >
-                <div className="absolute inset-0 bg-zinc-200 animate-pulse z-0"></div>
+                <div className="absolute inset-0 bg-carbon-200 animate-pulse z-0"></div>
                 <Image
                   src={src}
                   alt={`${project.title} - image ${index + 1}`}
@@ -337,7 +387,7 @@ export default function ProjectPage() {
                   }}
                 />
                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
-                  <div className="w-12 h-12 bg-white/80 flex items-center justify-center">
+                  <div className="w-12 h-12 bg-white/70 flex items-center justify-center">
                     <Fullscreen />
                   </div>
                 </div>
@@ -456,20 +506,20 @@ export default function ProjectPage() {
       )}
 
       {/* Continue Exploring - Improved version with light background */}
-      <section className="bg-zinc-100 py-16 px-6">
+      <section className="bg-taupe-200/20 py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-white rounded-sm shadow-lg">
+          <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-taupe-200 rounded-sm shadow-lg">
             <div className="mb-6 md:mb-0 md:mr-8">
-              <h2 className="text-2xl font-bold text-zinc-900 mb-2">
+              <h2 className="text-3xl tracking-tight text-carbon mb-2">
                 Continue Exploring
               </h2>
-              <p className="text-zinc-600 mb-4">
+              <p className="text-carbon-300 font-light mb-6">
                 Discover more amazing projects in the portfolio
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
                   href="/projects"
-                  className="inline-flex items-center gap-2 bg-stone-600 hover:bg-stone-700 text-white px-5 py-3 transition shadow-md"
+                  className="inline-flex items-center gap-2 bg-copper-600 hover:bg-copper-700 text-white px-5 py-3 transition shadow-md"
                 >
                   <span>View All Projects</span>
                   <svg
@@ -491,7 +541,7 @@ export default function ProjectPage() {
                 {nextProject && (
                   <Link
                     href={`/projects/${nextProject.id}`}
-                    className="inline-flex items-center gap-2 bg-white border border-zinc-300 hover:border-stone-600 hover:text-stone-600 text-zinc-700 px-5 py-3 transition shadow-sm"
+                    className="inline-flex items-center gap-2 bg-taupe-100 border border-taupe-600 hover:border-taupe-800 hover:text-stone-600 text-taupe-800 px-5 py-3 transition shadow-sm"
                   >
                     <span>Next Project</span>
                     <svg
@@ -515,7 +565,7 @@ export default function ProjectPage() {
 
             {nextProject && (
               <div className="relative w-full md:w-1/3 aspect-square rounded-sm overflow-hidden shadow-md">
-                <div className="absolute inset-0 bg-zinc-200 animate-pulse"></div>
+                <div className="absolute inset-0 bg-taupe-100 animate-pulse"></div>
                 <Image
                   src={nextProject.thumbnail}
                   alt={nextProject.title}
@@ -530,9 +580,9 @@ export default function ProjectPage() {
                       ?.classList.remove("animate-pulse");
                   }}
                 />
-                <div className="absolute inset-0 bg-stone-800/20 hover:bg-indigo-600/0 transition-colors duration-300"></div>
+                <div className="absolute inset-0 bg-black/10 hover:bg-indigo-600/0 transition-colors duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
-                  <h3 className="text-white font-medium text-lg truncate">
+                  <h3 className="text-white leading-tight text-xl truncate">
                     {nextProject.title}
                   </h3>
                 </div>

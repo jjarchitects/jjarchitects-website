@@ -144,22 +144,22 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-white text-carbon overflow-hidden">
+    <main className="bg-white text-[#1b1b1b] overflow-hidden">
       {/* Hero Section with Split Layout */}
       <section
         ref={heroRef}
         className="min-h-screen relative flex flex-col lg:flex-row"
       >
         {/* Left Column */}
-        <div className="absolute top-0 left-0 w-full lg:w-1/2 md:h-screen z-10 flex items-center justify-center p-8">
+        <div className="absolute top-0 left-0 w-full lg:w-1/2 h-screen z-10 flex items-center justify-center p-8">
           <div className="hero-content">
             <div className="max-w-xl">
               <h1 className="text-5xl md:text-7xl font-light tracking-tighter mb-6 leading-tight">
                 REDEFINING <br />
-                <span className="text-copper">ARCHITECTURAL</span>
+                <span className="text-[#a53838]">ARCHITECTURAL</span>
                 <br /> BOUNDARIES
               </h1>
-              <div className="w-16 h-1 bg-copper mb-8"></div>
+              <div className="w-16 h-1 bg-[#a53838] mb-8"></div>
               <p className="text-lg md:text-xl max-w-md mb-12 font-light leading-relaxed">
                 Creating spaces where minimalism meets functionality, where
                 every line has purpose, and every void tells a story.
@@ -167,13 +167,13 @@ export default function Home() {
               <div className="flex space-x-6">
                 <button
                   onClick={scrollToProjects}
-                  className="border-b-2 border-carbon pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300"
+                  className="border-b-2 border-[#1b1b1b] pb-1 pr-1 flex items-center gap-2 hover:border-[#a53838] hover:text-[#a53838] transition-all duration-300"
                 >
                   View Projects <ArrowRight size={16} />
                 </button>
                 <Link
                   href="/about"
-                  className="border-b-2 border-transparent pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300"
+                  className="border-b-2 border-transparent pb-1 pr-1 flex items-center gap-2 hover:border-[#a53838] hover:text-[#a53838] transition-all duration-300"
                 >
                   About Studio <ArrowRight size={16} />
                 </Link>
@@ -183,25 +183,25 @@ export default function Home() {
         </div>
 
         {/* Right Column - Visual Elements */}
-        <div className="absolute top-1/3 md:top-0 md:right-0 w-full lg:w-7/12 h-screen bg-taupe-100 overflow-hidden">
+        <div className="absolute top-0 right-0 w-full lg:w-7/12 h-screen bg-gray-50 overflow-hidden">
           {/* Abstract Architectural Elements */}
           <div
-            className="absolute top-1/3 md:top-1/4 left-1/4 w-40 h-40 md:w-64 md:h-64 border-2 border-copper parallax"
+            className="absolute top-1/4 left-1/4 w-64 h-64 border-2 border-[#a53838] parallax"
             data-speed="-0.05"
           ></div>
           <div
-            className="absolute right-22 top-36 md:top-2/6 md:right-1/4 w-40 h-40 md:w-80 md:h-80 bg-taupe-300 parallax"
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gray-100 parallax"
             data-speed="0.02"
           ></div>
 
           {/* Main Image */}
-          <div className="absolute bottom-[21rem] md:bottom-0 md:right-0 inset-0 flex items-center justify-center">
-            <div className="hero-image-container relative w-5/5 h-5/5 md:w-4/5 md:h-3/5">
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="hero-image-container relative w-4/5 h-3/5">
               <Image
                 src="/assets/sketch.svg"
                 alt="Architectural sketch"
                 fill
-                className="object-contain select-none pointer-events-none p-4 md:p-0"
+                className="object-contain select-none pointer-events-none"
                 priority
               />
             </div>
@@ -221,7 +221,7 @@ export default function Home() {
         {/* Scroll Indicator */}
         <div
           onClick={scrollToProjects}
-          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 animate-bounce"
+          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20"
         >
           <p className="text-xs tracking-widest mb-1 opacity-70">SCROLL</p>
           <ChevronDown size={20} className="scroll-indicator opacity-70" />
@@ -236,8 +236,8 @@ export default function Home() {
             <div className="lg:col-span-5 lg:sticky top-32 self-start">
               <div className="mb-16 featured-work-header">
                 <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-px bg-copper"></div>
-                  <span className="text-sm tracking-widest text-copper">
+                  <div className="w-8 h-px bg-[#a53838]"></div>
+                  <span className="text-sm tracking-widest text-[#a53838]">
                     FEATURED WORK
                   </span>
                 </div>
@@ -245,92 +245,6 @@ export default function Home() {
                   Selected Projects
                 </h2>
               </div>
-
-              {/* <div className="lg:col-span-7">
-                <div className="grid grid-cols-12 gap-6">
-                  <div className="col-span-12 h-[70vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-1`}
-                      style={{
-                        transform: `translateY(0%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-1`}
-                      style={{ opacity: 1 }}
-                    >
-                      <Image
-                        src="/assets/project-1.jpg"
-                        alt="Monolithic Residence"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-7 h-[50vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-2`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-2`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-2.jpg"
-                        alt="Canvas Gallery"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-5 h-[50vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-3`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-3`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-3.jpg"
-                        alt="Floating Pavilion"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-12 h-[70vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-4`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-4`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-4.jpg"
-                        alt="Urban Oasis Tower"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* ---------------------------------------------------------------------------------------------------------------- */}
 
               <div className="space-y-24">
                 {projects
@@ -348,8 +262,8 @@ export default function Home() {
                         <div
                           className={`w-12 h-px ${
                             activeProject === project.id
-                              ? "bg-copper"
-                              : "bg-carbon-200"
+                              ? "bg-[#a53838]"
+                              : "bg-gray-400"
                           }`}
                         ></div>
                       </div>
@@ -358,15 +272,15 @@ export default function Home() {
                       </h3>
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <p className="text-carbon-300 mb-1">Category</p>
+                          <p className="text-gray-500 mb-1">Category</p>
                           <p>{project.type}</p>
                         </div>
                         <div>
-                          <p className="text-carbon-300 mb-1">Year</p>
+                          <p className="text-gray-500 mb-1">Year</p>
                           <p>{project.year}</p>
                         </div>
                         <div>
-                          <p className="text-carbon-300 mb-1">Location</p>
+                          <p className="text-gray-500 mb-1">Location</p>
                           <p>{project.location}</p>
                         </div>
                       </div>
@@ -375,7 +289,7 @@ export default function Home() {
                       </p>
                       <Link
                         href={`/projects/${project.id}`}
-                        className="mt-6 text-copper flex items-center gap-2 group"
+                        className="mt-6 text-[#a53838] flex items-center gap-2 group"
                       >
                         View Project
                         <span className="group-hover:translate-x-1 transition-transform duration-300">
@@ -476,58 +390,57 @@ export default function Home() {
       </section>
 
       {/* Philosophy Section with Full-Width Design */}
-      <section className="relative py-20 md:py-40">
+      <section className="relative py-40">
         <div className="absolute inset-0 z-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+          <div className="grid grid-cols-2 h-full">
             <div className="bg-gray-50"></div>
             <div className="bg-white"></div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
+        <div className="max-w-7xl mx-auto px-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
             <div className="md:col-span-5 philosophy-text">
-              <div className="mb-8 md:mb-12">
-                <div className="flex items-center gap-2 mb-4 md:mb-6">
-                  <div className="w-8 h-px bg-copper"></div>
-                  <span className="text-sm tracking-widest text-copper">
+              <div className="mb-12">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-8 h-px bg-[#a53838]"></div>
+                  <span className="text-sm tracking-widest text-[#a53838]">
                     OUR APPROACH
                   </span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight mb-4 md:mb-8">
+                <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">
                   Design Philosophy
                 </h2>
               </div>
 
-              <div className="space-y-4 md:space-y-8">
-                <p className="text-base md:text-lg font-light">
+              <div className="space-y-8">
+                <p className="text-lg font-light">
                   We believe in the transformative power of space—how it shapes
                   experiences, influences emotions, and defines cultures.
                 </p>
-                <p className="text-base md:text-lg font-light">
+                <p className="text-lg font-light">
                   Our minimalist approach distills architecture to its essential
                   elements, creating environments that are both timeless and
                   forward-thinking.
                 </p>
-                <div className="pt-4 md:pt-8">
-                  <button className="border-b-2 border-carbon pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300">
+                <div className="pt-8">
+                  <button className="border-b-2 border-[#1b1b1b] pb-1 pr-1 flex items-center gap-2 hover:border-[#a53838] hover:text-[#a53838] transition-all duration-300">
                     About Our Process <ArrowRight size={16} />
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="md:col-span-7 md:col-start-6 philosophy-images mt-8 md:mt-0">
-              <div className="grid grid-cols-12 gap-3 md:gap-6">
+            <div className="md:col-span-7 md:col-start-6 philosophy-images">
+              <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-8 relative aspect-square">
                   <Image
                     src="/assets/project_1.jpg"
                     alt="Architectural detail"
                     fill
-                    className="object-cover z-1"
+                    className="object-cover"
                   />
-                  {/* <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 w-12 h-12 sm:w-24 sm:h-24 bg-[#a53838]"></div> */}
-                  <div className="absolute -bottom-3 -right-3 w-56 h-44 bg-copper"></div>
+                  <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#a53838]"></div>
                 </div>
                 <div className="col-span-4 relative aspect-square">
                   <Image
@@ -537,16 +450,16 @@ export default function Home() {
                     className="object-cover"
                   />
                 </div>
-                <div className="col-span-5 relative aspect-square md:m-0 mt-2">
-                  <div className="absolute inset-0 border-2 border-carbon"></div>
-                  <div className="absolute inset-2 sm:inset-4 md:inset-6 bg-gray-100 flex items-center justify-center p-2 sm:p-4">
-                    <p className="text-sm sm:text-base md:text-lg font-light italic text-center">
+                <div className="col-span-5 relative aspect-square">
+                  <div className="absolute inset-0 border-2 border-[#1b1b1b]"></div>
+                  <div className="absolute inset-6 bg-gray-100 flex items-center justify-center p-4">
+                    <p className="text-lg font-light italic text-center">
                       &quot;Architecture is the thoughtful making of
                       space.&quot;
                     </p>
                   </div>
                 </div>
-                <div className="col-span-7 relative aspect-square md:m-0 mt-2">
+                <div className="col-span-7 relative aspect-square">
                   <Image
                     src="/assets/project_3.jpg"
                     alt="Design process"
@@ -565,8 +478,8 @@ export default function Home() {
         <div className="mb-16 px-8 awards-section">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-8 h-px bg-copper"></div>
-              <span className="text-sm tracking-widest text-copper">
+              <div className="w-8 h-px bg-[#a53838]"></div>
+              <span className="text-sm tracking-widest text-[#a53838]">
                 RECOGNITION & PRAISE
               </span>
             </div>
@@ -586,7 +499,7 @@ export default function Home() {
                     Testimonial Title {i + 1}
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Best Architecture, 202{i + 1}
+                    International Architecture Awards, 202{i + 1}
                   </p>
                   <p className="text-sm font-light">
                     Recognition for excellence in sustainable design and
@@ -604,7 +517,7 @@ export default function Home() {
                     Testimonial Title {i + 1}
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Best Architecture, 202{i + 1}
+                    International Architecture Awards, 202{i + 1}
                   </p>
                   <p className="text-sm font-light">
                     Recognition for excellence in sustainable design and
@@ -618,65 +531,62 @@ export default function Home() {
       </section>
 
       {/* Contact CTA with Split Design */}
-      <section className="relative py-16 sm:py-24 md:py-32 contact-section">
+      <section className="relative py-32 contact-section">
         <div className="absolute inset-0 z-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 h-full">
-            <div className="bg-taupe-100 bg-gradient-to-t. from-zinc-900 to-black"></div>
-            <div className="bg-white hidden md:block"></div>
+          <div className="grid grid-cols-2 h-full">
+            <div className="bg-gradient-to-t from-zinc-900 to-black"></div>
+            {/* <div className="bg-[#1b1b1b]"></div> */}
+            <div className="bg-white"></div>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+        <div className="max-w-7xl mx-auto px-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <div className="contact-left">
-              <h2 className="text-3xl sm:text-4xl md:text-6xl font-light text-carbon mb-4 md:mb-8 leading-tight">
+              <h2 className="text-4xl md:text-6xl font-light text-white mb-8 leading-tight">
                 Ready to create something extraordinary?
               </h2>
-              <div className="w-16 h-1 bg-copper mb-4 md:mb-8"></div>
-              <p className="text-base sm:text-lg font-light text-carbon-300 mb-6 md:mb-12 max-w-md">
+              <div className="w-16 h-1 bg-[#a53838] mb-8"></div>
+              <p className="text-lg font-light text-gray-300 mb-12 max-w-md">
                 Let&apos;s collaborate on your next architectural vision and
                 push the boundaries of what&apos;s possible.
               </p>
               <Link
                 href="/contact"
-                className="bg-copper text-white px-8 py-3 md:px-12 md:py-4 hover:bg-copper-600 transition-all duration-300 flex items-center gap-3 w-fit"
+                className="bg-[#a53838] text-white px-12 py-4 hover:bg-[#8c2e2e] transition-all duration-300 flex items-center gap-3 w-fit"
               >
                 Get in Touch <ExternalLink size={18} />
               </Link>
             </div>
 
-            <div className="flex items-center justify-center contact-right bg-white text-carbon md:bg-transparent p-6 md:p-0 mt-8 md:mt-0">
-              <div className="grid grid-cols-2 gap-4 md:gap-6 w-full max-w-md">
+            <div className="flex items-center justify-center contact-right">
+              <div className="grid grid-cols-2 gap-6 w-full max-w-md">
                 <div className="col-span-2">
-                  <p className="text-base md:text-lg font-light mb-2">
-                    Visit Us
-                  </p>
+                  <p className="text-lg font-light mb-2">Visit Us</p>
                   <p className="text-sm">123 Design District</p>
                   <p className="text-sm">New York, NY 10001</p>
                 </div>
                 <div>
-                  <p className="text-base md:text-lg font-light mb-2">Email</p>
+                  <p className="text-lg font-light mb-2">Email</p>
                   <p className="text-sm">hello@studio.com</p>
                 </div>
                 <div>
-                  <p className="text-base md:text-lg font-light mb-2">Phone</p>
+                  <p className="text-lg font-light mb-2">Phone</p>
                   <p className="text-sm">+1 (212) 555-0123</p>
                 </div>
-                <div className="col-span-2 pt-4 md:pt-6">
-                  <p className="text-base md:text-lg font-light mb-2 md:mb-4">
-                    Follow Us
-                  </p>
-                  <div className="flex gap-4 md:gap-6">
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                <div className="col-span-2 pt-6">
+                  <p className="text-lg font-light mb-4">Follow Us</p>
+                  <div className="flex gap-6">
+                    <div className="w-8 h-8 border border-[#1b1b1b] flex items-center justify-center">
                       <span className="text-sm">IG</span>
                     </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                    <div className="w-8 h-8 border border-[#1b1b1b] flex items-center justify-center">
                       <span className="text-sm">LI</span>
                     </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                    <div className="w-8 h-8 border border-[#1b1b1b] flex items-center justify-center">
                       <span className="text-sm">YT</span>
                     </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
+                    <div className="w-8 h-8 border border-[#1b1b1b] flex items-center justify-center">
                       <span className="text-sm">FB</span>
                     </div>
                   </div>
@@ -768,12 +678,6 @@ export default function Home() {
         }
         .hide-scrollbar::-webkit-scrollbar {
           display: none;
-        }
-        /* Extra Responsive Styles */
-        @media (max-width: 640px) {
-          .hero-content {
-            padding: 0 1rem;
-          }
         }
       `}</style>
     </main>
