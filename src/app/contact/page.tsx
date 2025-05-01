@@ -4,6 +4,7 @@ import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useForm } from "react-hook-form";
 import { Send, Mail, Phone, MapPin, CheckCircle } from "lucide-react";
+import businessData from "@/data/businessData.json";
 
 type FormData = {
   name: string;
@@ -290,10 +291,10 @@ const Contact = () => {
                     Email
                   </h4>
                   <a
-                    href="mailto:contact@jatanjoshi.co.in"
+                    href={`mailto:${businessData.contactDetails.email}`}
                     className="text-carbon hover:text-copper transition-colors"
                   >
-                    contact@jatanjoshi.co.in
+                    {businessData.contactDetails.email}
                   </a>
                 </div>
               </div>
@@ -305,10 +306,10 @@ const Contact = () => {
                     Phone
                   </h4>
                   <a
-                    href="tel:+911234567890"
+                    href={`tel:${businessData.contactDetails.phone}`}
                     className="text-carbon hover:text-copper transition-colors"
                   >
-                    +91 12345 67890
+                    {businessData.contactDetails.phone}
                   </a>
                 </div>
               </div>
@@ -319,10 +320,22 @@ const Contact = () => {
                   <h4 className="text-sm uppercase tracking-wide text-carbon-300 mb-1">
                     Studio Address
                   </h4>
-                  <p className="text-carbon hover:text-copper">
-                    Pier 15, Embarcadero, San Francisco, <br />
-                    California, 94105
-                  </p>
+                  <a
+                    href={`${businessData.contactDetails.address_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-carbon hover:text-copper"
+                  >
+                    {/* Pier 15, Embarcadero, San Francisco, <br />
+                    California, 94105 */}
+                    <address className="not-italic">
+                      {businessData.contactDetails.address.street}
+                      <br />
+                      {businessData.contactDetails.address.city},{" "}
+                      {businessData.contactDetails.address.state}{" "}
+                      {businessData.contactDetails.address.pinCode}
+                    </address>
+                  </a>
                 </div>
               </div>
             </div>
@@ -330,7 +343,7 @@ const Contact = () => {
             {/* Map */}
             <div className="contact-info-item h-64 w-full border border-gray-200">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.1081455515937!2d-122.39871622358464!3d37.800552710280966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808580f4199eaf65%3A0x6a79f623fd18f48f!2sExploratorium!5e0!3m2!1sen!2sus!4v1682450282609!5m2!1sen!2sus"
+                src={businessData.contactDetails.map_embedded_link}
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}

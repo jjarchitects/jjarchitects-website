@@ -5,7 +5,7 @@ import gsap from "gsap";
 import projectsData from "@/data/projectsData.json";
 import Link from "next/link";
 
-const filters = ["All", "Residential", "Commercial", "Interior"];
+const filters = ["All", "Interior", "3D", "Architecture"];
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -23,6 +23,7 @@ type Project = {
   description: string;
   thumbnail: string;
   category: string;
+  type: string;
   // Add other fields as needed
 };
 
@@ -118,32 +119,46 @@ const ProjectsPage: React.FC = () => {
   }, [loading, projects.length]); // Run when loading changes or projects array changes
 
   // Filter projects based on the active filter
-  const filteredProjects =
-    activeFilter === "All"
-      ? projects
-      : projects.filter((project) => project.category === activeFilter);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
+
+  useEffect(() => {
+    setFilteredProjects(
+      activeFilter === "All"
+        ? projects
+        : projects.filter((project) => project.type === activeFilter)
+    );
+  }, [activeFilter, projects]);
 
   const handleFilterClick = (filter: string) => {
     setActiveFilter(filter);
 
-    // Animate the filtered projects
-    gsap.fromTo(
-      ".project-card",
-      {
-        opacity: 0,
-        y: 30,
-        scale: 0.95,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.5,
-        stagger: 0.05,
-        clearProps: "all",
-        ease: "power2.out",
-      }
-    );
+    const filtered =
+      filter === "All"
+        ? projects
+        : projects.filter((project) => project.type === filter);
+
+    setFilteredProjects(filtered);
+
+    // Delay the GSAP animation to ensure DOM is updated
+    setTimeout(() => {
+      gsap.fromTo(
+        ".project-card",
+        {
+          opacity: 0,
+          y: 30,
+          scale: 0.95,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          stagger: 0.05,
+          clearProps: "all",
+          ease: "power2.out",
+        }
+      );
+    }, 10);
   };
 
   if (loading) {

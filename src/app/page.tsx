@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
 import projects from "@/data/projectsData.json";
+import businessData from "@/data/businessData.json";
 
 export default function Home() {
   // const [isLoaded, setIsLoaded] = useState(false);
@@ -183,7 +184,7 @@ export default function Home() {
         </div>
 
         {/* Right Column - Visual Elements */}
-        <div className="absolute top-1/3 md:top-0 md:right-0 w-full lg:w-7/12 h-screen bg-taupe-100 overflow-hidden">
+        <div className="absolute top-1/2 md:top-0 h-1/2 md:right-0 w-full lg:w-7/12 md:h-screen bg-taupe-100 overflow-hidden">
           {/* Abstract Architectural Elements */}
           <div
             className="absolute top-1/3 md:top-1/4 left-1/4 w-40 h-40 md:w-64 md:h-64 border-2 border-copper parallax"
@@ -196,13 +197,21 @@ export default function Home() {
 
           {/* Main Image */}
           <div className="absolute bottom-[21rem] md:bottom-0 md:right-0 inset-0 flex items-center justify-center">
-            <div className="hero-image-container relative w-5/5 h-5/5 md:w-4/5 md:h-3/5">
+            {/* <div className="hero-image-container relative w-5/5 h-5/5 md:w-4/5 md:h-3/5">
               <Image
                 src="/assets/sketch.svg"
                 alt="Architectural sketch"
                 fill
                 className="object-contain select-none pointer-events-none p-4 md:p-0"
                 priority
+              />
+            </div> */}
+
+            <div className="hero-image-container mt-50 relative w-full h-full md:w-4/5 md:h-3/5">
+              <img
+                src={`/assets/sketch.svg`}
+                alt="Architectural sketch"
+                className="object-contain select-none pointer-events-none p-4 md:p-0"
               />
             </div>
           </div>
@@ -221,7 +230,7 @@ export default function Home() {
         {/* Scroll Indicator */}
         <div
           onClick={scrollToProjects}
-          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 animate-bounce"
+          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 flex-col items-center z-20 animate-bounce hidden md:flex"
         >
           <p className="text-xs tracking-widest mb-1 opacity-70">SCROLL</p>
           <ChevronDown size={20} className="scroll-indicator opacity-70" />
@@ -651,16 +660,42 @@ export default function Home() {
                   <p className="text-base md:text-lg font-light mb-2">
                     Visit Us
                   </p>
-                  <p className="text-sm">123 Design District</p>
-                  <p className="text-sm">New York, NY 10001</p>
+                  <a
+                    href={`${businessData.contactDetails.address_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm"
+                  >
+                    {/* Pier 15, Embarcadero, San Francisco, <br />
+                    California, 94105 */}
+                    <address className="not-italic">
+                      {businessData.contactDetails.address.street}
+                      <br />
+                      {businessData.contactDetails.address.city},{" "}
+                      {businessData.contactDetails.address.state}{" "}
+                      {businessData.contactDetails.address.pinCode}
+                    </address>
+                  </a>
+                  {/* <p className="text-sm">123 Design District</p>
+                  <p className="text-sm">New York, NY 10001</p> */}
                 </div>
                 <div>
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
-                  <p className="text-sm">hello@studio.com</p>
+                  <a
+                    href={`mailto:${businessData.contactDetails.email}`}
+                    className="text-sm"
+                  >
+                    {businessData.contactDetails.email}
+                  </a>
                 </div>
                 <div>
                   <p className="text-base md:text-lg font-light mb-2">Phone</p>
-                  <p className="text-sm">+1 (212) 555-0123</p>
+                  <a
+                    href={`tel:${businessData.contactDetails.phone}`}
+                    className="text-sm"
+                  >
+                    {businessData.contactDetails.phone}
+                  </a>
                 </div>
                 <div className="col-span-2 pt-4 md:pt-6">
                   <p className="text-base md:text-lg font-light mb-2 md:mb-4">

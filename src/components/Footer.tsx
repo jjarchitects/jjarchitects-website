@@ -188,13 +188,58 @@ const Footer = () => {
             <h4 className="text-sm uppercase font-medium tracking-wider text-carbon-400 mb-6">
               Contact
             </h4>
-            <ul className="space-y-4">
+            <div className="grid gap-4">
+              <a
+                href={`mailto:${businessData.contactDetails.email}`}
+                className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
+              >
+                <HiOutlineMail
+                  size={16}
+                  className="mt-[6px] text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                />
+                <span>{businessData.contactDetails.email}</span>
+              </a>
+
+              <a
+                href={`tel:${businessData.contactDetails.phone}`}
+                className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
+              >
+                <HiOutlinePhone
+                  size={16}
+                  className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                />
+                <span>{businessData.contactDetails.phone}</span>
+              </a>
+
+              <a
+                href="https://google.com/maps/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
+              >
+                <HiOutlineLocationMarker
+                  size={26}
+                  className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                />
+                <span className="not-italic leading-relaxed">
+                  {businessData.contactDetails.address.street},{" "}
+                  {businessData.contactDetails.address.city},{" "}
+                  {businessData.contactDetails.address.state}{" "}
+                  {businessData.contactDetails.address.pinCode}
+                </span>
+              </a>
+            </div>
+
+            {/* <ul className="space-y-4">
               <li>
                 <a
                   href={`mailto:${businessData.contactDetails.email}`}
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlineMail className="mt-[6px] text-carbon-300 group-hover:text-copper transition-colors duration-300" />
+                  <HiOutlineMail
+                    size={16}
+                    className="mt-[6px] text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                  />
                   <span>{businessData.contactDetails.email}</span>
                 </a>
               </li>
@@ -203,7 +248,10 @@ const Footer = () => {
                   href={`tel:${businessData.contactDetails.phone}`}
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlinePhone className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300" />
+                  <HiOutlinePhone
+                    size={16}
+                    className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                  />
                   <span>{businessData.contactDetails.phone}</span>
                 </a>
               </li>
@@ -214,7 +262,10 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
                 >
-                  <HiOutlineLocationMarker className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300" />
+                  <HiOutlineLocationMarker
+                    size={16}
+                    className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
+                  />
                   <span>
                     {businessData.contactDetails.address.street},{" "}
                     {businessData.contactDetails.address.city},{" "}
@@ -223,7 +274,7 @@ const Footer = () => {
                   </span>
                 </a>
               </li>
-            </ul>
+            </ul> */}
           </div>
         </div>
 

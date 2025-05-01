@@ -5,6 +5,15 @@ import { useEffect, useState } from "react";
 export default function AutoCADCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isClicking, setIsClicking] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch(
+      "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.maxTouchPoints > 0
+    );
+  }, []);
 
   useEffect(() => {
     const move = (e: MouseEvent): void => {
@@ -27,7 +36,9 @@ export default function AutoCADCursor() {
 
   return (
     <div
-      className="pointer-events-none fixed top-0 left-0 z-[9999]"
+      className={`${
+        isTouch ? "hidden" : "block"
+      } pointer-events-none fixed top-0 left-0 z-[9999]`}
       style={{
         transform: `translate(${position.x}px, ${position.y}px)`,
       }}
