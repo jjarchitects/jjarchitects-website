@@ -207,7 +207,7 @@ export default function Home() {
               />
             </div> */}
 
-            <div className="hero-image-container mt-50 relative w-full h-full md:w-4/5 md:h-3/5">
+            <div className="hero-image-container mt-50 md:mt-30 relative w-full h-full md:w-4/5 md:h-3/5">
               <img
                 src={`/assets/sketch.svg`}
                 alt="Architectural sketch"
