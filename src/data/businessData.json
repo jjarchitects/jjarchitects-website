@@ -3,7 +3,8 @@
         "email": "contact@jjarchitects.co.in",
         "phone": "+91 96014 51268",
         "address": {
-            "street": "A-101, Aasha Appartment - Ground Floor, Jubilee Ground",
+            "street": "Shop No. 1 Asha Apartment, Banker's Colony",
+            "landmark": "Near Jubilee Circle",
             "city": "Bhuj",
             "state": "Gujarat",
             "pinCode": "370001"
@@ -13,7 +14,7 @@
     },
     "socialMedia": {
         "facebook": "https://www.facebook.com/jjarchitects.co.in",
-        "instagram": "https://www.instagram.com/jjarchitects.co.in/",
+        "instagram": "https://www.instagram.com/jatanjoshiarchitects",
         "linkedin": "https://www.linkedin.com/company/jj-architects-co-in/"
     },
     "businessDetails": {

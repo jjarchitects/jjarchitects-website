@@ -223,6 +223,7 @@ const Footer = () => {
                 />
                 <span className="not-italic leading-relaxed">
                   {businessData.contactDetails.address.street},{" "}
+                  {businessData.contactDetails.address.landmark},{" "}
                   {businessData.contactDetails.address.city},{" "}
                   {businessData.contactDetails.address.state}{" "}
                   {businessData.contactDetails.address.pinCode}

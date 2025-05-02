@@ -329,8 +329,8 @@ const Contact = () => {
                     {/* Pier 15, Embarcadero, San Francisco, <br />
                     California, 94105 */}
                     <address className="not-italic">
-                      {businessData.contactDetails.address.street}
-                      <br />
+                      {businessData.contactDetails.address.street}, <br />
+                      {businessData.contactDetails.address.landmark},{" "}
                       {businessData.contactDetails.address.city},{" "}
                       {businessData.contactDetails.address.state}{" "}
                       {businessData.contactDetails.address.pinCode}
