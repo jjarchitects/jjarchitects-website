@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
 import projects from "@/data/projectsData.json";
 import businessData from "@/data/businessData.json";
+import SocialMedia from "@/components/SocialMedia";
 
 export default function Home() {
   // const [isLoaded, setIsLoaded] = useState(false);
@@ -666,8 +667,6 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="text-sm"
                   >
-                    {/* Pier 15, Embarcadero, San Francisco, <br />
-                    California, 94105 */}
                     <address className="not-italic">
                       {businessData.contactDetails.address.street}, <br />
                       {businessData.contactDetails.address.landmark},{" "}
@@ -676,8 +675,6 @@ export default function Home() {
                       {businessData.contactDetails.address.pinCode}
                     </address>
                   </a>
-                  {/* <p className="text-sm">123 Design District</p>
-                  <p className="text-sm">New York, NY 10001</p> */}
                 </div>
                 <div>
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
@@ -697,25 +694,7 @@ export default function Home() {
                     {businessData.contactDetails.phone}
                   </a>
                 </div>
-                <div className="col-span-2 pt-4 md:pt-6">
-                  <p className="text-base md:text-lg font-light mb-2 md:mb-4">
-                    Follow Us
-                  </p>
-                  <div className="flex gap-4 md:gap-6">
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                      <span className="text-sm">IG</span>
-                    </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                      <span className="text-sm">LI</span>
-                    </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                      <span className="text-sm">YT</span>
-                    </div>
-                    <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                      <span className="text-sm">FB</span>
-                    </div>
-                  </div>
-                </div>
+                <SocialMedia />
               </div>
             </div>
           </div>

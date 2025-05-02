@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { useForm } from "react-hook-form";
 import { Send, Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 import businessData from "@/data/businessData.json";
+import SocialMedia from "@/components/SocialMedia";
 
 type FormData = {
   name: string;
@@ -355,51 +356,7 @@ const Contact = () => {
             </div>
 
             {/* Social Media */}
-            <div>
-              <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-4">
-                Follow Us
-              </h4>
-              <div className="flex gap-4 md:gap-6">
-                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                  <span className="text-sm">IG</span>
-                </div>
-                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                  <span className="text-sm">LI</span>
-                </div>
-                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                  <span className="text-sm">YT</span>
-                </div>
-                <div className="w-8 h-8 border border-carbon flex items-center justify-center">
-                  <span className="text-sm">FB</span>
-                </div>
-              </div>
-            </div>
-
-            {/* <div className="contact-info-item">
-              <h4 className="text-sm uppercase tracking-wide text-gray-600 mb-4">
-                Follow Us
-              </h4>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a
-                  href="#"
-                  className="p-2 border border-gray-300 text-[#1b1b1b] hover:border-[#a53838] hover:text-[#a53838] hover:bg-white transition-colors"
-                >
-                  <Instagram className="w-5 h-5" />
-                </a>
-              </div>
-            </div> */}
+            <SocialMedia className="uppercase" />
           </div>
         </div>
       </div>

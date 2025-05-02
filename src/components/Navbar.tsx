@@ -101,7 +101,7 @@ const Navbar = () => {
       //     : "py-4 bg-gray-50 backdrop-blur-sm"
       // }`}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-200 backdrop-blur-sm ${
-        scrolled ? "py-2 bg-taupe/60 shadow-lg" : "py-3 bg-taupe"
+        scrolled ? "py-1 bg-taupe/60 shadow-lg" : "py-3 bg-taupe"
       }`}
     >
       <div className="w-11/12 max-w-7xl mx-auto flex justify-between items-center relative">
@@ -110,7 +110,7 @@ const Navbar = () => {
           <div className="relative flex items-center w-50 h-[60px]">
             {/* Large logo */}
             <div
-              className={`absolute top-0 left-0 transition-opacity duration-300 ease-in-out ${
+              className={`absolute top-0 left-0 transition-opacity duration-100 ease-in-out ${
                 scrolled ? "opacity-0" : "opacity-100"
               }`}
             >
@@ -126,7 +126,7 @@ const Navbar = () => {
 
             {/* Small logo */}
             <div
-              className={` transition-opacity duration-300 ease-in-out ${
+              className={` transition-opacity duration-200 ease-in-out ${
                 scrolled ? "opacity-100" : "opacity-0"
               }`}
             >

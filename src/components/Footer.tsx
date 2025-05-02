@@ -1,12 +1,8 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import {
-  FaInstagram,
-  FaLinkedinIn,
-  FaDribbble,
-  FaTwitter,
-} from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn, FaPinterestP } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import {
   HiOutlineMail,
   HiOutlinePhone,
@@ -107,32 +103,40 @@ const Footer = () => {
             <div className="pt-4">
               <div ref={socialRef} className="flex items-center gap-5 text-lg">
                 <a
-                  href="#"
+                  href={businessData.socialMedia.instagram}
+                  target="_blank"
                   aria-label="Instagram"
+                  rel="noopener noreferrer"
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaInstagram />
                 </a>
                 <a
-                  href="#"
+                  href={businessData.socialMedia.twitter}
+                  target="_blank"
+                  aria-label="Twitter"
+                  rel="noopener noreferrer"
+                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
+                >
+                  <FaXTwitter />
+                </a>
+                <a
+                  href={businessData.socialMedia.linkedin}
+                  target="_blank"
                   aria-label="LinkedIn"
+                  rel="noopener noreferrer"
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaLinkedinIn />
                 </a>
                 <a
-                  href="#"
-                  aria-label="Dribbble"
+                  href={businessData.socialMedia.pinterest}
+                  target="_blank"
+                  aria-label="Pinterest"
+                  rel="noopener noreferrer"
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
-                  <FaDribbble />
-                </a>
-                <a
-                  href="#"
-                  aria-label="Twitter"
-                  className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
-                >
-                  <FaTwitter />
+                  <FaPinterestP />
                 </a>
               </div>
             </div>

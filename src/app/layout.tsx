@@ -23,6 +23,29 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
+  openGraph: {
+    title: "Jatan Joshi Architects",
+    description:
+      "Leading architecture and interior design firm in Bhuj. Elevate your spaces with innovative, sustainable designs.",
+    url: "https://jatanjoshiarchitects.com",
+    siteName: "Jatan Joshi Architects",
+    images: [
+      {
+        url: "https://jatanjoshiarchitects.com/og-image.jpg", // TODO: Add OG URL after deployment
+        width: 1200,
+        height: 630,
+        alt: "Modern architecture by Jatan Joshi Architects",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jatan Joshi Architects",
+    description:
+      "Architecture and interior design studio in Bhuj. We create elegant, functional spaces.",
+    images: ["https://jatanjoshiarchitects/og-image.jpg"], // TODO: Add OG URL after deployment
+  },
 };
 
 export default function RootLayout({
@@ -44,14 +67,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// color 1
-// 218
-// 214
-// 203
-
-// color 2
-
-// 163
-// 88
-// 56
