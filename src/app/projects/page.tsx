@@ -201,7 +201,7 @@ const ProjectsPage: React.FC = () => {
                 <img
                   src={project.thumbnail}
                   alt={project.title}
-                  className="w-full h-auto object-cover transform-gpu grayscale-[80%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.05]"
+                  className="w-full h-auto object-cover transform-gpu grayscale-[95%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.05]"
                   loading="lazy"
                 />
               </div>

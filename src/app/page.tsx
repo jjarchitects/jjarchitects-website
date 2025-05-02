@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Link from "next/link";
 import projects from "@/data/projectsData.json";
+import testimonialsData from "@/data/testimonialsData.json";
 import businessData from "@/data/businessData.json";
 import SocialMedia from "@/components/SocialMedia";
 
@@ -13,7 +14,9 @@ export default function Home() {
   // const [isLoaded, setIsLoaded] = useState(false);
   const [activeProject, setActiveProject] = useState("project-1");
   const [featuredProjects] = useState<Project[]>(
-    projects.filter((project) => project.featured) as Project[]
+    projects.filter(
+      (project, index) => index < 4 && project.featured
+    ) as Project[]
   );
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
@@ -400,7 +403,7 @@ export default function Home() {
 
             {/* Right Column - Project Images */}
             <div className="lg:col-span-7">
-              <div className="grid grid-cols-12 gap-6">
+              <div className="grid grid-cols-12 gap-4">
                 {featuredProjects.map((project, index) => (
                   <div
                     key={index}
@@ -615,37 +618,46 @@ export default function Home() {
 
         <div className="relative whitespace-nowrap overflow-x-hidden pb-8">
           <div ref={marqueeRef} className="inline-flex gap-8 pl-8">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="w-72 whitespace-normal inline-block">
+            {testimonialsData.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="w-72 whitespace-normal inline-block"
+              >
                 <div className="border border-gray-200 p-8">
-                  <div className="text-3xl font-light mb-4">0{i + 1}</div>
-                  <h3 className="text-xl font-light mb-2">
-                    Testimonial Title {i + 1}
+                  <div className="text-3xl font-light mb-4">
+                    0{testimonial.id}
+                  </div>
+                  <h3 className="text-xl font-light mb-2.">
+                    {testimonial.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Best Architecture, 202{i + 1}
+                  <p className="text-[12px] leading-5 text-gray-600 mb-4">
+                    {testimonial.title}
                   </p>
                   <p className="text-sm font-light">
-                    Recognition for excellence in sustainable design and
-                    innovation.
+                    {testimonial.testimonial}
                   </p>
                 </div>
               </div>
             ))}
+
             {/* Duplicate items for seamless loop */}
-            {[...Array(6)].map((_, i) => (
-              <div key={i + 6} className="w-72 whitespace-normal inline-block">
+            {testimonialsData.map((testimonial) => (
+              <div
+                key={testimonial.id}
+                className="w-72 whitespace-normal inline-block"
+              >
                 <div className="border border-gray-200 p-8">
-                  <div className="text-3xl font-light mb-4">0{i + 1}</div>
-                  <h3 className="text-xl font-light mb-2">
-                    Testimonial Title {i + 1}
+                  <div className="text-3xl font-light mb-4">
+                    0{testimonial.id}
+                  </div>
+                  <h3 className="text-xl font-light mb-2.">
+                    {testimonial.name}
                   </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Best Architecture, 202{i + 1}
+                  <p className="text-[12px] leading-5 text-gray-600 mb-4">
+                    {testimonial.title}
                   </p>
                   <p className="text-sm font-light">
-                    Recognition for excellence in sustainable design and
-                    innovation.
+                    {testimonial.testimonial}
                   </p>
                 </div>
               </div>

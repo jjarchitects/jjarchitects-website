@@ -22,8 +22,8 @@
         ],
         "aboutProject": "This 3BHK residence in Bhuj, completed in 2023, is a masterful fusion of industrial materials and serene design elements. The project showcases a thoughtful integration of raw materials like exposed steel, concrete, and glass with subtle, calming tones and textures, resulting in a modern, yet inviting living space. Designed to offer a seamless connection between indoor and outdoor environments, expansive windows allow natural light to flood the interiors, highlighting the intricate details of the space. Each room is crafted with precision to achieve a harmonious balance between functionality and aesthetic appeal, making this residence a contemporary retreat that perfectly embodies both comfort and style.",
         "location": "Bhuj, Gujarat",
-        "year": 2023,
-        "type": "Architecture",
+        "year": 2025,
+        "type": "Interior",
         "featured": true,
         "tour360Link": "https://jjarchitects-360-tour-01.netlify.app/",
         "vrTourLink": "https://jjarchitects-360-tour-01.netlify.app/",
@@ -31,38 +31,34 @@
     },
     {
         "id": "project-2",
-        "title": "Sunset Lounge",
-        "description": "An open lounge concept focused on natural light and warm tones.",
-        "thumbnail": "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8",
-        "images": [
-            "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8"
-        ],
-        "location": "Bhuj, Gujarat",
-        "year": 2022,
-        "type": "Interior",
-        "featured": false,
-        "tour360Link": null,
-        "vrTourLink": null,
-        "area": "1500 sq ft"
-    },
-    {
-        "id": "project-3",
-        "title": "Desert Pavilion",
+        "title": "Urban Nest – Gandhinagar",
         "description": "Sustainable design in arid climates with earthy textures and minimal form.",
-        "thumbnail": "https://images.unsplash.com/photo-1524026986132-000404263b59",
+        "thumbnail": "https://res.cloudinary.com/jj-architects/image/upload/v1745836160/KIDS_BEDROOM-1_xc0d3o.jpg",
         "images": [
-            "https://images.unsplash.com/photo-1524026986132-000404263b59"
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836167/MASTER_BEDROOM-14_tddrob.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836166/MASTER_BEDROOM-13_m3d0fe.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836165/MASTER_BEDROOM-15_e0yg3h.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836163/KITCHEN_17_061223_goms8j.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836162/KITCHEN_15_061223_c5rwdt.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836162/KITCHEN_16_061223_vdjqs5.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836162/GUEST_BEDROOM-10_b0c8mn.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836161/KITCHEN_18_061223_xsvcfh.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836161/GUEST_BEDROOM-11_pzxbba.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836161/GUEST_BEDROOM-12_vcqkvh.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836160/KIDS_BEDROOM-2_oo7umo.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836160/KIDS_BEDROOM-3_s1kuzq.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836160/KIDS_BEDROOM-1_xc0d3o.jpg"
         ],
-        "location": "Rajasthan, India",
-        "year": 2021,
-        "type": "Architecture",
-        "featured": false,
+        "location": "Gandhinagar, India",
+        "year": 2023,
+        "type": "Interior",
+        "featured": true,
         "tour360Link": null,
         "vrTourLink": null,
         "area": "3000 sq ft"
     },
     {
-        "id": "project-4",
+        "id": "project-3",
         "title": "Skyline Workspace",
         "description": "Contemporary office space with clean lines and smart use of glass.",
         "thumbnail": "https://images.unsplash.com/photo-1518005020951-eccb494ad742",
@@ -78,83 +74,38 @@
         "area": "5000 sq ft"
     },
     {
-        "id": "project-5",
-        "title": "Green Atrium",
-        "description": "Eco-friendly atrium that breathes life into public architecture.",
-        "thumbnail": "https://plus.unsplash.com/premium_photo-1680382578857-c331ead9ed51",
+        "id": "project-4",
+        "title": "Studio+Home – A Bhuj Interior",
+        "description": "An open lounge concept focused on natural light and warm tones.",
+        "thumbnail": "https://res.cloudinary.com/jj-architects/image/upload/w_1000,ar_16:9,c_fill,g_auto,e_sharpen/v1745836198/20231216_170723_gm3rue.jpg",
         "images": [
-            "https://plus.unsplash.com/premium_photo-1680382578857-c331ead9ed51"
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836216/20231216_180823_viq5bc.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836213/20231216_180101_q3flbm.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836210/20231216_173550_c0er1y.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836202/20231216_173303_ywcrtd.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836198/20231216_170723_gm3rue.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836198/20231216_183010_yb0mkq.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836193/20231216_185304_vs4apt.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836192/20231216_185201_gpi5wq.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836192/20231216_173400_odcjm8.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836188/20231216_175550_ckkgbs.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836187/20231216_182053_dwn8o9.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836186/20231216_170210_a66k7d.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836186/20231216_175517_wfqpud.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836186/20231216_175655_bvrjbu.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836181/20231216_181337_xnehmj.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836181/20231216_181524_qfzrtu.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836179/20231216_173608_xinrrg.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836178/20231216_190433_fqc5ov.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836177/20231216_175527_pxy0ul.jpg",
+            "https://res.cloudinary.com/jj-architects/image/upload/v1745836174/20231216_173919_xcckwi.jpg"
         ],
-        "location": "Delhi, India",
-        "year": 2023,
-        "type": "Architecture",
-        "featured": false,
-        "tour360Link": null,
-        "vrTourLink": null,
-        "area": "4000 sq ft"
-    },
-    {
-        "id": "project-6",
-        "title": "Hilltop Villa",
-        "description": "Private luxury villa overlooking lush landscapes and sunrise views.",
-        "thumbnail": "https://images.unsplash.com/photo-1502005097973-6a7082348e28",
-        "images": [
-            "https://images.unsplash.com/photo-1502005097973-6a7082348e28"
-        ],
-        "location": "Lonavala, India",
-        "year": 2020,
-        "type": "Architecture",
+        "location": "Bhuj, Gujarat",
+        "year": 2022,
+        "type": "Interior",
         "featured": true,
         "tour360Link": null,
         "vrTourLink": null,
-        "area": "3500 sq ft"
-    },
-    {
-        "id": "project-7",
-        "title": "Concrete Calm",
-        "description": "Bold brutalist form softened with plant integration and acoustic design.",
-        "thumbnail": "https://images.unsplash.com/photo-1701602443009-99dd109ac543",
-        "images": [
-            "https://images.unsplash.com/photo-1701602443009-99dd109ac543"
-        ],
-        "location": "Pune, India",
-        "year": 2021,
-        "type": "3D",
-        "featured": false,
-        "tour360Link": null,
-        "vrTourLink": null,
-        "area": "2500 sq ft"
-    },
-    {
-        "id": "project-8",
-        "title": "The Light House",
-        "description": "Minimalist design where sunlight plays with surfaces throughout the day.",
-        "thumbnail": "https://images.unsplash.com/photo-1663811397302-8268848ca312",
-        "images": [
-            "https://images.unsplash.com/photo-1663811397302-8268848ca312"
-        ],
-        "location": "San Francisco, USA",
-        "year": 2024,
-        "type": "Architecture",
-        "featured": true,
-        "tour360Link": null,
-        "vrTourLink": null,
-        "area": "4500 sq ft"
-    },
-    {
-        "id": "project-9",
-        "title": "Tiled Tranquility",
-        "description": "Color-rich retreat using artisan tiles and local materials.",
-        "thumbnail": "https://images.unsplash.com/photo-1520587393050-c5298e1a8486",
-        "images": [
-            "https://images.unsplash.com/photo-1520587393050-c5298e1a8486"
-        ],
-        "location": "Goa, India",
-        "year": 2019,
-        "type": "3D",
-        "featured": false,
-        "tour360Link": null,
-        "vrTourLink": null,
-        "area": "1800 sq ft"
+        "area": "1500 sq ft"
     }
 ]
