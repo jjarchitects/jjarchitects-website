@@ -16,17 +16,6 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-// Define a type for project data based on the JSON structure
-type Project = {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  category: string;
-  type: string;
-  // Add other fields as needed
-};
-
 const ProjectsPage: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);

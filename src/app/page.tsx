@@ -12,6 +12,9 @@ import SocialMedia from "@/components/SocialMedia";
 export default function Home() {
   // const [isLoaded, setIsLoaded] = useState(false);
   const [activeProject, setActiveProject] = useState("project-1");
+  const [featuredProjects] = useState<Project[]>(
+    projects.filter((project) => project.featured) as Project[]
+  );
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
   const marqueeRef = useRef(null);
@@ -343,64 +346,88 @@ export default function Home() {
               {/* ---------------------------------------------------------------------------------------------------------------- */}
 
               <div className="space-y-24">
-                {projects
-                  .filter((project) => project.featured)
-                  .map((project, index) => (
-                    <div
-                      key={project.id}
-                      className={`project-${project.id}`}
-                      onClick={() => setActiveProject(project.id)}
-                    >
-                      <div className="flex items-center gap-4 mb-4">
-                        <span className="text-sm font-light">
-                          {(index + 1).toString()?.padStart(2, "0")}
-                        </span>
-                        <div
-                          className={`w-12 h-px ${
-                            activeProject === project.id
-                              ? "bg-copper"
-                              : "bg-carbon-200"
-                          }`}
-                        ></div>
-                      </div>
-                      <h3 className="text-2xl md:text-3xl font-light mb-4">
-                        {project.title}
-                      </h3>
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <p className="text-carbon-300 mb-1">Category</p>
-                          <p>{project.type}</p>
-                        </div>
-                        <div>
-                          <p className="text-carbon-300 mb-1">Year</p>
-                          <p>{project.year}</p>
-                        </div>
-                        <div>
-                          <p className="text-carbon-300 mb-1">Location</p>
-                          <p>{project.location}</p>
-                        </div>
-                      </div>
-                      <p className="mt-6 font-light max-w-md">
-                        {project.description}
-                      </p>
-                      <Link
-                        href={`/projects/${project.id}`}
-                        className="mt-6 text-copper flex items-center gap-2 group"
-                      >
-                        View Project
-                        <span className="group-hover:translate-x-1 transition-transform duration-300">
-                          <ArrowRight size={18} />
-                        </span>
-                      </Link>
+                {featuredProjects.map((project, index) => (
+                  <div
+                    key={project.id}
+                    className={`project-${project.id}`}
+                    onClick={() => setActiveProject(project.id)}
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      <span className="text-sm font-light">
+                        {(index + 1).toString()?.padStart(2, "0")}
+                      </span>
+                      <div
+                        className={`w-12 h-px ${
+                          activeProject === project.id
+                            ? "bg-copper"
+                            : "bg-carbon-200"
+                        }`}
+                      ></div>
                     </div>
-                  ))}
+                    <h3 className="text-2xl md:text-3xl font-light mb-4">
+                      {project.title}
+                    </h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-carbon-300 mb-1">Category</p>
+                        <p>{project.type}</p>
+                      </div>
+                      <div>
+                        <p className="text-carbon-300 mb-1">Year</p>
+                        <p>{project.year}</p>
+                      </div>
+                      <div>
+                        <p className="text-carbon-300 mb-1">Location</p>
+                        <p>{project.location}</p>
+                      </div>
+                    </div>
+                    <p className="mt-6 font-light max-w-md">
+                      {project.description}
+                    </p>
+                    <Link
+                      href={`/projects/${project.id}`}
+                      className="mt-6 text-copper flex items-center gap-2 group"
+                    >
+                      View Project
+                      <span className="group-hover:translate-x-1 transition-transform duration-300">
+                        <ArrowRight size={18} />
+                      </span>
+                    </Link>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Right Column - Project Images */}
             <div className="lg:col-span-7">
               <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-12 h-[70vh] relative">
+                {featuredProjects.map((project, index) => (
+                  <div
+                    key={index}
+                    className={`${
+                      index === 1
+                        ? "col-span-6"
+                        : index === 2
+                        ? "col-span-6"
+                        : "col-span-12"
+                    } h-[70vh] relative`}
+                  >
+                    <div className={`absolute inset-0 project-image-1`}>
+                      <Image
+                        src={project.thumbnail}
+                        alt="Monolithic Residence"
+                        fill
+                        className={`object-cover absolute inset-0 project-image-1 transition-all duration-300 ease-in-out ${
+                          activeProject === project.id
+                            ? "opacity-100"
+                            : "opacity-0"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                {/* <div className="col-span-12 h-[70vh] relative">
                   <div
                     className={`absolute inset-0 bg-gray-100 transform project-image-overlay-1`}
                     style={{
@@ -478,7 +505,7 @@ export default function Home() {
                       className="object-cover"
                     />
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
