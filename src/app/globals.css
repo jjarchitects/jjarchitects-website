@@ -2,6 +2,9 @@
 
 /* Tailwind CSS Theme */
 @theme {
+
+  --breakpoint-xlg: 1600px;
+
   /* Carbon */
   --color-carbon: #1b1b1b; /* DEFAULT */
   --color-carbon-100: #d2d2d2;
@@ -37,8 +40,6 @@
   --color-copper-700: #623522;
   --color-copper-800: #412316;
   --color-copper-900: #21120b;
-
-  /* a53838 */
 }
 
 

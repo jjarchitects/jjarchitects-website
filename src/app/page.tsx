@@ -14,9 +14,7 @@ export default function Home() {
   // const [isLoaded, setIsLoaded] = useState(false);
   const [activeProject, setActiveProject] = useState("project-1");
   const [featuredProjects] = useState<Project[]>(
-    projects.filter(
-      (project, index) => index < 4 && project.featured
-    ) as Project[]
+    projects.filter((project) => project.featured).slice(0, 5) as Project[]
   );
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
@@ -159,19 +157,20 @@ export default function Home() {
         className="min-h-screen relative flex flex-col lg:flex-row"
       >
         {/* Left Column */}
-        <div className="absolute top-0 left-0 w-full lg:w-1/2 md:h-screen z-10 flex items-center justify-center p-8">
+        <div className="absolute top-0 left-0 w-full lg:w-4/12 md:h-screen z-10 flex items-center justify-center p-8">
           <div className="hero-content">
             <div className="max-w-xl">
-              <h1 className="text-5xl md:text-7xl font-light tracking-tighter mb-6 leading-tight">
+              <h1 className="text-5xl md:text-5xl xlg:!text-7xl font-light tracking-tighter mb-6 leading-tight text-carbon-300">
                 REDEFINING <br />
-                <span className="text-copper">ARCHITECTURAL</span>
+                <span>ARCHITECTURAL</span>
                 <br /> BOUNDARIES
               </h1>
               <div className="w-16 h-1 bg-copper mb-8"></div>
-              <p className="text-lg md:text-xl max-w-md mb-12 font-light leading-relaxed">
+              {/* <p className="text-lg md:text-xl max-w-md mb-12 font-light leading-relaxed">
                 Creating spaces where minimalism meets functionality, where
                 every line has purpose, and every void tells a story.
-              </p>
+              </p> */}
+              <div className="h-5 md:h-[40px]"></div>
               <div className="flex space-x-6">
                 <button
                   onClick={scrollToProjects}
@@ -191,14 +190,14 @@ export default function Home() {
         </div>
 
         {/* Right Column - Visual Elements */}
-        <div className="absolute top-1/2 md:top-0 h-1/2 md:right-0 w-full lg:w-7/12 md:h-screen bg-taupe-100 overflow-hidden">
+        <div className="absolute top-[45%] md:top-0 h-1/2 md:right-0 w-full lg:w-8/12 md:h-screen bg-taupe-100. overflow-hidden">
           {/* Abstract Architectural Elements */}
           <div
-            className="absolute top-1/3 md:top-1/4 left-1/4 w-40 h-40 md:w-64 md:h-64 border-2 border-copper parallax"
+            className="absolute top-1/3 md:top-1/4 left-1/4 w-32 h-32 md:w-64 md:h-64 border-2 border-copper parallax"
             data-speed="-0.05"
           ></div>
           <div
-            className="absolute right-22 top-36 md:top-2/6 md:right-1/4 w-40 h-40 md:w-80 md:h-80 bg-taupe-300 parallax"
+            className="absolute right-26 top-30 md:top-2/6 md:right-1/4 w-30 h-30 md:w-80 md:h-80 bg-taupe-300 parallax"
             data-speed="0.02"
           ></div>
 
@@ -214,24 +213,24 @@ export default function Home() {
               />
             </div> */}
 
-            <div className="hero-image-container mt-50 md:mt-30 relative w-full h-full md:w-4/5 md:h-3/5">
+            <div className="hero-image-container bg-white/60 mt-0 md:mt-0 relative w-full h-full md:w-5/5 md:h-full">
               <img
-                src={`/assets/sketch.svg`}
+                src={`/assets/home_sketch.png`}
                 alt="Architectural sketch"
-                className="object-contain select-none pointer-events-none p-4 md:p-0"
+                className="object-contain select-none pointer-events-none p-4 md:p-0 grayscale opacity-70"
               />
             </div>
           </div>
 
           {/* Decorative Grid */}
-          <div className="absolute inset-0 grid grid-cols-4 pointer-events-none">
-            {[...Array(4)].map((_, i) => (
+          {/* <div className="absolute inset-0 grid grid-cols-8 pointer-events-none">
+            {[...Array(8)].map((_, i) => (
               <div key={i} className="h-full border-l border-gray-200"></div>
             ))}
-            {[...Array(4)].map((_, i) => (
+            {[...Array(8)].map((_, i) => (
               <div key={i} className="w-full border-t border-gray-200"></div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Scroll Indicator */}
@@ -257,9 +256,9 @@ export default function Home() {
                     FEATURED WORK
                   </span>
                 </div>
-                <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-16">
+                {/* <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-16">
                   Selected Projects
-                </h2>
+                </h2> */}
               </div>
 
               {/* <div className="lg:col-span-7">
@@ -549,11 +548,11 @@ export default function Home() {
                   elements, creating environments that are both timeless and
                   forward-thinking.
                 </p>
-                <div className="pt-4 md:pt-8">
+                {/* <div className="pt-4 md:pt-8">
                   <button className="border-b-2 border-carbon pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300">
                     About Our Process <ArrowRight size={16} />
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
 

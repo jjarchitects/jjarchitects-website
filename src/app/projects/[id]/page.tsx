@@ -222,49 +222,55 @@ export default function ProjectPage() {
                   </div>
 
                   {/* Location */}
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
-                      <MapPin className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white/60 text-xs uppercase mb-1">
-                        Location
+                  {project.location && (
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                        <MapPin className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-white font-medium">
-                        {project.location}
+                      <div>
+                        <div className="text-white/60 text-xs uppercase mb-1">
+                          Location
+                        </div>
+                        <div className="text-white font-medium">
+                          {project.location}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Area */}
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
-                      <Square className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white/60 text-xs uppercase mb-1">
-                        Area
+                  {project.area && (
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                        <Square className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-white font-medium">
-                        {project.area}
+                      <div>
+                        <div className="text-white/60 text-xs uppercase mb-1">
+                          Area
+                        </div>
+                        <div className="text-white font-medium">
+                          {project.area}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Year */}
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
-                      <Calendar1 className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white/60 text-xs uppercase mb-1">
-                        Year
+                  {project.year && (
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
+                        <Calendar1 className="w-5 h-5 text-white" />
                       </div>
-                      <div className="text-white font-medium">
-                        {project.year}
+                      <div>
+                        <div className="text-white/60 text-xs uppercase mb-1">
+                          Year
+                        </div>
+                        <div className="text-white font-medium">
+                          {project.year}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -283,16 +289,18 @@ export default function ProjectPage() {
 
       {/* Project Info */}
       <section className="bg-white py-20 px-6">
-        <div ref={infoRef} className="max-w-10/12 mx-auto space-y-12">
-          <div className="space-y-6">
-            {/* <h2 className="text-3xl font-bold text-zinc-900"> */}
-            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
-              About the Project
-            </h2>
-            <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
-              {project?.aboutProject}
-            </p>
-          </div>
+        <div ref={infoRef} className="mx-auto space-y-12">
+          {project.aboutProject && (
+            <div className="space-y-6">
+              {/* <h2 className="text-3xl font-bold text-zinc-900"> */}
+              <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
+                About the Project
+              </h2>
+              <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
+                {project?.aboutProject}
+              </p>
+            </div>
+          )}
 
           {/* VR / 360 Links */}
           {(project.tour360Link || project.vrTourLink) && (
@@ -355,7 +363,7 @@ export default function ProjectPage() {
 
       {/* Gallery Section */}
       <section className="bg-taupe-100 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl. mx-auto">
           <h2 className="mb-12 text-4xl md:text-5xl font-light tracking-tight text-carbon">
             Project Gallery
           </h2>
@@ -507,7 +515,7 @@ export default function ProjectPage() {
 
       {/* Continue Exploring - Improved version with light background */}
       <section className="bg-taupe-200/20 py-16 px-6">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl. mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-taupe-200 rounded-sm shadow-lg">
             <div className="mb-6 md:mb-0 md:mr-8">
               <h2 className="text-3xl tracking-tight text-carbon mb-2">

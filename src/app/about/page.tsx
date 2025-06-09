@@ -136,7 +136,7 @@ const AboutPage = () => {
   return (
     <div
       ref={containerRef}
-      className=" bg-white text-carbon z-10 w-11/12 py-16 max-w-7xl mx-auto"
+      className=" bg-white text-carbon z-10 w-11/12 py-16 mx-auto"
     >
       <div ref={titleRef} className="mb-12 contact-title">
         <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">
@@ -148,7 +148,7 @@ const AboutPage = () => {
       {/* Hero Section */}
 
       {/* Content Section */}
-      <div className="container mx-auto px-6 py-10">
+      <div className="container. mx-auto px-6 py-10">
         <div className="flex flex-col lg:flex-row items-start justify-between gap-12 md:gap-16">
           {/* Text Content */}
           <div ref={textRef} className="lg:w-1/2 space-y-6">

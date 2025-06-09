@@ -4,8 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import projectsData from "@/data/projectsData.json";
 import Link from "next/link";
-
-const filters = ["All", "Interior", "3D", "Architecture"];
+import { filters } from "@/app/constants";
+import { useSearchParams } from "next/navigation";
+import ArchitecturalLoader from "@/components/Loader/ArchitecturalLoader";
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -17,12 +18,16 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 const ProjectsPage: React.FC = () => {
+  const searchParams = useSearchParams();
+  const filter = searchParams.get("filter");
+
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const filterRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const filterRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const projectRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState("All");
+  // const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState(filter ? filter : "All");
   const decorRef = useRef(null);
 
   // Initialize with empty array and correct type
@@ -39,8 +44,15 @@ const ProjectsPage: React.FC = () => {
         }))
       )
     );
-    setLoading(false);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, Math.floor(Math.random() * 4001) + 3000);
   }, []);
+
+  useEffect(() => {
+    setActiveFilter(filter ? filter : "All");
+  }, [filter]);
 
   useEffect(() => {
     if (loading) return; // Don't run animations until content is loaded
@@ -152,12 +164,14 @@ const ProjectsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-11/12 py-8 max-w-7xl mx-auto">Loading projects...</div>
+      <div className="w-full flex justify-center py-8 max-w-7xl mx-auto">
+        <ArchitecturalLoader />
+      </div>
     );
   }
 
   return (
-    <div ref={containerRef} className="z-10 w-11/12 py-16 max-w-7xl mx-auto">
+    <div ref={containerRef} className="z-10 w-11/12 py-16 max-w-7xl. mx-auto">
       <div ref={titleRef} className="mb-16 contact-title">
         <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">
           Projects
@@ -166,9 +180,10 @@ const ProjectsPage: React.FC = () => {
       </div>
 
       <div className="flex flex-col md:flex-row justify-end gap-6 mb-10">
-        <ul className="flex flex-wrap gap-4 md:gap-6">
+        <div className="flex flex-wrap gap-4 md:gap-6">
           {filters.map((filter, index) => (
-            <li
+            <Link
+              href={`/projects?filter=${filter}`}
               key={filter}
               ref={(el) => {
                 filterRefs.current[index] = el;
@@ -181,9 +196,9 @@ const ProjectsPage: React.FC = () => {
               onClick={() => handleFilterClick(filter)}
             >
               {filter}
-            </li>
+            </Link>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Project Grid */}

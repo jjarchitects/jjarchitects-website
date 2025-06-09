@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { Send, Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 import businessData from "@/data/businessData.json";
 import SocialMedia from "@/components/SocialMedia";
+import emailjs from "@emailjs/browser";
 
 type FormData = {
   name: string;
@@ -19,6 +20,10 @@ const Contact = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const [submitted, setSubmitted] = useState(false);
 
+  const service_id = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
+  const template_id = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
+
   const {
     register,
     handleSubmit,
@@ -26,27 +31,30 @@ const Contact = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    console.log("Form submitted:", data);
-
-    // Show success animation
-    const formElements = formRef.current?.elements;
-    if (formElements) {
-      gsap.to(formElements, {
-        y: -20,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.5,
-        ease: "power2.out",
-      });
+  const onSubmit = async () => {
+    // emailjs
+    if (formRef.current) {
+      emailjs
+        .sendForm(service_id, template_id, formRef.current, publicKey)
+        .then(() => {
+          setSubmitted(true);
+          reset();
+          // Show success animation
+          const formElements = formRef.current?.elements;
+          if (formElements) {
+            gsap.to(formElements, {
+              y: -20,
+              opacity: 0,
+              stagger: 0.1,
+              duration: 0.5,
+              ease: "power2.out",
+            });
+          }
+        })
+        .catch(() => {
+          alert("Failed to send message!");
+        });
     }
-
-    setTimeout(() => {
-      setSubmitted(true);
-      reset();
-    }, 600);
   };
 
   useEffect(() => {
@@ -100,7 +108,7 @@ const Contact = () => {
   return (
     <div ref={containerRef} className="w-full bg-white text-carbon py-16">
       {/* Page Content */}
-      <div className="max-w-7xl w-11/12 mx-auto px-4. sm:px-6. lg:px-8.">
+      <div className="w-11/12 mx-auto px-4. sm:px-6. lg:px-8.">
         {/* Page Title */}
         <div className="md:mb-16. contact-title">
           <h1 className="text-5xl font-light uppercase tracking-wider mb-6 text-[#1b1b1b]">

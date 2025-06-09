@@ -216,7 +216,7 @@ const Footer = () => {
               </a>
 
               <a
-                href="https://google.com/maps/"
+                href={businessData.contactDetails.address_link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
@@ -233,53 +233,7 @@ const Footer = () => {
                   {businessData.contactDetails.address.pinCode}
                 </span>
               </a>
-            </div>
-
-            {/* <ul className="space-y-4">
-              <li>
-                <a
-                  href={`mailto:${businessData.contactDetails.email}`}
-                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
-                >
-                  <HiOutlineMail
-                    size={16}
-                    className="mt-[6px] text-carbon-300 group-hover:text-copper transition-colors duration-300"
-                  />
-                  <span>{businessData.contactDetails.email}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href={`tel:${businessData.contactDetails.phone}`}
-                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
-                >
-                  <HiOutlinePhone
-                    size={16}
-                    className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
-                  />
-                  <span>{businessData.contactDetails.phone}</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://google.com/maps/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-carbon-300 hover:text-copper transition-colors duration-300 flex items-start gap-3 group"
-                >
-                  <HiOutlineLocationMarker
-                    size={16}
-                    className="mt-1 text-carbon-300 group-hover:text-copper transition-colors duration-300"
-                  />
-                  <span>
-                    {businessData.contactDetails.address.street},{" "}
-                    {businessData.contactDetails.address.city},{" "}
-                    {businessData.contactDetails.address.state},{" "}
-                    {businessData.contactDetails.address.pinCode}
-                  </span>
-                </a>
-              </li>
-            </ul> */}
+            </div>{" "}
           </div>
         </div>
 
