@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import CustomCursor from "@/utility/CustomCursor";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,7 +61,9 @@ export default function RootLayout({
       >
         <CustomCursor />
         <Navbar />
-        <div className="mt-[60px]">{children}</div>
+        <Suspense>
+          <div className="mt-[60px]">{children}</div>
+        </Suspense>
         <Footer />
         <WhatsAppButton />
       </body>
