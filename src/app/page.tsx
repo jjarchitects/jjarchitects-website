@@ -622,7 +622,7 @@ export default function Home() {
                 key={testimonial.id}
                 className="w-72 whitespace-normal inline-block"
               >
-                <div className="border border-gray-200 p-8">
+                <div className="border h-[330px] border-gray-200 p-8">
                   <div className="text-3xl font-light mb-4">
                     0{testimonial.id}
                   </div>
@@ -645,7 +645,7 @@ export default function Home() {
                 key={testimonial.id}
                 className="w-72 whitespace-normal inline-block"
               >
-                <div className="border border-gray-200 p-8">
+                <div className="border h-[330px] border-gray-200 p-8">
                   <div className="text-3xl font-light mb-4">
                     0{testimonial.id}
                   </div>

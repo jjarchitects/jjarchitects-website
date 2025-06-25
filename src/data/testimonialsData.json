@@ -1,26 +1,32 @@
 [
     {
         "id": 1,
-        "name": "Jane Doe",
-        "title": "CEO, Example Corp",
-        "testimonial": "Working with JJ Architects was an absolute pleasure. Their attention to detail and innovative designs exceeded our expectations."
+        "name": "Mr. Dinesh Ajani",
+        "title": "Elegant 3BHK Residence, Bhuj",
+        "testimonial": "JJ Architects brought our vision to life with a refined balance of function and beauty. The entire space feels calm, modern, and deeply personal to us."
     },
     {
         "id": 2,
-        "name": "Jane Smith",
-        "title": "Homeowner",
-        "testimonial": "JJ Architects transformed our house into a dream home. Their professionalism and creativity are unmatched."
+        "name": "Mr. Hardik Dholu",
+        "title": "Oak & Ivory",
+        "testimonial": "From the warm wood tones to the crisp white elements, the design reflects timeless elegance. JJ Architects understood our aesthetic and delivered a home that feels both premium and grounded."
     },
     {
         "id": 3,
-        "name": "Michael Brown",
-        "title": "Project Manager, BuildCo",
-        "testimonial": "The team at JJ Architects delivered on time and within budget. Their expertise made the entire process seamless."
+        "name": "Mr. Darshan Thacker",
+        "title": "Studio+Home – A Bhuj Interior",
+        "testimonial": "Turning a home into a creative studio space required a thoughtful approach—and JJ Architects nailed it. Their smart spatial planning and clean aesthetic made it feel seamless and inspiring."
     },
     {
         "id": 4,
-        "name": "Emily Davis",
-        "title": "Interior Designer",
-        "testimonial": "Collaborating with JJ Architects was inspiring. Their designs are both functional and aesthetically stunning."
+        "name": "Mr. Hardev Zala",
+        "title": "Aurum Living",
+        "testimonial": "Our home is now a true reflection of modern elegance. JJ Architects created a space that is light-filled, practical, and beautifully detailed. It’s exactly what we hoped for—and more."
+    },
+    {
+        "id": 5,
+        "name": "Mr. Nishad Gor",
+        "title": "ENT Clinic",
+        "testimonial": "The raw and honest material palette speaks volumes. JJ Architects designed our clinic with clarity and intention—blending function, privacy, and a unique aesthetic identity."
     }
 ]

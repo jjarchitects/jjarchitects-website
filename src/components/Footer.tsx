@@ -76,7 +76,7 @@ const Footer = () => {
       {/* <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-gradient-to-br from-indigo-500 to-transparent blur-3xl"></div> */}
       {/* <div className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full bg-gradient-to-tr from-amber-500 to-transparent blur-3xl"></div> */}
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-11/12 max-w-7xl. mx-auto px-6">
         {/* Main footer content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 mb-16">
           {/* Brand Column */}
