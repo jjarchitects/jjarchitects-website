@@ -5,15 +5,52 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+const data = {
+  name: "Jatan Joshi",
+  aboutJatanJoshi:
+    "Jatan Joshi is a passionate architect whose journey began with a childhood love for drawing and art. Growing up in a family connected to the construction industry, he was naturally drawn to the world of building and design. After completing his Architecture degree from SVIT Vasad, Jatan honed his expertise working with dynamic teams across Gujarat's metro cities, including Ahmedabad and Vadodara. With over 7 years of experience in diverse architectural projects, he founded his practice in 2018 in Bhuj-Kutch, bringing metropolitan design sensibilities to his hometown while serving clients across India.",
+  ourPractice:
+    "Jatan Joshi Architects, established in 2018 and based in the historic city of Bhuj-Kutch, Gujarat, is a comprehensive architectural practice specializing in Architectural Planning, Liaison Services, Construction, Interior Design, and Turnkey Projects. While rooted in the cultural heritage of Kutch, our practice extends its services pan-India, combining local wisdom with contemporary design excellence.",
+  ourPhilosophy:
+    "Every home represents a family's dreams, and we consider ourselves privileged to be part of that journey. Our design philosophy centers on creating spaces that seamlessly blend visual appeal with practical functionality. We believe architecture should respond to its context – whether honoring traditional Gujarati elements or embracing modern aesthetics that our clients desire.\n \n Each project begins with understanding the site's unique climate, cultural context, and the client's vision. We foster a strong connection with nature in our designs, ensuring that every space we create brings comfort, liveliness, and well-being to its inhabitants. Our work reflects deep cultural values while thoughtfully shaping how people interact with their surroundings.",
+  ourExpertise:
+    "While we embrace versatility across project types, residential architecture holds a special place in our practice. From intimate bungalows to luxurious penthouses, we've crafted diverse living spaces that reflect our clients' lifestyles and aspirations. Our portfolio spans various scales and typologies: *Residential Projects*: Bungalows, apartments, penthouses, and custom homes *Commercial Ventures*: Clinics, shopping complexes, offices, resorts, and restaurants Cultural & Event Spaces: Including our notable work on the entrance design for Vibrant Gujarat, the state's premier annual event held in Gandhinagar",
+  ourApproach:
+    "Drawing from extensive experience in Gujarat's metropolitan markets, we bring a unique perspective to every project. Our approach balances contemporary design trends with timeless architectural principles, ensuring each creation remains relevant and cherished for years to come. We understand that while modern aesthetics are often preferred, the soul of good architecture lies in its ability to enhance daily life.",
+  outTeam:
+    "*Mr. Jatan Joshi* - Principal Architect & Founder \n *Mr. Rahul Salat* - Senior Architect\n *Mrs. Shuchi Gor* - Interior Design Curator\n \n Together, we form a collaborative team dedicated to transforming architectural dreams into reality. Our collective expertise spans design conceptualization, project execution, and interior curation, ensuring seamless delivery from vision to completion.",
+  ourCommitment:
+    "From our base in Bhuj-Kutch, we serve clients across India, bringing the same dedication and attention to detail to every project, regardless of scale or location. Whether you're envisioning a contemporary family home or a commercial space that makes a statement, we're here to create environments that not only meet your needs but exceed your expectations. At Jatan Joshi Architects, we don't just design buildings – we craft experiences, preserve dreams, and create lasting legacies in brick, stone, and space.",
+};
+
+const parseBold = (text: string) => {
+  const parts = text.split(/(\*[^*]+\*)/);
+  return parts.map((part, i) => {
+    if (part.startsWith("*") && part.endsWith("*")) {
+      return <strong key={i}>{part.slice(1, -1)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
 const AboutPage = () => {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const subtitleRef = useRef(null);
   const textRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef(null);
-  const statsSectionRef = useRef(null);
-  const statsItems = useRef<(HTMLSpanElement | null)[]>([]);
   const decorRef = useRef(null);
+  // const statsSectionRef = useRef(null);
+  // const statsItems = useRef<(HTMLSpanElement | null)[]>([]);
+
+  // New refs for additional sections
+  const sectionsRef = useRef<HTMLDivElement>(null);
+  // const practiceRef = useRef<HTMLDivElement>(null);
+  // const philosophyRef = useRef<HTMLDivElement>(null);
+  // const expertiseRef = useRef<HTMLDivElement>(null);
+  // const approachRef = useRef<HTMLDivElement>(null);
+  // const commitmentRef = useRef<HTMLDivElement>(null);
+  const teamRef = useRef<HTMLDivElement>(null);
 
   // Register ScrollTrigger plugin
   useEffect(() => {
@@ -93,41 +130,100 @@ const AboutPage = () => {
         }
       );
 
-      // Stats section animation
-      gsap.from(statsSectionRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: statsSectionRef.current,
-          start: "top 85%",
-          toggleActions: "play none none none",
-        },
+      // Animate each section with staggered entrance
+      const sectionRefs = [
+        // practiceRef.current,
+        // philosophyRef.current,
+        // expertiseRef.current,
+        // approachRef.current,
+        // commitmentRef.current,
+        teamRef.current,
+      ];
+
+      sectionRefs.forEach((section) => {
+        if (section) {
+          const heading = section.querySelector("h3");
+          const content = section.querySelector("p");
+
+          // Create a timeline for each section
+          const sectionTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          });
+
+          // Animate heading first
+          sectionTl
+            .from(heading, {
+              y: 30,
+              opacity: 0,
+              duration: 0.8,
+              ease: "power2.out",
+            })
+            // Then animate content with a slight delay
+            .from(
+              content,
+              {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.out",
+              },
+              "-=0.5"
+            )
+            // Add a subtle scale animation for visual interest
+            .from(
+              section,
+              {
+                scale: 0.98,
+                duration: 0.8,
+                ease: "power2.out",
+              },
+              "-=0.8"
+            );
+
+          // Add a decorative line animation after heading
+          const decorativeLine = document.createElement("div");
+          decorativeLine.className = "w-16 h-0.5 bg-copper mt-2 mb-4";
+          decorativeLine.style.transform = "scaleX(0)";
+          decorativeLine.style.transformOrigin = "left center";
+
+          if (heading && heading.parentNode) {
+            heading.parentNode.insertBefore(
+              decorativeLine,
+              heading.nextSibling
+            );
+
+            sectionTl.to(
+              decorativeLine,
+              {
+                scaleX: 1,
+                duration: 0.6,
+                ease: "power2.out",
+              },
+              "-=0.6"
+            );
+          }
+        }
       });
 
-      // Stats counter animation
-      statsItems.current.forEach((item) => {
-        // const value = parseInt(item.getAttribute("data-value"), 10);
-        gsap.from(item, {
-          textContent: 0,
-          duration: 2,
-          ease: "power2.out",
-          snap: { textContent: 1 },
-          stagger: 0.2,
+      // Add a subtle parallax effect to the entire sections container
+      if (sectionsRef.current) {
+        gsap.to(sectionsRef.current, {
+          y: -30,
+          ease: "none",
           scrollTrigger: {
-            trigger: statsSectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-          onUpdate: function () {
-            if (item) {
-              item.textContent = Math.ceil(
-                Number(this.targets()[0].textContent)
-              ).toString();
-            }
+            trigger: sectionsRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1,
           },
         });
-      });
+      }
+
+      // Professional subtle hover effects only - no floating animations
     }, containerRef);
 
     return () => ctx.revert();
@@ -153,214 +249,133 @@ const AboutPage = () => {
           {/* Text Content */}
           <div ref={textRef} className="lg:w-1/2 space-y-6">
             <h3 className="text-2xl md:text-3xl font-semibold text-copper">
-              Who Is John Doe?
+              Who Is {data.name}?
             </h3>
             <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
-              John Doe is a passionate architect and designer with a strong
-              focus on sustainable innovation, user-centered design, and modern
-              aesthetics. With over a decade of experience crafting immersive
-              spaces, John&#39;s vision bridges timeless elegance with
-              contemporary function.
+              {data.aboutJatanJoshi}
             </p>
-            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
-              At the heart of every project lies a story—one that John
-              translates into every line, curve, and texture. Whether it&#39;s a
-              residential haven or a public installation, his work is a fusion
-              of form, functionality, and emotion.
-            </p>
+
             <div className="relative pl-5 border-l-2 border-copper/40 my-10 text-justify">
               <p className="text-lg md:text-xl italic text-carbon/80 font-light">
-                &quot;Architecture is not about building the impossible, which
-                we can do if we have enough money and enough tools and enough
-                computers. It&apos;s about building what is appropriate and
-                about attaining beauty through such an approach.&quot;
+                &quot;Great design isn’t about trends. It’s about solving real
+                problems with clarity and care.&quot;
               </p>
-              <p className="text-right text-sm text-copper mt-3">— John Doe</p>
+              <p className="text-right text-sm text-copper mt-3">
+                — {data.name}
+              </p>
             </div>
           </div>
 
-          {/* Image and Stats */}
-          <div className="lg:w-1/2 flex flex-col items-center gap-12">
+          {/* Image */}
+
+          <div className="lg:w-1/3 flex flex-col gap-12">
             {/* Image with decorative elements */}
-            <div ref={imageRef} className="relative w-full max-w-md mx-auto">
-              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-copper opacity-30"></div>
-              <div className="relative overflow-hidden">
-                <Image
-                  src="/assets/aboutus/john-doe.png"
-                  alt="John Doe"
-                  width={500}
-                  height={600}
-                  className="w-full object-cover h-auto shadow-lg transition-all duration-700 ease-in-out hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100  transition-opacity duration-300"></div>
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-2/3 h-1/2 border-2 border-copper opacity-30"></div>
-            </div>
-
-            {/* Stats Section */}
-            {/* <div
-              ref={statsSectionRef}
-              className="w-full grid grid-cols-2 gap-4 mt-8"
+            <div
+              ref={imageRef}
+              className="relative w-full max-w-[20rem] mx-auto"
             >
-              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
-                <span
-                  ref={(el) => {
-                    statsItems.current[0] = el;
-                  }}
-                  data-value="12"
-                  className="text-4xl font-bold text-[#a53838]"
-                >
-                  7
-                </span>
-                <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
-                  Years Experience
-                </span>
+              {" "}
+              {/* made smaller */}
+              {/* Top-left decorative border */}
+              <div className="absolute -top-4 -left-4 w-full h-full border-2 border-copper opacity-30 pointer-events-none"></div>
+              {/* Image with hover effect */}
+              <div className="relative overflow-hidden shadow-lg transition-transform duration-500 ease-in-out hover:scale-105">
+                <Image
+                  src="/assets/aboutus/jatan-joshi.jpg"
+                  alt="Jatan Joshi"
+                  width={400} // reduced from 600
+                  height={533} // maintain aspect ratio
+                  className="w-full h-auto object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-
-              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
-                <span
-                  ref={(el) => {
-                    statsItems.current[1] = el;
-                  }}
-                  data-value="75"
-                  className="text-4xl font-bold text-[#a53838]"
-                >
-                  45
-                </span>
-                <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
-                  Projects Completed
-                </span>
-              </div>
-
-
-              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
-                <span
-                  ref={(el) => (statsItems.current[2] = el)}
-                  data-value="18"
-                  className="text-4xl font-bold text-[#a53838]"
-                >
-                  18
-                </span>
-                <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
-                  Awards Won
-                </span>
-              </div>
-
-
-              <div className="bg-[#f8f8f8] p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300">
-                <span
-                  ref={(el) => (statsItems.current[3] = el)}
-                  data-value="9"
-                  className="text-4xl font-bold text-[#a53838]"
-                >
-                  9
-                </span>
-                <span className="text-sm uppercase tracking-wider text-[#1b1b1b]/70 mt-1">
-                  Countries
-                </span>
-              </div>
-            </div> */}
+              {/* Bottom-right decorative border */}
+              <div className="absolute -bottom-4 -right-4 w-3/5 h-2/5 border-2 border-copper opacity-30 pointer-events-none"></div>
+            </div>
           </div>
+        </div>
+
+        <div ref={sectionsRef} className="mt-16 space-y-12">
+          {/* <div ref={practiceRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Practice
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.ourPractice}
+            </p>
+          </div>
+
+          <div ref={philosophyRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Philosophy
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.ourPhilosophy.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {parseBold(line.trim())}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div>
+
+          <div ref={expertiseRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Expertise
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.ourExpertise.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {parseBold(line.trim())}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div>
+
+          <div ref={approachRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Approach
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.ourApproach.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {parseBold(line.trim())}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div> */}
+
+          <div ref={teamRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Team
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.outTeam.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {parseBold(line.trim())}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div>
+
+          {/* <div ref={commitmentRef}>
+            <h3 className="text-2xl md:text-3xl font-semibold text-copper mb-6">
+              Our Commitment
+            </h3>
+            <p className="text-base md:text-lg leading-relaxed text-carbon-400 text-justify">
+              {data.ourCommitment.split("\n").map((line, index) => (
+                <React.Fragment key={index}>
+                  {parseBold(line.trim())}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
+          </div> */}
         </div>
       </div>
-
-      {/* Approach Section */}
-      {/* <div className="w-full bg-[#f8f8f8] py-16 md:py-20">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="md:w-1/3">
-              <h3 className="text-2xl md:text-3xl font-semibold mb-4">
-                Our <span className="text-[#a53838]">Approach</span>
-              </h3>
-              <div className="w-16 h-1 bg-[#a53838] mb-6"></div>
-              <p className="text-base md:text-lg leading-relaxed text-[#1b1b1b]/80">
-                We believe in architecture that responds to its context,
-                embraces sustainability, and creates meaningful experiences for
-                those who inhabit it.
-              </p>
-            </div>
-            <div className="md:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
-                <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-[#a53838]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
-                    />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-lg text-[#1b1b1b] mb-2">
-                  Human-Centered
-                </h4>
-                <p className="text-[#1b1b1b]/70 text-sm">
-                  We design spaces that enhance human experiences and
-                  connections.
-                </p>
-              </div>
-
-              <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
-                <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-[#a53838]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-lg text-[#1b1b1b] mb-2">
-                  Sustainable
-                </h4>
-                <p className="text-[#1b1b1b]/70 text-sm">
-                  Creating environmentally responsible designs for future
-                  generations.
-                </p>
-              </div>
-
-              <div className="bg-white p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:translate-y-[-5px]">
-                <div className="w-12 h-12 flex items-center justify-center border border-[#a53838]/20 rounded-md mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-[#a53838]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
-                    />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-lg text-[#1b1b1b] mb-2">
-                  Innovative
-                </h4>
-                <p className="text-[#1b1b1b]/70 text-sm">
-                  Exploring new ideas, materials and techniques to push
-                  boundaries.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

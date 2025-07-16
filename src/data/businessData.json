@@ -3,20 +3,20 @@
         "email": "contact@jjarchitects.co.in",
         "phone": "+91 96014 51268",
         "address": {
-            "street": "Shop No. 1 Asha Apartment, Banker's Colony",
+            "street": "Shop No. 2 Asha Apartment, Banker's Colony",
             "landmark": "Near Jubilee Circle",
             "city": "Bhuj",
             "state": "Gujarat",
             "pinCode": "370001"
         },
-        "address_link": "https://maps.app.goo.gl/1K2TqWemK4CqNWzD7",
-        "map_embedded_link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d237.1835647718719!2d69.66617023384488!3d23.241180829136!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39511f00218acb95%3A0x56c28abb1fd8372f!2sAsha%20Apartment!5e1!3m2!1sen!2sin!4v1746121601545!5m2!1sen!2sin"
+        "address_link": "https://maps.app.goo.gl/5mdBPpsuPkW72Sxe6",
+        "map_embedded_link": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1560.1988560914147!2d69.66579825435143!3d23.240946201066834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39511fe792c65011%3A0x73500ecfca39493b!2sJatan%20Joshi%20Architects!5e0!3m2!1sen!2sin!4v1752316395921!5m2!1sen!2sin"
     },
     "socialMedia": {
-        "pinterest": "https://www.pinterest.com/jjarchitects",
         "twitter": "https://twitter.com/jjarchitects",
         "instagram": "https://www.instagram.com/jatanjoshiarchitects",
-        "linkedin": "https://www.linkedin.com/company/jj-architects-co-in/"
+        "linkedin": "https://www.linkedin.com/company/jatan-joshi-architects",
+        "facebook": "https://www.facebook.com/Ar.JatanJoshi"
     },
     "businessDetails": {
         "name": "JJ Architects",

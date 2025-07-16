@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { FaInstagram, FaLinkedinIn, FaPinterestP } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import {
   HiOutlineMail,
@@ -130,13 +130,13 @@ const Footer = () => {
                   <FaLinkedinIn />
                 </a>
                 <a
-                  href={businessData.socialMedia.pinterest}
+                  href={businessData.socialMedia.facebook}
                   target="_blank"
-                  aria-label="Pinterest"
+                  aria-label="Facebook"
                   rel="noopener noreferrer"
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
-                  <FaPinterestP />
+                  <FaFacebook />
                 </a>
               </div>
             </div>

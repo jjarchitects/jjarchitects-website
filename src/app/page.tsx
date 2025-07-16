@@ -9,16 +9,38 @@ import projects from "@/data/projectsData.json";
 import testimonialsData from "@/data/testimonialsData.json";
 import businessData from "@/data/businessData.json";
 import SocialMedia from "@/components/SocialMedia";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  const [hoveredImage, setHoveredImage] = useState<
+    null | "image1" | "image2" | "image3" | "image4"
+  >(null);
   // const [isLoaded, setIsLoaded] = useState(false);
-  const [activeProject, setActiveProject] = useState("project-1");
   const [featuredProjects] = useState<Project[]>(
     projects.filter((project) => project.featured).slice(0, 5) as Project[]
   );
+  const [activeProject, setActiveProject] = useState(featuredProjects[0].id);
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
   const marqueeRef = useRef(null);
+
+  const goToAbout = () => {
+    router.push("/about");
+  };
+
+  useEffect(() => {
+    if (featuredProjects.length === 0) return;
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      setActiveProject(featuredProjects[index].id);
+      index = (index + 1) % featuredProjects.length;
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [featuredProjects]);
 
   // Register GSAP plugins
   useEffect(() => {
@@ -150,7 +172,7 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-white text-carbon overflow-hidden">
+    <main className="bg-white text-carbon">
       {/* Hero Section with Split Layout */}
       <section
         ref={heroRef}
@@ -166,10 +188,6 @@ export default function Home() {
                 <br /> BOUNDARIES
               </h1>
               <div className="w-16 h-1 bg-copper mb-8"></div>
-              {/* <p className="text-lg md:text-xl max-w-md mb-12 font-light leading-relaxed">
-                Creating spaces where minimalism meets functionality, where
-                every line has purpose, and every void tells a story.
-              </p> */}
               <div className="h-5 md:h-[40px]"></div>
               <div className="flex space-x-6">
                 <button
@@ -178,12 +196,13 @@ export default function Home() {
                 >
                   View Projects <ArrowRight size={16} />
                 </button>
-                <Link
-                  href="/about"
+                <button
+                  // href="/about"
+                  onClick={goToAbout}
                   className="border-b-2 border-transparent pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300"
                 >
                   About Studio <ArrowRight size={16} />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -203,16 +222,6 @@ export default function Home() {
 
           {/* Main Image */}
           <div className="absolute bottom-[21rem] md:bottom-0 md:right-0 inset-0 flex items-center justify-center">
-            {/* <div className="hero-image-container relative w-5/5 h-5/5 md:w-4/5 md:h-3/5">
-              <Image
-                src="/assets/sketch.svg"
-                alt="Architectural sketch"
-                fill
-                className="object-contain select-none pointer-events-none p-4 md:p-0"
-                priority
-              />
-            </div> */}
-
             <div className="hero-image-container bg-white/60 mt-0 md:mt-0 relative w-full h-full md:w-5/5 md:h-full">
               <img
                 src={`/assets/home_sketch.png`}
@@ -224,10 +233,10 @@ export default function Home() {
 
           {/* Decorative Grid */}
           {/* <div className="absolute inset-0 grid grid-cols-8 pointer-events-none">
-            {[...Array(8)].map((_, i) => (
+            {[...Array(6)].map((_, i) => (
               <div key={i} className="h-full border-l border-gray-200"></div>
             ))}
-            {[...Array(8)].map((_, i) => (
+            {[...Array(6)].map((_, i) => (
               <div key={i} className="w-full border-t border-gray-200"></div>
             ))}
           </div> */}
@@ -243,271 +252,179 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Projects Section - Interactive Gallery */}
-      <section ref={projectsRef} className="py-32 px-8">
+      {/* Featured Projects Section - Modern Interactive Gallery */}
+      <section
+        ref={projectsRef}
+        className="py-32 px-8 bg-gradient-to-b from-zinc-50 to-white mb-[12rem]"
+      >
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            {/* Left Column - Project Info */}
-            <div className="lg:col-span-5 lg:sticky top-32 self-start">
-              <div className="mb-16 featured-work-header">
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-8 h-px bg-copper"></div>
-                  <span className="text-sm tracking-widest text-copper">
-                    FEATURED WORK
+            {/* Left Column - Project Navigation (Scrollable) */}
+            <div className="lg:col-span-5">
+              <div className="mb-16">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="w-12 h-px bg-copper"></div>
+                  <span className="text-sm font-medium tracking-wider text-copper uppercase sticky top-0">
+                    Featured Work
                   </span>
                 </div>
-                {/* <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-16">
-                  Selected Projects
-                </h2> */}
               </div>
 
-              {/* <div className="lg:col-span-7">
-                <div className="grid grid-cols-12 gap-6">
-                  <div className="col-span-12 h-[70vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-1`}
-                      style={{
-                        transform: `translateY(0%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-1`}
-                      style={{ opacity: 1 }}
-                    >
-                      <Image
-                        src="/assets/project-1.jpg"
-                        alt="Monolithic Residence"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-7 h-[50vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-2`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-2`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-2.jpg"
-                        alt="Canvas Gallery"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-5 h-[50vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-3`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-3`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-3.jpg"
-                        alt="Floating Pavilion"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-span-12 h-[70vh] relative">
-                    <div
-                      className={`absolute inset-0 bg-gray-100 transform project-image-overlay-4`}
-                      style={{
-                        transform: `translateY(100%)`,
-                      }}
-                    ></div>
-                    <div
-                      className={`absolute inset-0 project-image-4`}
-                      style={{ opacity: 0 }}
-                    >
-                      <Image
-                        src="/assets/project-4.jpg"
-                        alt="Urban Oasis Tower"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
-              {/* ---------------------------------------------------------------------------------------------------------------- */}
-
-              <div className="space-y-24">
+              <div className="space-y-2">
                 {featuredProjects.map((project, index) => (
                   <div
                     key={project.id}
-                    className={`project-${project.id}`}
+                    className={`group p-6 transition-all duration-500 ease-out border-l-4 shadow-md ${
+                      activeProject === project.id
+                        ? "bg-taupe-200 shadow-xl shadow-zinc-200 border-l-copper border-r border-t border-b border-carbon-100"
+                        : "hover:bg-zinc-100/50 hover:shadow-lg border-l-zinc-200 hover:border-l-zinc-300"
+                    }`}
                     onClick={() => setActiveProject(project.id)}
                   >
-                    <div className="flex items-center gap-4 mb-4">
-                      <span className="text-sm font-light">
-                        {(index + 1).toString()?.padStart(2, "0")}
-                      </span>
+                    {/* Project Number & Status Indicator */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-mono text-zinc-400">
+                          {(index + 1).toString().padStart(2, "0")}
+                        </span>
+                        <div
+                          className={`w-16 h-px transition-all duration-300 ${
+                            activeProject === project.id
+                              ? "bg-copper"
+                              : "bg-zinc-200 group-hover:bg-zinc-300"
+                          }`}
+                        ></div>
+                      </div>
                       <div
-                        className={`w-12 h-px ${
+                        className={`w-2 h-2 transition-all duration-300 ${
                           activeProject === project.id
-                            ? "bg-copper"
-                            : "bg-carbon-200"
+                            ? "bg-copper shadow-lg shadow-copper/30"
+                            : "bg-zinc-300 group-hover:bg-zinc-400"
                         }`}
                       ></div>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-light mb-4">
+
+                    {/* Project Title */}
+                    <h3
+                      className={`text-xl md:text-2xl font-light mb-4 transition-colors duration-300 ${
+                        activeProject === project.id
+                          ? "text-zinc-900"
+                          : "text-zinc-700 group-hover:text-zinc-900"
+                      }`}
+                    >
                       {project.title}
                     </h3>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
+
+                    {/* Project Meta Info */}
+                    <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                       <div>
-                        <p className="text-carbon-300 mb-1">Category</p>
-                        <p>{project.type}</p>
+                        <p className="text-zinc-400 mb-1 text-xs uppercase tracking-wide">
+                          Category
+                        </p>
+                        <p className="text-zinc-600 font-medium">
+                          {project.type}
+                        </p>
                       </div>
                       <div>
-                        <p className="text-carbon-300 mb-1">Year</p>
-                        <p>{project.year}</p>
-                      </div>
-                      <div>
-                        <p className="text-carbon-300 mb-1">Location</p>
-                        <p>{project.location}</p>
+                        <p className="text-zinc-400 mb-1 text-xs uppercase tracking-wide">
+                          Year
+                        </p>
+                        <p className="text-zinc-600 font-medium">
+                          {project.year}
+                        </p>
                       </div>
                     </div>
-                    <p className="mt-6 font-light max-w-md">
-                      {project.description}
-                    </p>
-                    <Link
-                      href={`/projects/${project.id}`}
-                      className="mt-6 text-copper flex items-center gap-2 group"
+
+                    {/* Project Description - Only show for active */}
+                    <div
+                      className={`overflow-hidden transition-all duration-500 ${
+                        activeProject === project.id
+                          ? "max-h-32 opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
                     >
-                      View Project
-                      <span className="group-hover:translate-x-1 transition-transform duration-300">
-                        <ArrowRight size={18} />
-                      </span>
-                    </Link>
+                      <p className="text-zinc-600 font-light leading-relaxed mb-4">
+                        {project.description}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <p className="text-zinc-400 text-sm">
+                          {project.location}
+                        </p>
+                        <Link
+                          href={`/projects/${project.id}`}
+                          className="text-copper hover:text-copper-600 flex items-center gap-2 group/link font-medium text-sm"
+                        >
+                          View Project
+                          <ArrowRight
+                            size={16}
+                            className="group-hover/link:translate-x-1 transition-transform duration-300"
+                          />
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right Column - Project Images */}
-            <div className="lg:col-span-7">
-              <div className="grid grid-cols-12 gap-4">
-                {featuredProjects.map((project, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      index === 1
-                        ? "col-span-6"
-                        : index === 2
-                        ? "col-span-6"
-                        : "col-span-12"
-                    } h-[70vh] relative`}
-                  >
-                    <div className={`absolute inset-0 project-image-1`}>
+            {/* Right Column - Project Image Display (Sticky) */}
+            <div className="lg:col-span-7 sticky top-5 h-fit">
+              <div className="h-screen flex items-center">
+                <div className="relative w-full h-[80vh] overflow-hidden shadow-2xl shadow-zinc-900/10">
+                  {/* Background gradient for loading state */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 to-zinc-200"></div>
+
+                  {featuredProjects.map((project) => (
+                    <div
+                      key={project.id}
+                      className={`absolute inset-0 transition-all duration-700 ease-out ${
+                        activeProject === project.id
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-105"
+                      }`}
+                    >
                       <Image
                         src={project.thumbnail}
-                        alt="Monolithic Residence"
+                        alt={project.title}
                         fill
-                        className={`object-cover absolute inset-0 project-image-1 transition-all duration-300 ease-in-out ${
+                        className="object-cover"
+                        priority={activeProject === project.id}
+                      />
+
+                      {/* Overlay gradient for better text contrast */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-carbon-500/50 via-transparent to-transparent"></div>
+
+                      {/* Project title overlay */}
+                      <div className="absolute bottom-8 left-8 right-8">
+                        <div className="bg-carbon/60 backdrop-blur-sm shadow-lg p-6">
+                          <h4 className="text-xl font-light text-white mb-2">
+                            {project.title}
+                          </h4>
+                          <p className="text-carbon-200 text-sm">
+                            {project.type} • {project.year}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Navigation dots */}
+                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+                  <div className="flex justify-center gap-3 mt-8">
+                    {featuredProjects.map((project) => (
+                      <button
+                        key={project.id}
+                        onClick={() => setActiveProject(project.id)}
+                        className={`w-2 h-2 transition-all duration-300 ${
                           activeProject === project.id
-                            ? "opacity-100"
-                            : "opacity-0"
+                            ? "bg-copper w-8"
+                            : "bg-zinc-300 hover:bg-zinc-400"
                         }`}
                       />
-                    </div>
-                  </div>
-                ))}
-
-                {/* <div className="col-span-12 h-[70vh] relative">
-                  <div
-                    className={`absolute inset-0 bg-gray-100 transform project-image-overlay-1`}
-                    style={{
-                      transform: `translateY(0%)`,
-                    }}
-                  ></div>
-                  <div
-                    className={`absolute inset-0 project-image-1`}
-                    style={{ opacity: 1 }}
-                  >
-                    <Image
-                      src="/assets/project_1.jpg"
-                      alt="Monolithic Residence"
-                      fill
-                      className="object-cover"
-                    />
+                    ))}
                   </div>
                 </div>
-
-                <div className="col-span-7 h-[50vh] relative">
-                  <div
-                    className={`absolute inset-0 bg-gray-100 transform project-image-overlay-2`}
-                    style={{
-                      transform: `translateY(100%)`,
-                    }}
-                  ></div>
-                  <div
-                    className={`absolute inset-0 project-image-2`}
-                    style={{ opacity: 0 }}
-                  >
-                    <Image
-                      src="/assets/project_2.jpg"
-                      alt="Canvas Gallery"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-5 h-[60vh] relative">
-                  <div
-                    className={`absolute inset-0 bg-gray-100 transform project-image-overlay-3`}
-                    style={{
-                      transform: `translateY(100%)`,
-                    }}
-                  ></div>
-                  <div
-                    className={`absolute inset-0 project-image-3`}
-                    style={{ opacity: 0 }}
-                  >
-                    <Image
-                      src="/assets/project_3.jpg"
-                      alt="Floating Pavilion"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 h-[70vh] relative">
-                  <div
-                    className={`absolute inset-0 bg-gray-100 transform project-image-overlay-4`}
-                    style={{
-                      transform: `translateY(100%)`,
-                    }}
-                  ></div>
-                  <div
-                    className={`absolute inset-0 project-image-4`}
-                    style={{ opacity: 0 }}
-                  >
-                    <Image
-                      src="/assets/project_2.jpg"
-                      alt="Urban Oasis Tower"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div> */}
               </div>
             </div>
           </div>
@@ -538,46 +455,95 @@ export default function Home() {
                 </h2>
               </div>
 
-              <div className="space-y-4 md:space-y-8">
-                <p className="text-base md:text-lg font-light">
-                  We believe in the transformative power of space—how it shapes
-                  experiences, influences emotions, and defines cultures.
+              <div className="space-y-4 md:space-y-8 text-justify">
+                <p
+                  className={`transition-all duration-300 p-3 ${
+                    hoveredImage === "image1"
+                      ? "bg-copper text-white shadow-lg"
+                      : ""
+                  }`}
+                >
+                  We organize spaces through deliberate proximity, allowing
+                  related functions to support each other naturally. Gathering
+                  points are not afterthoughts; they are connectors —
+                  transitional and social anchors that enrich the spatial
+                  narrative.
                 </p>
-                <p className="text-base md:text-lg font-light">
-                  Our minimalist approach distills architecture to its essential
-                  elements, creating environments that are both timeless and
-                  forward-thinking.
+
+                <p
+                  className={`transition-all duration-300 p-3 ${
+                    hoveredImage === "image3"
+                      ? "bg-copper text-white shadow-lg"
+                      : ""
+                  }`}
+                >
+                  Beneath the auditorium, what could have been an idle void
+                  becomes a deliberate gesture — a porch that invites pause,
+                  interaction, and connection. We believe even the underside of
+                  architecture holds potential, and when shaped with intent,
+                  every shadow can serve a purpose.
                 </p>
-                {/* <div className="pt-4 md:pt-8">
-                  <button className="border-b-2 border-carbon pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300">
-                    About Our Process <ArrowRight size={16} />
-                  </button>
-                </div> */}
+
+                <p
+                  className={`transition-all duration-300 p-3 ${
+                    hoveredImage === "image2"
+                      ? "bg-copper text-white shadow-lg"
+                      : ""
+                  }`}
+                >
+                  We use architectural elements like colonnades not merely as
+                  stylistic choices, but as tools to define boundaries, control
+                  visibility, and mediate relationships between users and space.
+                  Every line drawn, every void created, is intentional — serving
+                  both purpose and perception.
+                </p>
+
+                <p
+                  className={`transition-all duration-300 ${
+                    hoveredImage === "image4"
+                      ? "bg-copper text-white font-semibold p-4 shadow-lg transform"
+                      : ""
+                  }`}
+                >
+                  Our work reflects a balance between openness and order,
+                  movement and pause — where structure guides, but does not
+                  dictate. Always, our aim is to design with meaning, clarity,
+                  and enduring simplicity.
+                </p>
               </div>
             </div>
 
             <div className="md:col-span-7 md:col-start-6 philosophy-images mt-8 md:mt-0">
               <div className="grid grid-cols-12 gap-3 md:gap-6">
-                <div className="col-span-8 relative aspect-square">
+                <div
+                  className="col-span-8 relative aspect-square duration-300 hover:contrast-110"
+                  onMouseEnter={() => setHoveredImage("image1")}
+                  onMouseLeave={() => setHoveredImage(null)}
+                >
                   <Image
-                    src="/assets/project_1.jpg"
+                    src="/assets/project_4.jpg"
                     alt="Architectural detail"
                     fill
-                    className="object-cover z-1"
+                    className="object-cover z-1 hover:scale-105 duration-300 border-2 border-carbon-300"
                   />
-                  {/* <div className="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 w-12 h-12 sm:w-24 sm:h-24 bg-[#a53838]"></div> */}
-                  <div className="absolute -bottom-3 -right-3 w-56 h-44 bg-copper"></div>
+                  <div className="absolute -bottom-2 -right-2 w-56 h-44 bg-copper"></div>
                 </div>
-                <div className="col-span-4 relative aspect-square">
+
+                <div
+                  className="col-span-4 relative aspect-square duration-300 hover:contrast-110"
+                  onMouseEnter={() => setHoveredImage("image2")}
+                  onMouseLeave={() => setHoveredImage(null)}
+                >
                   <Image
                     src="/assets/project_2.jpg"
                     alt="Material study"
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 duration-300 border-l-2 border-b-2 border-carbon-300"
                   />
                 </div>
-                <div className="col-span-5 relative aspect-square md:m-0 mt-2">
-                  <div className="absolute inset-0 border-2 border-carbon"></div>
+
+                <div className="col-span-4 relative aspect-square md:m-0 mt-2">
+                  <div className="absolute inset-0 border-2 border-carbon-300"></div>
                   <div className="absolute inset-2 sm:inset-4 md:inset-6 bg-gray-100 flex items-center justify-center p-2 sm:p-4">
                     <p className="text-sm sm:text-base md:text-lg font-light italic text-center">
                       &quot;Architecture is the thoughtful making of
@@ -585,12 +551,17 @@ export default function Home() {
                     </p>
                   </div>
                 </div>
-                <div className="col-span-7 relative aspect-square md:m-0 mt-2">
+
+                <div
+                  className="col-span-8 relative md:m-0 mt-2 duration-300 hover:contrast-110"
+                  onMouseEnter={() => setHoveredImage("image3")}
+                  onMouseLeave={() => setHoveredImage(null)}
+                >
                   <Image
-                    src="/assets/project_3.jpg"
+                    src="/assets/project_1.jpg"
                     alt="Design process"
                     fill
-                    className="object-cover"
+                    className="object-cover hover:scale-105 duration-300 border-t-2 border-l-2 border-carbon-300"
                   />
                 </div>
               </div>
@@ -714,7 +685,7 @@ export default function Home() {
                     </address>
                   </a>
                 </div>
-                <div>
+                <div className="col-span-2 md:col-span-1">
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
                   <a
                     href={`mailto:${businessData.contactDetails.email}`}
@@ -732,7 +703,9 @@ export default function Home() {
                     {businessData.contactDetails.phone}
                   </a>
                 </div>
-                <SocialMedia />
+                <div className="col-span-2 md:col-span-1">
+                  <SocialMedia />
+                </div>
               </div>
             </div>
           </div>

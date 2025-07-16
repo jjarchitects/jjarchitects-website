@@ -143,7 +143,7 @@ const Contact = () => {
                         onComplete: () => setSubmitted(false),
                       });
                     }}
-                    className="px-6 py-3 bg-carbon text-white hover:bg-carbon-400 transition-colors inline-flex items-center"
+                    className="px-6 py-3 bg-copper hover:bg-copper-600 text-white transition-colors inline-flex items-center"
                   >
                     Send Another Message
                   </button>
@@ -242,7 +242,7 @@ const Contact = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center justify-center px-8 py-3 bg-carbon text-white hover:bg-carbon-400 transition-colors disabled:opacity-50"
+                    className="inline-flex items-center justify-center px-8 py-3 bg-copper hover:bg-copper-600 text-white transition-colors disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       <>

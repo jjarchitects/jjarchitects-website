@@ -44,10 +44,14 @@ const ProjectsPage: React.FC = () => {
         }))
       )
     );
+    // Use a fixed timeout duration for predictability
+    const timer = setTimeout(
+      () => setLoading(false),
+      Math.floor(Math.random() * 4001) + 3000
+    );
 
-    setTimeout(() => {
-      setLoading(false);
-    }, Math.floor(Math.random() * 4001) + 3000);
+    // Cleanup timeout on unmount
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
