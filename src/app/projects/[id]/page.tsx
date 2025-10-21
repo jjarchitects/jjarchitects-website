@@ -3,98 +3,44 @@
 import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import projectsData from "@/data/projectsData.json";
-import { Calendar1, Fullscreen, Layers, MapPin, Square } from "lucide-react";
+import {
+  Calendar1,
+  Fullscreen,
+  Layers,
+  MapPin,
+  Square,
+  X,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 export default function ProjectPage() {
   const { id } = useParams();
-  const containerRef = useRef(null);
-  const heroRef = useRef(null);
-  const infoRef = useRef<HTMLDivElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
   const [activeImage, setActiveImage] = useState<number | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [imageLoading, setImageLoading] = useState(true);
 
-  // Next project suggestion - find a related project
+  // Scroll progress
+  const { scrollYProgress } = useScroll();
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  // Next project suggestion
   const currentIndex = projectsData.findIndex((p) => p.id === id);
   const nextProject = projectsData[(currentIndex + 1) % projectsData.length];
 
   // Find project data
   const project = projectsData.find((p) => p.id === id);
 
-  // Handle scroll progress
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.body.offsetHeight - window.innerHeight;
-      const scrollPercent = scrollTop / docHeight;
-      setScrollProgress(scrollPercent);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // GSAP animations
-  useEffect(() => {
-    if (!project) return;
-
-    gsap.registerPlugin(ScrollTrigger);
-
-    const ctx = gsap.context(() => {
-      // Hero section animation
-      gsap.from(heroRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-      });
-
-      // Staggered info section animation
-      if (infoRef.current) {
-        gsap.from(infoRef.current.children, {
-          y: 30,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: infoRef.current,
-            start: "top 80%",
-          },
-        });
-      }
-
-      // Gallery animations
-      if (galleryRef.current) {
-        gsap.from(galleryRef.current.children, {
-          y: 50,
-          opacity: 0,
-          stagger: 0.1,
-          duration: 0.7,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: galleryRef.current,
-            start: "top 75%",
-          },
-        });
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [project]);
-
   // Handle keyboard navigation for lightbox
   useEffect(() => {
-    interface KeyboardEventWithKey extends KeyboardEvent {
-      key: string;
-    }
-
-    const handleKeyDown = (e: KeyboardEventWithKey): void => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
       if (activeImage === null) return;
 
       if (e.key === "ArrowLeft") {
@@ -110,24 +56,29 @@ export default function ProjectPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeImage, project?.images.length]);
 
-  // Handle 404 case
+  // Prevent body scroll when lightbox is open
+  useEffect(() => {
+    if (activeImage !== null) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeImage]);
+
   if (!project) {
     return notFound();
   }
 
-  interface OpenLightboxFunction {
-    (index: number): void;
-  }
-
-  const openLightbox: OpenLightboxFunction = (index) => {
+  const openLightbox = (index: number) => {
     setActiveImage(index);
     setImageLoading(true);
-    document.body.style.overflow = "hidden";
   };
 
   const closeLightbox = () => {
     setActiveImage(null);
-    document.body.style.overflow = "";
   };
 
   const nextImage = () => {
@@ -148,42 +99,78 @@ export default function ProjectPage() {
     setImageLoading(false);
   };
 
+  // Animation variants
+  const heroVariants = {
+    hidden: { y: 40, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 1,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const infoContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const infoItemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
+  const galleryContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const galleryItemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
+      },
+    },
+  };
+
   return (
-    <div ref={containerRef} className="relative">
+    <div className="relative">
       {/* Scroll Progress Bar */}
-      <div
-        className="fixed top-0 left-0 h-1 bg-[#a53838] z-50 transition-all duration-150"
-        style={{ width: `${scrollProgress * 100}%` }}
+      <motion.div
+        style={{ scaleX }}
+        className="fixed top-0 left-0 h-1 bg-copper z-50 origin-left"
       />
 
-      {/* Back Button */}
-      {/* <div className="fixed top-6 left-6 z-40">
-        <button
-          onClick={() => window.history.back()}
-          aria-label="Go back"
-          className="flex items-center mt-16 gap-2 bg-white/80 backdrop-blur-sm text-zinc-800 px-4 py-2 rounded-full shadow-md hover:bg-white transition"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          Back
-        </button>
-      </div> */}
-
       {/* Hero Section */}
-      <section
-        ref={heroRef}
+      <motion.section
+        variants={heroVariants}
+        initial="hidden"
+        animate="visible"
         className="relative w-full h-[calc(100vh-60px)] overflow-hidden"
       >
         <div className="absolute inset-0 z-0">
@@ -201,13 +188,36 @@ export default function ProjectPage() {
         <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 text-white z-10">
           <div className="absolute bottom-2 left-0 right-0 z-10">
             <div className="mx-auto px-4">
-              <div className="bg-carbon/60 backdrop-blur-sm rounded-sm p-5 mx-auto">
-                <div className="mb-9 text-4xl font-light. tracking-wider">
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.3,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="bg-carbon/60 backdrop-blur-sm rounded-sm p-5 mx-auto"
+              >
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  className="mb-9 text-4xl font-light tracking-wider"
+                >
                   {project.title}
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                </motion.div>
+
+                <motion.div
+                  variants={infoContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                  className="grid grid-cols-1 md:grid-cols-4 gap-4"
+                >
                   {/* Category */}
-                  <div className="flex items-center">
+                  <motion.div
+                    variants={infoItemVariants}
+                    className="flex items-center"
+                  >
                     <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
                       <Layers className="w-5 h-5 text-white" />
                     </div>
@@ -219,11 +229,14 @@ export default function ProjectPage() {
                         {project.type}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Location */}
                   {project.location && (
-                    <div className="flex items-center">
+                    <motion.div
+                      variants={infoItemVariants}
+                      className="flex items-center"
+                    >
                       <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
@@ -235,12 +248,15 @@ export default function ProjectPage() {
                           {project.location}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
 
                   {/* Area */}
                   {project.area && (
-                    <div className="flex items-center">
+                    <motion.div
+                      variants={infoItemVariants}
+                      className="flex items-center"
+                    >
                       <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
                         <Square className="w-5 h-5 text-white" />
                       </div>
@@ -252,12 +268,15 @@ export default function ProjectPage() {
                           {project.area}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
 
                   {/* Year */}
                   {project.year && (
-                    <div className="flex items-center">
+                    <motion.div
+                      variants={infoItemVariants}
+                      className="flex items-center"
+                    >
                       <div className="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center mr-3">
                         <Calendar1 className="w-5 h-5 text-white" />
                       </div>
@@ -269,113 +288,120 @@ export default function ProjectPage() {
                           {project.year}
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        {/* <div
-          // onClick={scrollToProjects}
-          className="text-white absolute bottom-0 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-20 animate-bounce"
-        >
-          <p className="text-xs tracking-widest mb-1. opacity-70">SCROLL</p>
-          <ChevronDown size={20} className="scroll-indicator opacity-70" />
-        </div> */}
-      </section>
+      </motion.section>
 
       {/* Project Info */}
       <section className="bg-white py-20 px-6">
-        <div ref={infoRef} className="mx-auto space-y-12">
+        <motion.div
+          variants={infoContainerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="mx-auto space-y-12"
+        >
           {project.aboutProject && (
-            <div className="space-y-6">
-              {/* <h2 className="text-3xl font-bold text-zinc-900"> */}
+            <motion.div variants={infoItemVariants} className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
                 About the Project
               </h2>
               <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
-                {project?.aboutProject}
+                {project.aboutProject}
               </p>
-            </div>
+            </motion.div>
           )}
 
           {/* VR / 360 Links */}
           {(project.tour360Link || project.vrTourLink) && (
-            <div className="space-y-6">
+            <motion.div variants={infoItemVariants} className="space-y-6">
               <h2 className="text-3xl tracking-tight text-carbon">
                 Virtual Experience
               </h2>
               <div className="flex flex-wrap gap-4">
                 {project.tour360Link && (
-                  <Link
-                    href={project.tour360Link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 rounded-lg. hover:bg-copper transition overflow-hidden"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <span className="relative z-10">Experience 360° Tour</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                    <Link
+                      href={project.tour360Link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 hover:bg-copper transition overflow-hidden"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-copper-500 to-copper-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
+                      <span className="relative z-10">
+                        Experience 360° Tour
+                      </span>
+                      <motion.span
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className="relative z-10"
+                      >
+                        →
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                 )}
                 {project.vrTourLink && (
-                  <Link
-                    href={project.vrTourLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 hover:bg-copper transition overflow-hidden"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <span className="relative z-10">VR Experience</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 relative z-10 group-hover:translate-x-1 transition-transform"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+                    <Link
+                      href={project.vrTourLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative flex items-center gap-3 bg-carbon text-white px-6 py-3 hover:bg-copper transition overflow-hidden"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <div className="absolute inset-0 bg-gradient-to-r from-copper-500 to-copper-600 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
+                      <span className="relative z-10">VR Experience</span>
+                      <motion.span
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                        className="relative z-10"
+                      >
+                        →
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                 )}
               </div>
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
       </section>
 
       {/* Gallery Section */}
       <section className="bg-taupe-100 py-20 px-6">
-        <div className="max-w-6xl. mx-auto">
-          <h2 className="mb-12 text-4xl md:text-5xl font-light tracking-tight text-carbon">
+        <div className="mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-12 text-4xl md:text-5xl font-light tracking-tight text-carbon"
+          >
             Project Gallery
-          </h2>
+          </motion.h2>
 
-          <div
-            ref={galleryRef}
+          <motion.div
+            variants={galleryContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {project.images.map((src, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="group relative aspect-square overflow-hidden shadow-lg rounded-sm"
+                variants={galleryItemVariants}
+                whileHover={{ scale: 1.02 }}
+                className="group relative aspect-square overflow-hidden shadow-lg rounded-sm cursor-pointer"
                 onClick={() => openLightbox(index)}
               >
                 <div className="absolute inset-0 bg-carbon-200 animate-pulse z-0"></div>
@@ -386,7 +412,6 @@ export default function ProjectPage() {
                   sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-110 z-10"
                   onLoad={(e) => {
-                    // Remove animation once image is loaded
                     const parentElement = (e.target as HTMLElement)
                       .parentElement;
                     parentElement
@@ -394,129 +419,177 @@ export default function ProjectPage() {
                       ?.classList.remove("animate-pulse");
                   }}
                 />
-                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-20">
-                  <div className="w-12 h-12 bg-white/70 flex items-center justify-center">
-                    <Fullscreen />
-                  </div>
-                </div>
-              </div>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-black/40 flex items-center justify-center z-20"
+                >
+                  <motion.div
+                    initial={{ scale: 0.8 }}
+                    whileHover={{ scale: 1 }}
+                    className="w-12 h-12 bg-white/90 flex items-center justify-center rounded-full"
+                  >
+                    <Fullscreen className="w-6 h-6 text-carbon" />
+                  </motion.div>
+                </motion.div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Image Lightbox */}
-      {activeImage !== null && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
-          <button
+      <AnimatePresence>
+        {activeImage !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
             onClick={closeLightbox}
-            className="absolute top-6 right-6 text-white z-10"
-            aria-label="Close lightbox"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            {/* Close Button */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ delay: 0.1 }}
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 text-white z-10 hover:bg-white/10 p-2 rounded-full transition-colors"
+              aria-label="Close lightbox"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <X className="w-8 h-8" />
+            </motion.button>
 
-          <button
-            onClick={prevImage}
-            className="absolute left-6 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white/10 p-2 rounded-full transition-colors"
-            aria-label="Previous image"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            {/* Previous Button */}
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ delay: 0.1 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                prevImage();
+              }}
+              className="absolute left-6 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white/10 p-2 rounded-full transition-colors"
+              aria-label="Previous image"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+              <ChevronLeft className="w-12 h-12" />
+            </motion.button>
 
-          <div className="relative w-full h-full max-w-5xl max-h-screen p-8 flex items-center justify-center">
-            {/* Loading spinner */}
-            {imageLoading && (
-              <div className="absolute inset-0 flex items-center justify-center z-0">
-                <div className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+            {/* Image Container */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full h-full max-w-5xl max-h-screen p-8 flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Loading spinner */}
+              <AnimatePresence>
+                {imageLoading && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center z-0"
+                  >
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="w-16 h-16 border-4 border-white/20 border-t-white rounded-full"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                key={activeImage}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full h-full"
+              >
+                <Image
+                  src={project.images[activeImage]}
+                  alt={`${project.title} - image ${activeImage + 1}`}
+                  fill
+                  sizes="90vw"
+                  className="object-contain"
+                  onLoad={handleImageLoad}
+                />
+              </motion.div>
+            </motion.div>
+
+            {/* Next Button */}
+            <motion.button
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ delay: 0.1 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                nextImage();
+              }}
+              className="absolute right-6 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white/10 p-2 rounded-full transition-colors"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-12 h-12" />
+            </motion.button>
+
+            {/* Image Counter */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ delay: 0.2 }}
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white text-lg"
+            >
+              {activeImage + 1} / {project.images.length}
+            </motion.div>
+
+            {/* Keyboard navigation hint */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ delay: 0.3 }}
+              className="absolute bottom-6 right-6 flex items-center gap-3"
+            >
+              <div className="text-white/70 flex items-center gap-1 text-sm">
+                <span className="px-2 py-1 bg-white/10 rounded">←</span>
+                <span className="hidden sm:inline">Previous</span>
               </div>
-            )}
+              <div className="text-white/70 flex items-center gap-1 text-sm">
+                <span className="px-2 py-1 bg-white/10 rounded">→</span>
+                <span className="hidden sm:inline">Next</span>
+              </div>
+              <div className="text-white/70 flex items-center gap-1 text-sm">
+                <span className="px-2 py-1 bg-white/10 rounded">Esc</span>
+                <span className="hidden sm:inline">Close</span>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            <Image
-              src={project.images[activeImage]}
-              alt={`${project.title} - image ${activeImage + 1}`}
-              fill
-              sizes="90vw"
-              className={`object-contain transition-opacity duration-300 ${
-                imageLoading ? "opacity-0" : "opacity-100"
-              }`}
-              onLoad={handleImageLoad}
-            />
-          </div>
-
-          <button
-            onClick={nextImage}
-            className="absolute right-6 top-1/2 -translate-y-1/2 text-white z-10 hover:bg-white/10 p-2 rounded-full transition-colors"
-            aria-label="Next image"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-12 w-12"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white">
-            {activeImage + 1} / {project.images.length}
-          </div>
-
-          {/* Keyboard navigation hint */}
-          <div className="absolute bottom-6 right-6 flex items-center gap-3">
-            <div className="text-white/70 flex items-center gap-1 text-sm">
-              <span className="px-2 py-1 bg-white/10 rounded">←</span>
-              <span className="hidden sm:inline">Previous</span>
-            </div>
-            <div className="text-white/70 flex items-center gap-1 text-sm">
-              <span className="px-2 py-1 bg-white/10 rounded">→</span>
-              <span className="hidden sm:inline">Next</span>
-            </div>
-            <div className="text-white/70 flex items-center gap-1 text-sm">
-              <span className="px-2 py-1 bg-white/10 rounded">Esc</span>
-              <span className="hidden sm:inline">Close</span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Continue Exploring - Improved version with light background */}
+      {/* Continue Exploring */}
       <section className="bg-taupe-200/20 py-16 px-6">
-        <div className="max-w-6xl. mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between p-8 bg-taupe-200 rounded-sm shadow-lg">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex flex-col md:flex-row items-center justify-between p-8 bg-taupe-200 rounded-sm shadow-lg"
+          >
             <div className="mb-6 md:mb-0 md:mr-8">
               <h2 className="text-3xl tracking-tight text-carbon mb-2">
                 Continue Exploring
@@ -525,54 +598,52 @@ export default function ProjectPage() {
                 Discover more amazing projects in the portfolio
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/projects"
-                  className="inline-flex items-center gap-2 bg-copper-600 hover:bg-copper-700 text-white px-5 py-3 transition shadow-md"
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  <span>View All Projects</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 bg-copper-600 hover:bg-copper-700 text-white px-5 py-3 transition shadow-md"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </Link>
+                    <span>View All Projects</span>
+                    <motion.span
+                      animate={{ x: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      →
+                    </motion.span>
+                  </Link>
+                </motion.div>
 
                 {nextProject && (
-                  <Link
-                    href={`/projects/${nextProject.id}`}
-                    className="inline-flex items-center gap-2 bg-taupe-100 border border-taupe-600 hover:border-taupe-800 hover:text-stone-600 text-taupe-800 px-5 py-3 transition shadow-sm"
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
-                    <span>Next Project</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+                    <Link
+                      href={`/projects/${nextProject.id}`}
+                      className="inline-flex items-center gap-2 bg-taupe-100 border border-taupe-600 hover:border-taupe-800 hover:text-stone-600 text-taupe-800 px-5 py-3 transition shadow-sm"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                      />
-                    </svg>
-                  </Link>
+                      <span>Next Project</span>
+                      <motion.span
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </motion.span>
+                    </Link>
+                  </motion.div>
                 )}
               </div>
             </div>
 
             {nextProject && (
-              <div className="relative w-full md:w-1/3 aspect-square rounded-sm overflow-hidden shadow-md">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+                className="relative w-full md:w-1/3 aspect-square rounded-sm overflow-hidden shadow-md"
+              >
                 <div className="absolute inset-0 bg-taupe-100 animate-pulse"></div>
                 <Image
                   src={nextProject.thumbnail}
@@ -594,9 +665,9 @@ export default function ProjectPage() {
                     {nextProject.title}
                   </h3>
                 </div>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>
