@@ -9,6 +9,7 @@ import {
   useScroll,
   useTransform,
   AnimatePresence,
+  easeInOut,
 } from "framer-motion";
 import projectsData from "@/data/projectsData.json";
 import {
@@ -107,7 +108,7 @@ export default function ProjectPage() {
       opacity: 1,
       transition: {
         duration: 1,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -130,7 +131,7 @@ export default function ProjectPage() {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -153,7 +154,7 @@ export default function ProjectPage() {
       opacity: 1,
       transition: {
         duration: 0.7,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -306,16 +307,15 @@ export default function ProjectPage() {
           viewport={{ once: true, amount: 0.3 }}
           className="mx-auto space-y-12"
         >
-          {project.aboutProject && (
-            <motion.div variants={infoItemVariants} className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
-                About the Project
-              </h2>
-              <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
-                {project.aboutProject}
-              </p>
-            </motion.div>
-          )}
+          {/* About Project Section */}
+          <motion.div variants={infoItemVariants} className="space-y-6">
+            <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
+              About the Project
+            </h2>
+            <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
+              {project.description}
+            </p>
+          </motion.div>
 
           {/* VR / 360 Links */}
           {(project.tour360Link || project.vrTourLink) && (

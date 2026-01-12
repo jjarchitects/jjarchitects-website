@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { LuMenu, LuX } from "react-icons/lu";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { filters } from "@/app/constants";
 
 const navItems = [
@@ -37,7 +37,7 @@ const Navbar = () => {
       opacity: 1,
       transition: {
         duration: 1,
-        ease: [0.22, 1, 0.36, 1], // power3.out equivalent
+        ease: easeInOut,
       },
     },
   };
@@ -50,7 +50,7 @@ const Navbar = () => {
       transition: {
         duration: 1,
         delay: 0.2,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -62,7 +62,7 @@ const Navbar = () => {
       opacity: 0,
       transition: {
         duration: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
     visible: {
@@ -70,7 +70,7 @@ const Navbar = () => {
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
         staggerChildren: 0.05,
         delayChildren: 0.1,
       },

@@ -8,7 +8,7 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 import businessData from "@/data/businessData.json";
-import { motion } from "framer-motion";
+import { motion, easeInOut } from "framer-motion";
 
 const Footer = () => {
   // Footer entrance animation variant
@@ -19,7 +19,7 @@ const Footer = () => {
       y: 0,
       transition: {
         duration: 1,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -43,7 +43,7 @@ const Footer = () => {
       x: 0,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };

@@ -7,9 +7,9 @@ function FrameView() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [loadError, setLoadError] = useState(false);
-  const containerRef = useRef(null);
-  const iframeRef = useRef(null);
-  const loadTimeoutRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const loadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle iframe load
   const handleLoad = () => {
@@ -44,17 +44,21 @@ function FrameView() {
 
   // Browser-level fullscreen API
   const toggleFullscreen = async () => {
+    if (!containerRef.current) return;
+
+    const element = containerRef.current as any;
+
     if (!document.fullscreenElement) {
       // Enter fullscreen
       try {
-        if (containerRef.current.requestFullscreen) {
-          await containerRef.current.requestFullscreen();
-        } else if (containerRef.current.webkitRequestFullscreen) {
-          await containerRef.current.webkitRequestFullscreen();
-        } else if (containerRef.current.mozRequestFullScreen) {
-          await containerRef.current.mozRequestFullScreen();
-        } else if (containerRef.current.msRequestFullscreen) {
-          await containerRef.current.msRequestFullscreen();
+        if (element.requestFullscreen) {
+          await element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) {
+          await element.webkitRequestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+          await element.mozRequestFullScreen();
+        } else if (element.msRequestFullscreen) {
+          await element.msRequestFullscreen();
         }
         setIsFullscreen(true);
       } catch (err) {
@@ -65,12 +69,12 @@ function FrameView() {
       try {
         if (document.exitFullscreen) {
           await document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          await document.webkitExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-          await document.mozCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-          await document.msExitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).mozCancelFullScreen) {
+          await (document as any).mozCancelFullScreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
         }
         setIsFullscreen(false);
       } catch (err) {

@@ -16,6 +16,7 @@ import {
   useScroll,
   useTransform,
   type MotionValue,
+  easeInOut,
 } from "framer-motion";
 import Link from "next/link";
 import projects from "@/data/projectsData.json";
@@ -24,6 +25,7 @@ import businessData from "@/data/businessData.json";
 import SocialMedia from "@/components/SocialMedia";
 import FrameView from "@/components/FrameView";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import {
   Autoplay,
   Pagination,
@@ -128,7 +130,7 @@ export default function Home() {
   //   featuredProjects[0]?.id ?? ""
   // );
 
-  const [swiperInstance, setSwiperInstance] = useState(null);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -143,7 +145,7 @@ export default function Home() {
       y: 0,
       transition: {
         duration: 1,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -220,7 +222,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
+      transition: { duration: 0.6, ease: easeInOut },
     },
   };
 
@@ -231,9 +233,7 @@ export default function Home() {
       y: 0,
       scale: 1,
       transition: {
-        duration: 0.9,
-        ease: [0.23, 1, 0.32, 1],
-        type: "spring",
+        type: "spring" as const,
         stiffness: 100,
         damping: 12,
       },
@@ -245,7 +245,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.8, ease: easeInOut },
     },
   };
 
@@ -254,7 +254,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 1, ease: easeInOut },
     },
   };
 
@@ -263,7 +263,7 @@ export default function Home() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 1, ease: easeInOut },
     },
   };
 
@@ -312,7 +312,7 @@ export default function Home() {
                   className="absolute inset-0 w-full h-full"
                   initial={{ opacity: 0, scale: 1.1 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                  transition={{ duration: 1.2, ease: easeInOut }}
                   data-swiper-parallax="-23%"
                 >
                   <img
@@ -598,7 +598,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: easeInOut }}
           >
             <div className="flex items-center justify-center gap-3 mb-4">
               <motion.div

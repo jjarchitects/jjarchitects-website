@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { Send, Mail, Phone, MapPin, CheckCircle } from "lucide-react";
 import businessData from "@/data/businessData.json";
@@ -63,7 +63,7 @@ const Contact = () => {
       opacity: 1,
       transition: {
         duration: 1,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -75,7 +75,7 @@ const Contact = () => {
       transition: {
         duration: 0.8,
         delay: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -88,7 +88,7 @@ const Contact = () => {
       transition: {
         duration: 1,
         delay: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -100,7 +100,7 @@ const Contact = () => {
       opacity: 1,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -112,7 +112,7 @@ const Contact = () => {
       opacity: 1,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -124,7 +124,7 @@ const Contact = () => {
       opacity: 1,
       transition: {
         duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
     exit: {
@@ -132,7 +132,7 @@ const Contact = () => {
       opacity: 0,
       transition: {
         duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -181,7 +181,7 @@ const Contact = () => {
                     transition={{
                       duration: 0.6,
                       delay: 0.2,
-                      ease: [0.22, 1, 0.36, 1],
+                      ease: easeInOut,
                     }}
                     className="p-4 mb-6 flex justify-center items-center"
                   >

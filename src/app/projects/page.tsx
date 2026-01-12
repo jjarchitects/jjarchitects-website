@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import projectsData from "@/data/projectsData.json";
 import Link from "next/link";
 import { filters } from "@/app/constants";
@@ -82,7 +82,7 @@ const ProjectsPage: React.FC = () => {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -94,7 +94,7 @@ const ProjectsPage: React.FC = () => {
       transition: {
         duration: 0.8,
         delay: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -106,7 +106,7 @@ const ProjectsPage: React.FC = () => {
       x: 0,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -123,7 +123,7 @@ const ProjectsPage: React.FC = () => {
       scale: 1,
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
     exit: {
@@ -131,7 +131,7 @@ const ProjectsPage: React.FC = () => {
       scale: 0.95,
       transition: {
         duration: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -298,7 +298,7 @@ const ProjectsPage: React.FC = () => {
               animate="visible"
               exit="exit"
               transition={{
-                layout: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+                layout: { duration: 0.4, ease: easeInOut },
               }}
               className="relative break-inside-avoid drop-shadow-lg overflow-hidden group mb-4"
             >
@@ -331,7 +331,7 @@ const ProjectsPage: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
                     whileHover={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.3, ease: easeInOut }}
                     className="hidden md:block overflow-hidden"
                   >
                     <div className="pt-2 border-t border-white/20">

@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, easeInOut } from "framer-motion";
 
 const data = {
   name: "Jatan Joshi",
@@ -51,7 +51,7 @@ const AboutPage = () => {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -63,7 +63,7 @@ const AboutPage = () => {
       transition: {
         duration: 0.8,
         delay: 0.3,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -86,7 +86,7 @@ const AboutPage = () => {
       opacity: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -99,7 +99,7 @@ const AboutPage = () => {
       scale: 1,
       transition: {
         duration: 1.2,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -112,7 +112,7 @@ const AboutPage = () => {
       scale: 1,
       transition: {
         duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
@@ -124,7 +124,7 @@ const AboutPage = () => {
       transition: {
         duration: 0.6,
         delay: 0.2,
-        ease: [0.22, 1, 0.36, 1],
+        ease: easeInOut,
       },
     },
   };
