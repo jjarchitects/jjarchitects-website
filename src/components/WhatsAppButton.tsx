@@ -7,7 +7,7 @@ const WhatsAppButton = () => {
   const phoneNumber = "+919601451268";
   const businessName = "JJ Architects";
   const message =
-    "Hey! Looking forward to discussing my project with you. Let's chat about transforming my space into something truly special.";
+    "Hey! Looking forward to discussing my project with you. Let&apos;s chat about transforming my space into something truly special.";
 
   // For the pulse animation
   const [isPulsing, setIsPulsing] = useState(false);

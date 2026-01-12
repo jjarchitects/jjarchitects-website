@@ -235,7 +235,7 @@ function FrameView() {
                 Unable to Load Tour
               </h2>
               <p className="text-zinc-400 text-sm mb-6">
-                The 360° virtual tour couldn't be loaded. Please check your
+                The 360° virtual tour couldn&apos;t be loaded. Please check your
                 internet connection and try again.
               </p>
               <button

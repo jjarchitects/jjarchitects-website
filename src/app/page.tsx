@@ -957,8 +957,8 @@ export default function Home() {
               </h2>
               <div className="w-16 h-1 bg-copper mb-4 md:mb-8"></div>
               <p className="text-base sm:text-lg font-light text-carbon-300 mb-6 md:mb-12 max-w-md">
-                Let's collaborate on your next architectural vision and push the
-                boundaries of what's possible.
+                Let&apos;s collaborate on your next architectural vision and
+                push the boundaries of what&apos;s possible.
               </p>
               <Link
                 href="/contact"
