@@ -128,7 +128,7 @@ export default function Home() {
   //   featuredProjects[0]?.id ?? ""
   // );
 
-  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const [swiperInstance, setSwiperInstance] = useState(null);
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -981,21 +981,17 @@ export default function Home() {
                     Visit Us
                   </p>
                   <a
-                    href={`${
-                      (businessData as any).contactDetails.address_link
-                    }`}
+                    href={`${businessData.contactDetails.address_link}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm"
                   >
                     <address className="not-italic">
-                      {(businessData as any).contactDetails.address.street},{" "}
-                      <br />
-                      {
-                        (businessData as any).contactDetails.address.landmark
-                      }, {(businessData as any).contactDetails.address.city},{" "}
-                      {(businessData as any).contactDetails.address.state}{" "}
-                      {(businessData as any).contactDetails.address.pinCode}
+                      {businessData.contactDetails.address.street}, <br />
+                      {businessData.contactDetails.address.landmark},{" "}
+                      {businessData.contactDetails.address.city},{" "}
+                      {businessData.contactDetails.address.state}{" "}
+                      {businessData.contactDetails.address.pinCode}
                     </address>
                   </a>
                 </div>
@@ -1003,22 +999,20 @@ export default function Home() {
                 <div className="col-span-2 md:col-span-1">
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
                   <a
-                    href={`mailto:${
-                      (businessData as any).contactDetails.email
-                    }`}
+                    href={`mailto:${businessData.contactDetails.email}`}
                     className="text-sm"
                   >
-                    {(businessData as any).contactDetails.email}
+                    {businessData.contactDetails.email}
                   </a>
                 </div>
 
                 <div>
                   <p className="text-base md:text-lg font-light mb-2">Phone</p>
                   <a
-                    href={`tel:${(businessData as any).contactDetails.phone}`}
+                    href={`tel:${businessData.contactDetails.phone}`}
                     className="text-sm"
                   >
-                    {(businessData as any).contactDetails.phone}
+                    {businessData.contactDetails.phone}
                   </a>
                 </div>
 
