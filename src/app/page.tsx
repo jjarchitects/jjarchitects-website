@@ -1,194 +1,140 @@
 "use client";
+
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ChevronDown,
   ExternalLink,
-  Maximize2,
-  MousePointer2,
-  Move,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
 } from "lucide-react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import Link from "next/link";
 import projects from "@/data/projectsData.json";
 import testimonialsData from "@/data/testimonialsData.json";
 import businessData from "@/data/businessData.json";
 import SocialMedia from "@/components/SocialMedia";
-import { useRouter } from "next/navigation";
 import FrameView from "@/components/FrameView";
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Autoplay,
+  Pagination,
+  Navigation,
+  EffectFade,
+  Parallax,
+} from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
+import "swiper/css/parallax";
+
+type Project = {
+  id: string;
+  featured?: boolean;
+  thumbnail: string;
+  title: string;
+  description: string;
+  type: string;
+  location?: string;
+};
+
+function InstructionDot({
+  i,
+  scrollYProgress,
+}: {
+  i: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  // Hook-safe (component owns hooks; not inside a loop in parent)
+  const scale = useTransform(
+    scrollYProgress,
+    [i * 0.1, (i + 1) * 0.1],
+    [1, 1.4]
+  );
+  const opacity = useTransform(
+    scrollYProgress,
+    [i * 0.1, (i + 1) * 0.1, (i + 2) * 0.1],
+    [0.3, 1, 0.3]
+  );
+
+  return (
+    <motion.div
+      style={{ scale, opacity }}
+      className="w-1.5 h-1.5 rounded-full bg-white shadow-lg"
+    />
+  );
+}
+
+function CornerGuide({
+  i,
+  scrollYProgress,
+  className,
+}: {
+  i: number;
+  scrollYProgress: MotionValue<number>;
+  className: string;
+}) {
+  const opacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 0.4]);
+
+  return <motion.div key={i} style={{ opacity }} className={className} />;
+}
+
+function ProgressSidebarBar({
+  i,
+  scrollYProgress,
+}: {
+  i: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const height = useTransform(
+    scrollYProgress,
+    [0.3 + i * 0.1, 0.4 + i * 0.1],
+    [8, 24]
+  );
+  const backgroundColor = useTransform(
+    scrollYProgress,
+    [0.3 + i * 0.1, 0.4 + i * 0.1],
+    ["rgba(212, 165, 116, 0.3)", "rgba(212, 165, 116, 1)"]
+  );
+
+  return (
+    <motion.div
+      style={{ height, backgroundColor }}
+      className="w-1 rounded-full transition-all"
+    />
+  );
+}
 
 export default function Home() {
-  const router = useRouter();
   const [hoveredImage, setHoveredImage] = useState<
     null | "image1" | "image2" | "image3" | "image4"
   >(null);
-  const [featuredProjects] = useState<Project[]>(
-    projects.filter((project) => project.featured).slice(0, 5) as Project[]
-  );
-  const [activeProject, setActiveProject] = useState(featuredProjects[0].id);
 
-  const heroRef = useRef(null);
-  const projectsRef = useRef<HTMLElement>(null);
+  const featuredProjects = useMemo(() => {
+    return (projects as Project[]).filter((p) => p.featured).slice(0, 5);
+  }, []);
 
-  const containerRef = useRef(null);
+  // const [activeProject, setActiveProject] = useState<string>(
+  //   featuredProjects[0]?.id ?? ""
+  // );
 
-  // Track scroll progress of this specific section
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
+  const [swiperInstance, setSwiperInstance] = useState<any>(null);
+  const [isAutoplay, setIsAutoplay] = useState(true);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Smooth width expansion
-  const width = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.5, 0.75, 1],
-    ["45%", "70%", "100%", "100%", "100%"]
-  );
-
-  // Subtle scale with smoother curve
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.5, 0.75, 1],
-    [0.92, 0.96, 1, 1, 0.98]
-  );
-
-  // Opacity with longer fade
-  const opacity = useTransform(
-    scrollYProgress,
-    [0, 0.15, 0.85, 1],
-    [0.4, 1, 1, 0.6]
-  );
-
-  // Border radius - smooth transition
-  const borderRadius = useTransform(
-    scrollYProgress,
-    [0, 0.35, 0.5],
-    ["32px", "12px", "0px"]
-  );
-
-  // Y-axis movement for floating effect
-  const y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [100, 0, 0, -50]);
-
-  // Header opacity - fades out as section expands
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.42], [1, 0]);
-  const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -30]);
-
-  // Instructions fade based on scroll
-  const instructionsOpacity = useTransform(
-    scrollYProgress,
-    [0, 0.2, 0.45, 0.6],
-    [1, 1, 1, 0]
-  );
-
-  // Progress indicator
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  // Parallax transforms for different speeds
-  const parallaxY1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const parallaxY2 = useTransform(scrollYProgress, [0, 1], [0, 20]);
-
-  const goToAbout = () => {
-    router.push("/about");
-  };
-
-  // Auto-rotate featured projects
-  useEffect(() => {
-    if (featuredProjects.length === 0) return;
-
-    let index = 0;
-
-    const interval = setInterval(() => {
-      setActiveProject(featuredProjects[index].id);
-      index = (index + 1) % featuredProjects.length;
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [featuredProjects]);
-
-  // Smooth scroll to projects
-  const scrollToProjects = () => {
-    if (projectsRef.current) {
-      projectsRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  // Animation variants
-  const heroContentVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1.2,
-        delay: 0.3,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const heroImageVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 1.2,
-        delay: 0.4,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const fadeInUpVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const fadeInLeftVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 1,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const fadeInRightVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 1,
-        ease: [0.22, 1, 0.36, 1],
-      },
-    },
-  };
-
-  const staggerContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
+  const heroRef = useRef<HTMLElement | null>(null);
+  const projectsRef = useRef<HTMLElement | null>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
 
   const staggerItemVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -202,356 +148,448 @@ export default function Home() {
     },
   };
 
-  // Scroll indicator bounce animation
+  // Scroll progress for 360 section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // 360 section transforms
+  const width = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    ["45%", "70%", "100%", "100%", "100%"]
+  );
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    [0.92, 0.96, 1, 1, 0.98]
+  );
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.15, 0.85, 1],
+    [0.4, 1, 1, 0.6]
+  );
+  const borderRadius = useTransform(
+    scrollYProgress,
+    [0, 0.35, 0.5],
+    ["32px", "12px", "0px"]
+  );
+  const y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [100, 0, 0, -50]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.42], [1, 0]);
+  const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -30]);
+  const instructionsOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.45, 0.6],
+    [1, 1, 1, 0]
+  );
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
+  // Auto-rotate featured projects (activeProject used elsewhere in full file; keeping it)
+  // useEffect(() => {
+  //   if (featuredProjects.length === 0) return;
+  //   let index = 0;
+  //   const interval = setInterval(() => {
+  //     setActiveProject(featuredProjects[index].id);
+  //     index = (index + 1) % featuredProjects.length;
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, [featuredProjects]);
+
+  const scrollToProjects = () => {
+    projectsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const toggleAutoplay = () => {
+    if (!swiperInstance) return;
+    if (isAutoplay) swiperInstance.autoplay.stop();
+    else swiperInstance.autoplay.start();
+    setIsAutoplay((v) => !v);
+  };
+
+  const staggerContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.12, delayChildren: 0.2 },
+    },
+  };
+
+  const slideUpVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.23, 1, 0.32, 1] },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.9,
+        ease: [0.23, 1, 0.32, 1],
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
+  };
+
+  const fadeInUpVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const fadeInLeftVariants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
+  const fadeInRightVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 1, ease: [0.22, 1, 0.36, 1] },
+    },
+  };
+
   const scrollIndicatorVariants = {
     animate: {
       y: [0, 10, 0],
       transition: {
         duration: 1.2,
         repeat: Infinity,
-        ease: "easeInOut",
+        ease: "easeInOut" as const,
       },
     },
   };
 
   return (
     <main className="bg-white text-carbon">
-      {/* Hero Section with Split Layout */}
+      {/* Hero Carousel Section */}
       <section
         ref={heroRef}
-        className="min-h-screen relative flex flex-col lg:flex-row overflow-hidden"
+        className="relative h-[calc(100vh-60px)] overflow-hidden"
       >
-        {/* Left Column */}
-        <div className="absolute top-0 left-0 w-full lg:w-4/12 md:h-screen z-10 flex items-center justify-center p-8">
-          <motion.div
-            variants={heroContentVariants}
-            initial="hidden"
-            animate="visible"
-            className="hero-content"
-          >
-            <div className="max-w-xl">
-              <h1 className="text-5xl md:text-5xl xlg:!text-7xl font-light tracking-tighter mb-6 leading-tight text-carbon-300">
-                REDEFINING <br />
-                <span>ARCHITECTURAL</span>
-                <br />
-                BOUNDARIES
-              </h1>
-              <div className="w-16 h-1 bg-copper mb-8"></div>
-              <div className="h-5 md:h-[40px]"></div>
-              <div className="flex space-x-6">
-                <button
-                  onClick={scrollToProjects}
-                  className="border-b-2 border-carbon pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300"
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation, EffectFade, Parallax]}
+          effect="fade"
+          speed={1200}
+          parallax
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{
+            clickable: true,
+            bulletClass: "swiper-pagination-bullet-custom",
+            bulletActiveClass: "swiper-pagination-bullet-active-custom",
+          }}
+          navigation={{
+            nextEl: ".swiper-button-next-custom",
+            prevEl: ".swiper-button-prev-custom",
+          }}
+          onSwiper={setSwiperInstance}
+          onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
+          className="h-full w-full"
+        >
+          {featuredProjects.map((project) => (
+            <SwiperSlide key={project.id}>
+              <div className="relative h-full w-full">
+                {/* Enhanced Background with Parallax */}
+                <motion.div
+                  className="absolute inset-0 w-full h-full"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.2, ease: [0.23, 1, 0.32, 1] }}
+                  data-swiper-parallax="-23%"
                 >
-                  View Projects <ArrowRight size={16} />
-                </button>
-                <button
-                  onClick={goToAbout}
-                  className="border-b-2 border-transparent pb-1 pr-1 flex items-center gap-2 hover:border-copper hover:text-copper transition-all duration-300"
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/80 to-transparent"
+                    animate={{ opacity: [0.9, 1, 0.9] }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-taupe-100/80 via-transparent to-transparent"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </motion.div>
+
+                {/* Content with Staggered Animation */}
+                <motion.div
+                  className="relative h-full flex items-center z-10"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: {
+                        staggerChildren: 0.1,
+                        delayChildren: 0.3,
+                        duration: 0.8,
+                      },
+                    },
+                  }}
                 >
-                  About Studio <ArrowRight size={16} />
-                </button>
+                  <div className="container mx-auto px-8 md:px-16 lg:px-24">
+                    <motion.div
+                      className="max-w-3xl"
+                      variants={staggerContainerVariants}
+                    >
+                      {/* Subtitle with floating line */}
+                      <motion.div
+                        variants={slideUpVariants}
+                        data-swiper-parallax="-100"
+                        className="flex items-center gap-3 mb-6"
+                      >
+                        <motion.div
+                          className="w-16 h-px bg-gradient-to-r from-copper to-transparent"
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          // FIX: valid easing string is "backOut" (not "backOut(1.7)") [page:1]
+                          transition={{ duration: 0.6, ease: "backOut" }}
+                        />
+                        <motion.span
+                          className="text-copper text-sm tracking-[0.3em] uppercase font-medium"
+                          animate={{ y: [0, -2, 0] }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          }}
+                        >
+                          {project.type}
+                        </motion.span>
+                      </motion.div>
+
+                      {/* Floating Title */}
+                      <motion.h1
+                        variants={titleVariants}
+                        data-swiper-parallax="-200"
+                        className="text-5xl md:text-7xl lg:text-8xl font-light text-carbon-500 mb-6 tracking-tight leading-none"
+                      >
+                        {project.title}
+                      </motion.h1>
+
+                      {/* Description */}
+                      <motion.p
+                        variants={slideUpVariants}
+                        data-swiper-parallax="-300"
+                        className="text-lg md:text-xl text-carbon-400 mb-8 font-light leading-relaxed max-w-2xl"
+                      >
+                        {project.description}
+                      </motion.p>
+
+                      {/* Metadata */}
+                      <motion.div
+                        variants={slideUpVariants}
+                        data-swiper-parallax="-350"
+                        className="flex flex-wrap items-center gap-6 mb-10 text-sm text-carbon-300"
+                      >
+                        <motion.div
+                          className="flex items-center gap-2 group"
+                          whileHover={{ scale: 1.05 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 17,
+                          }}
+                        >
+                          <motion.div
+                            className="w-1 h-1 rounded-full bg-copper"
+                            animate={{ scale: [1, 1.3, 1] }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                          />
+                          <span>{project.location}</span>
+                        </motion.div>
+                      </motion.div>
+
+                      {/* CTA */}
+                      <motion.div
+                        variants={slideUpVariants}
+                        data-swiper-parallax="-400"
+                        className="flex flex-wrap gap-4"
+                      >
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={scrollToProjects}
+                          className="group bg-copper hover:bg-copper-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
+                        >
+                          <span>View Projects</span>
+                          <motion.div
+                            animate={{ x: [0, 4, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                            className="origin-left"
+                          >
+                            <ArrowRight
+                              className="group-hover:translate-x-1 transition-transform"
+                              size={20}
+                            />
+                          </motion.div>
+                        </motion.button>
+                      </motion.div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+
+                {/* Enhanced Decorative Elements */}
+                <motion.div
+                  className="absolute top-12 right-12 z-10 pointer-events-none hidden lg:block"
+                  data-swiper-parallax="-50"
+                  animate={{ rotate: [0, 2, -2, 0], scale: [1, 1.02, 1] }}
+                  transition={{
+                    rotate: {
+                      duration: 8,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    },
+                    scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                  }}
+                >
+                  <div className="w-32 h-32 border-2 border-copper/30 rounded-full" />
+                </motion.div>
               </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Enhanced Navigation Controls */}
+        <motion.div
+          className="absolute bottom-10 left-0 right-0 z-20 pointer-events-none"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          <div className="container mx-auto px-8 md:px-16 lg:px-24">
+            <div className="flex items-end justify-between">
+              {/* Slide Counter */}
+              <motion.div
+                className="pointer-events-auto"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.4 }}
+              >
+                <div className="flex items-center gap-4 text-carbon-400">
+                  <motion.div
+                    className="text-4xl font-light"
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    {String(currentSlide + 1).padStart(2, "0")}
+                  </motion.div>
+                  <div className="w-12 h-px bg-gradient-to-r from-transparent via-copper to-transparent" />
+                  <div className="text-lg text-carbon-200">
+                    {String(featuredProjects.length).padStart(2, "0")}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Glassmorphism Controls */}
+              <motion.div
+                className="flex items-center gap-4 pointer-events-auto"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.5 }}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={toggleAutoplay}
+                  className="w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper text-copper hover:text-copper-600 transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl"
+                >
+                  {isAutoplay ? <Pause size={18} /> : <Play size={18} />}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper hover:bg-copper hover:text-white text-copper transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl group"
+                >
+                  <ChevronLeft
+                    className="group-hover:-translate-x-0.5 transition-transform"
+                    size={24}
+                  />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="swiper-button-next-custom w-12 h-12 flex items-center justify-center bg-gradient-to-r from-copper to-copper-600 text-white hover:from-copper-500 hover:to-copper-700 transition-all duration-300 backdrop-blur-sm shadow-2xl hover:shadow-3xl rounded-xl group"
+                >
+                  <ChevronRight
+                    className="group-hover:translate-x-0.5 transition-transform"
+                    size={24}
+                  />
+                </motion.button>
+              </motion.div>
             </div>
-          </motion.div>
-        </div>
-
-        {/* Right Column - Visual Elements */}
-        <div className="absolute top-[45%] md:top-0 h-1/2 md:right-0 w-full lg:w-8/12 md:h-screen bg-taupe-100/30 overflow-hidden">
-          {/* Abstract Architectural Elements with Parallax */}
-          <motion.div
-            initial={{ opacity: 0, y: 100 }} // Coming from bottom
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            style={{ y: parallaxY1 }}
-            className="absolute top-1/4 left-1/4 w-32 h-32 md:w-64 md:h-64 border-2 border-copper"
-          />
-          <motion.div
-            initial={{ opacity: 0, y: -100 }} // Coming from top
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            style={{ y: parallaxY2 }}
-            className="absolute top-1/3 right-1/4 w-32 h-32 md:w-80 md:h-80 bg-taupe-300"
-          />
-
-          {/* Main Image - Delayed after boxes */}
-          <div className="absolute bottom-[21rem] md:bottom-0 md:right-0 inset-0 flex items-center justify-center">
-            <motion.div
-              initial={{
-                clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)", // Start as vertical line on left
-                opacity: 0,
-                scale: 1.05,
-              }}
-              animate={{
-                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)", // Expand to full width
-                opacity: 1,
-                scale: 1,
-              }}
-              transition={{
-                duration: 1.8,
-                delay: 1.2, // Starts AFTER boxes settle (0.3 + 1.2 = 1.5s total)
-                ease: [0.65, 0, 0.35, 1],
-                opacity: { duration: 1.5, delay: 1.2 },
-                scale: { duration: 2, delay: 1.2 },
-              }}
-              className="hero-image-container bg-white/60 mt-0 md:mt-0 relative w-full h-full md:w-5/5 md:h-full overflow-hidden"
-            >
-              <motion.img
-                initial={{
-                  scale: 1.15,
-                  filter: "blur(10px) brightness(1.2)",
-                }}
-                animate={{
-                  scale: 1,
-                  filter: "blur(0px) brightness(1)",
-                }}
-                transition={{
-                  duration: 2.2,
-                  delay: 1.5, // Starts slightly after container
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                src={`/assets/home_sketch.png`}
-                alt="Architectural sketch"
-                className="object-contain select-none pointer-events-none p-4 md:p-0 grayscale opacity-80"
-              />
-            </motion.div>
-
-            {/* Subtle reveal line effect */}
-            <motion.div
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: [0, 1, 0] }}
-              transition={{
-                duration: 1.8,
-                delay: 1.2,
-                ease: [0.65, 0, 0.35, 1],
-                opacity: { duration: 1.8, times: [0, 0.3, 1] },
-              }}
-              className="absolute inset-0 border-l-4 border-copper origin-left pointer-events-none"
-              style={{ width: "2px", left: 0 }}
-            />
           </div>
-        </div>
+        </motion.div>
+
+        {/* Custom Pagination */}
+        <div className="swiper-pagination-custom absolute bottom-8 left-8 md:left-16 lg:left-24 z-20"></div>
 
         {/* Scroll Indicator */}
         <motion.div
-          variants={scrollIndicatorVariants}
-          animate="animate"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
           onClick={scrollToProjects}
-          className="absolute bottom-18 left-1/2 transform -translate-x-1/2 flex-col items-center z-20 hidden md:flex cursor-pointer"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 cursor-pointer hover:text-copper transition-colors"
+          variants={scrollIndicatorVariants}
         >
-          <p className="text-xs tracking-widest mb-1 opacity-70">SCROLL</p>
-          <ChevronDown size={20} className="scroll-indicator opacity-70" />
-        </motion.div>
-      </section>
-
-      {/* Featured Projects Section */}
-      <section
-        ref={projectsRef}
-        className="py-32 px-8 bg-gradient-to-b from-zinc-50 to-white mb-[12rem]"
-      >
-        <div className="max-w-7xl mx-auto">
+          <span className="text-xs tracking-[0.3em] uppercase">Scroll</span>
           <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeInUpVariants}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-16"
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
           >
-            {/* Left Column - Project Navigation */}
-            <div className="lg:col-span-5">
-              <div className="mb-16">
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-12 h-px bg-copper"></div>
-                  <span className="text-sm font-medium tracking-wider text-copper uppercase">
-                    Featured Work
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                {featuredProjects.map((project, index) => (
-                  <motion.div
-                    key={project.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.6,
-                      delay: index * 0.1,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className={`group p-6 transition-all duration-500 ease-out border-l-4 shadow-md cursor-pointer ${
-                      activeProject === project.id
-                        ? "bg-taupe-200 shadow-xl shadow-zinc-200 border-l-copper border-r border-t border-b border-carbon-100"
-                        : "hover:bg-zinc-100/50 hover:shadow-lg border-l-zinc-200 hover:border-l-zinc-300"
-                    }`}
-                    onClick={() => setActiveProject(project.id)}
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-4">
-                        <span className="text-sm font-mono text-zinc-400">
-                          {(index + 1).toString().padStart(2, "0")}
-                        </span>
-                        <div
-                          className={`w-16 h-px transition-all duration-300 ${
-                            activeProject === project.id
-                              ? "bg-copper"
-                              : "bg-zinc-200 group-hover:bg-zinc-300"
-                          }`}
-                        ></div>
-                      </div>
-                      <div
-                        className={`w-2 h-2 transition-all duration-300 ${
-                          activeProject === project.id
-                            ? "bg-copper shadow-lg shadow-copper/30"
-                            : "bg-zinc-300 group-hover:bg-zinc-400"
-                        }`}
-                      ></div>
-                    </div>
-
-                    <h3
-                      className={`text-xl md:text-2xl font-light mb-4 transition-colors duration-300 ${
-                        activeProject === project.id
-                          ? "text-zinc-900"
-                          : "text-zinc-700 group-hover:text-zinc-900"
-                      }`}
-                    >
-                      {project.title}
-                    </h3>
-
-                    <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-                      <div>
-                        <p className="text-zinc-400 mb-1 text-xs uppercase tracking-wide">
-                          Category
-                        </p>
-                        <p className="text-zinc-600 font-medium">
-                          {project.type}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-zinc-400 mb-1 text-xs uppercase tracking-wide">
-                          Year
-                        </p>
-                        <p className="text-zinc-600 font-medium">
-                          {project.year}
-                        </p>
-                      </div>
-                    </div>
-
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        height: activeProject === project.id ? "auto" : 0,
-                        opacity: activeProject === project.id ? 1 : 0,
-                      }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="text-zinc-600 font-light leading-relaxed mb-4">
-                        {project.description}
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <p className="text-zinc-400 text-sm">
-                          {project.location}
-                        </p>
-                        <Link
-                          href={`/projects/${project.id}`}
-                          className="text-copper hover:text-copper-600 flex items-center gap-2 group/link font-medium text-sm"
-                        >
-                          View Project
-                          <ArrowRight
-                            size={16}
-                            className="group-hover/link:translate-x-1 transition-transform duration-300"
-                          />
-                        </Link>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column - Project Image Display */}
-            <div className="lg:col-span-7 lg:sticky lg:top-5 h-fit">
-              <div className="h-screen flex items-center">
-                <div className="relative w-full h-[80vh] overflow-hidden shadow-2xl shadow-zinc-900/10">
-                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-100 to-zinc-200"></div>
-
-                  {featuredProjects.map((project) => (
-                    <motion.div
-                      key={project.id}
-                      initial={{ opacity: 0, scale: 1.05 }}
-                      animate={{
-                        opacity: activeProject === project.id ? 1 : 0,
-                        scale: activeProject === project.id ? 1 : 1.05,
-                      }}
-                      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                      className="absolute inset-0"
-                    >
-                      <Image
-                        src={project.thumbnail}
-                        alt={project.title}
-                        fill
-                        className="object-cover"
-                        priority={activeProject === project.id}
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-carbon-500/50 via-transparent to-transparent"></div>
-
-                      <div className="absolute bottom-8 left-8 right-8">
-                        <div className="bg-carbon/60 backdrop-blur-sm shadow-lg p-6">
-                          <h4 className="text-xl font-light text-white mb-2">
-                            {project.title}
-                          </h4>
-                          <p className="text-carbon-200 text-sm">
-                            {project.type} • {project.year}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-                  <div className="flex justify-center gap-3 mt-8">
-                    {featuredProjects.map((project) => (
-                      <button
-                        key={project.id}
-                        onClick={() => setActiveProject(project.id)}
-                        className={`w-2 h-2 transition-all duration-300 ${
-                          activeProject === project.id
-                            ? "bg-copper w-8"
-                            : "bg-zinc-300 hover:bg-zinc-400"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ChevronDown size={20} />
           </motion.div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 360 View Frame */}
       <section
         ref={containerRef}
-        className="relative min-h-full  md:min-h-[160vh] flex items-center justify-center bg-gradient-to-b from-zinc-50 via-white to-zinc-50 overflow-hidden"
+        className="relative min-h-full md:min-h-[160vh] flex items-center justify-center bg-gradient-to-b from-zinc-50 via-white to-zinc-50 overflow-hidden"
       >
-        {/* Ambient background effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-copper/5 via-transparent to-transparent" />
-
-        {/* Subtle grid pattern */}
         <div
           className="absolute inset-0 opacity-[0.015]"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-                       linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)`,
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)",
             backgroundSize: "50px 50px",
           }}
         />
 
-        {/* Floating Header */}
         <motion.div
           style={{ opacity: headerOpacity, y: headerY }}
           className="absolute top-24 left-1/2 transform -translate-x-1/2 text-center z-20 pointer-events-none"
@@ -586,54 +624,34 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Main Container - Sticky positioning */}
         <div className="sticky top-0 w-full h-screen flex items-center justify-center px-4 md:px-8">
           <motion.div
-            style={{
-              width,
-              scale,
-              opacity,
-              borderRadius,
-              y,
-            }}
+            style={{ width, scale, opacity, borderRadius, y }}
             className="relative mx-auto shadow-2xl shadow-zinc-900/20 bg-white"
           >
-            {/* Aspect ratio wrapper */}
             <div
               className="relative w-full overflow-hidden"
               style={{ paddingBottom: "56.25%" }}
             >
-              {/* Iframe container */}
               <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-zinc-800">
                 <FrameView />
               </div>
 
-              {/* Progress dots indicator */}
+              {/* Instruction dots (hook-safe) */}
               <motion.div
                 style={{ opacity: instructionsOpacity }}
                 className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 pointer-events-none"
               >
                 {[0, 1, 2, 3, 4].map((i) => (
-                  <motion.div
+                  <InstructionDot
                     key={i}
-                    style={{
-                      scale: useTransform(
-                        scrollYProgress,
-                        [i * 0.1, (i + 1) * 0.1],
-                        [1, 1.4]
-                      ),
-                      opacity: useTransform(
-                        scrollYProgress,
-                        [i * 0.1, (i + 1) * 0.1, (i + 2) * 0.1],
-                        [0.3, 1, 0.3]
-                      ),
-                    }}
-                    className="w-1.5 h-1.5 rounded-full bg-white shadow-lg"
+                    i={i}
+                    scrollYProgress={scrollYProgress}
                   />
                 ))}
               </motion.div>
 
-              {/* Top progress bar */}
+              {/* Progress bar */}
               <motion.div
                 style={{
                   opacity: useTransform(scrollYProgress, [0.4, 0.6], [0, 1]),
@@ -646,65 +664,48 @@ export default function Home() {
                 />
               </motion.div>
 
-              {/* Corner accent elements - visible when expanded */}
-              <motion.div
-                style={{
-                  opacity: useTransform(scrollYProgress, [0.4, 0.6], [0, 0.4]),
-                }}
-                className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-copper pointer-events-none"
+              {/* Corner guides (hook-safe) */}
+              <CornerGuide
+                i={0}
+                scrollYProgress={scrollYProgress}
+                className="absolute w-16 h-16 border-2 border-copper pointer-events-none top-0 left-0 border-b-2"
               />
-              <motion.div
-                style={{
-                  opacity: useTransform(scrollYProgress, [0.4, 0.6], [0, 0.4]),
-                }}
-                className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-copper pointer-events-none"
+              <CornerGuide
+                i={1}
+                scrollYProgress={scrollYProgress}
+                className="absolute w-16 h-16 border-2 border-copper pointer-events-none top-0 right-0 border-t-2"
               />
-              <motion.div
-                style={{
-                  opacity: useTransform(scrollYProgress, [0.4, 0.6], [0, 0.4]),
-                }}
-                className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-copper pointer-events-none"
+              <CornerGuide
+                i={2}
+                scrollYProgress={scrollYProgress}
+                className="absolute w-16 h-16 border-2 border-copper pointer-events-none bottom-0 left-0 border-l-2"
               />
-              <motion.div
-                style={{
-                  opacity: useTransform(scrollYProgress, [0.4, 0.6], [0, 0.4]),
-                }}
-                className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-copper pointer-events-none"
+              <CornerGuide
+                i={3}
+                scrollYProgress={scrollYProgress}
+                className="absolute w-16 h-16 border-2 border-copper pointer-events-none bottom-0 right-0 border-r-2"
               />
             </div>
           </motion.div>
         </div>
 
-        {/* Side navigation indicators */}
+        {/* Left progress bars */}
         <motion.div
-          style={{
-            opacity: useTransform(scrollYProgress, [0.3, 0.5], [0, 1]),
-          }}
+          style={{ opacity: useTransform(scrollYProgress, [0.3, 0.5], [0, 1]) }}
           className="absolute left-8 top-1/2 transform -translate-y-1/2 hidden xl:block pointer-events-none"
         >
           <div className="flex flex-col gap-3">
             {[0, 1, 2, 3].map((i) => (
-              <motion.div
+              <ProgressSidebarBar
                 key={i}
-                style={{
-                  height: useTransform(
-                    scrollYProgress,
-                    [0.3 + i * 0.1, 0.4 + i * 0.1],
-                    [8, 24]
-                  ),
-                  backgroundColor: useTransform(
-                    scrollYProgress,
-                    [0.3 + i * 0.1, 0.4 + i * 0.1],
-                    ["rgba(212, 165, 116, 0.3)", "rgba(212, 165, 116, 1)"]
-                  ),
-                }}
-                className="w-1 rounded-full transition-all"
+                i={i}
+                scrollYProgress={scrollYProgress}
               />
             ))}
           </div>
         </motion.div>
 
-        {/* Right side text */}
+        {/* Right label */}
         <motion.div
           style={{
             opacity: useTransform(scrollYProgress, [0.3, 0.5], [0, 1]),
@@ -726,7 +727,6 @@ export default function Home() {
             <div className="bg-white"></div>
           </div>
         </div>
-
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16">
             <motion.div
@@ -747,7 +747,6 @@ export default function Home() {
                   Design Philosophy
                 </h2>
               </div>
-
               <div className="space-y-4 md:space-y-8 text-justify">
                 <p
                   className={`transition-all duration-300 p-3 ${
@@ -762,7 +761,6 @@ export default function Home() {
                   transitional and social anchors that enrich the spatial
                   narrative.
                 </p>
-
                 <p
                   className={`transition-all duration-300 p-3 ${
                     hoveredImage === "image3"
@@ -776,7 +774,6 @@ export default function Home() {
                   architecture holds potential, and when shaped with intent,
                   every shadow can serve a purpose.
                 </p>
-
                 <p
                   className={`transition-all duration-300 p-3 ${
                     hoveredImage === "image2"
@@ -790,7 +787,6 @@ export default function Home() {
                   Every line drawn, every void created, is intentional — serving
                   both purpose and perception.
                 </p>
-
                 <p
                   className={`transition-all duration-300 ${
                     hoveredImage === "image4"
@@ -850,8 +846,7 @@ export default function Home() {
                   <div className="absolute inset-0 border-2 border-carbon-300"></div>
                   <div className="absolute inset-2 sm:inset-4 md:inset-6 bg-gray-100 flex items-center justify-center p-2 sm:p-4">
                     <p className="text-sm sm:text-base md:text-lg font-light italic text-center">
-                      &quot;Architecture is the thoughtful making of
-                      space.&quot;
+                      "Architecture is the thoughtful making of space."
                     </p>
                   </div>
                 </motion.div>
@@ -875,7 +870,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials - Infinite Marquee */}
+      {/* Testimonials */}
       <section className="py-24 overflow-hidden">
         <motion.div
           variants={fadeInUpVariants}
@@ -962,8 +957,8 @@ export default function Home() {
               </h2>
               <div className="w-16 h-1 bg-copper mb-4 md:mb-8"></div>
               <p className="text-base sm:text-lg font-light text-carbon-300 mb-6 md:mb-12 max-w-md">
-                Let&apos;s collaborate on your next architectural vision and
-                push the boundaries of what&apos;s possible.
+                Let's collaborate on your next architectural vision and push the
+                boundaries of what's possible.
               </p>
               <Link
                 href="/contact"
@@ -986,38 +981,47 @@ export default function Home() {
                     Visit Us
                   </p>
                   <a
-                    href={`${businessData.contactDetails.address_link}`}
+                    href={`${
+                      (businessData as any).contactDetails.address_link
+                    }`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm"
                   >
                     <address className="not-italic">
-                      {businessData.contactDetails.address.street}, <br />
-                      {businessData.contactDetails.address.landmark},{" "}
-                      {businessData.contactDetails.address.city},{" "}
-                      {businessData.contactDetails.address.state}{" "}
-                      {businessData.contactDetails.address.pinCode}
+                      {(businessData as any).contactDetails.address.street},{" "}
+                      <br />
+                      {
+                        (businessData as any).contactDetails.address.landmark
+                      }, {(businessData as any).contactDetails.address.city},{" "}
+                      {(businessData as any).contactDetails.address.state}{" "}
+                      {(businessData as any).contactDetails.address.pinCode}
                     </address>
                   </a>
                 </div>
+
                 <div className="col-span-2 md:col-span-1">
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
                   <a
-                    href={`mailto:${businessData.contactDetails.email}`}
+                    href={`mailto:${
+                      (businessData as any).contactDetails.email
+                    }`}
                     className="text-sm"
                   >
-                    {businessData.contactDetails.email}
+                    {(businessData as any).contactDetails.email}
                   </a>
                 </div>
+
                 <div>
                   <p className="text-base md:text-lg font-light mb-2">Phone</p>
                   <a
-                    href={`tel:${businessData.contactDetails.phone}`}
+                    href={`tel:${(businessData as any).contactDetails.phone}`}
                     className="text-sm"
                   >
-                    {businessData.contactDetails.phone}
+                    {(businessData as any).contactDetails.phone}
                   </a>
                 </div>
+
                 <div className="col-span-2 md:col-span-1">
                   <SocialMedia />
                 </div>
@@ -1027,19 +1031,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Custom CSS */}
       <style jsx global>{`
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
+        .swiper-pagination-custom {
+          display: flex;
+          gap: 0.5rem;
         }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
+        .testimonial-marquee .swiper-wrapper {
+          transition-timing-function: linear !important;
         }
-        @media (max-width: 640px) {
-          .hero-content {
-            padding: 0 1rem;
-          }
+        .swiper-pagination-bullet-custom {
+          width: 40px;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.3);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        .swiper-pagination-bullet-active-custom {
+          width: 80px;
+          background: #d4a574;
+        }
+        .swiper-pagination-bullet-custom:hover {
+          background: rgba(255, 255, 255, 0.5);
         }
       `}</style>
     </main>
