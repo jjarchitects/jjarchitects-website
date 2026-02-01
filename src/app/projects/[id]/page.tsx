@@ -85,14 +85,14 @@ export default function ProjectPage() {
   const nextImage = () => {
     setImageLoading(true);
     setActiveImage((prev) =>
-      (prev ?? 0) === project.images.length - 1 ? 0 : (prev ?? 0) + 1
+      (prev ?? 0) === project.images.length - 1 ? 0 : (prev ?? 0) + 1,
     );
   };
 
   const prevImage = () => {
     setImageLoading(true);
     setActiveImage((prev) =>
-      (prev ?? 0) === 0 ? project.images.length - 1 : (prev ?? 0) - 1
+      (prev ?? 0) === 0 ? project.images.length - 1 : (prev ?? 0) - 1,
     );
   };
 
@@ -308,14 +308,14 @@ export default function ProjectPage() {
           className="mx-auto space-y-12"
         >
           {/* About Project Section */}
-          <motion.div variants={infoItemVariants} className="space-y-6">
+          {/* <motion.div variants={infoItemVariants} className="space-y-6">
             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-carbon">
               About the Project
             </h2>
             <p className="text-xl leading-relaxed text-carbon-400 font-light text-justify">
               {project.description}
             </p>
-          </motion.div>
+          </motion.div> */}
 
           {/* VR / 360 Links */}
           {(project.tour360Link || project.vrTourLink) && (
