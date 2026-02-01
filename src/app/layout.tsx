@@ -22,17 +22,17 @@ export const metadata: Metadata = {
   description:
     "Jatan Joshi Architects – Leading architecture and interior design firm in Bhuj, offering expert services in architecture, interior design, and turnkey projects. Elevate your spaces with innovative and functional designs. Contact us today!",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.svg",
   },
   openGraph: {
     title: "Jatan Joshi Architects",
     description:
       "Leading architecture and interior design firm in Bhuj. Elevate your spaces with innovative, sustainable designs.",
-    url: "https://jatanjoshiarchitects.com",
+    url: "https://www.jjarchitects.co.in/",
     siteName: "Jatan Joshi Architects",
     images: [
       {
-        url: "https://jatanjoshiarchitects.com/og-image.jpg", // TODO: Add OG URL after deployment
+        url: "https://www.jjarchitects.co.in/assets/logo/logo.png",
         width: 1200,
         height: 630,
         alt: "Modern architecture by Jatan Joshi Architects",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: "Jatan Joshi Architects",
     description:
       "Architecture and interior design studio in Bhuj. We create elegant, functional spaces.",
-    images: ["https://jatanjoshiarchitects/og-image.jpg"], // TODO: Add OG URL after deployment
+    images: ["https://www.jjarchitects.co.in/assets/logo/logo.png"],
   },
 };
 

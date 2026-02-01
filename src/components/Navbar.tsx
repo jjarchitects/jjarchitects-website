@@ -112,20 +112,20 @@ const Navbar = () => {
               <img
                 src="/assets/logo/logo.png"
                 alt="Logo"
-                className="object-contain h-[45px] md:w-full"
+                className="object-contain h-[55px] md:w-full"
               />
             </div>
 
             {/* Small logo */}
             <div
-              className={`transition-opacity absolute top-0 -left-2 duration-200 ease-in-out h-full flex items-center ${
+              className={`transition-opacity absolute top-0 -left-2 duration-200 ease-in-out h-full ml-2 flex items-center ${
                 scrolled ? "opacity-100" : "opacity-0"
               }`}
             >
               <img
                 src="/assets/logo/logo-s.png"
                 alt="Logo"
-                className="object-contain h-[45px] md:w-full"
+                className="object-contain h-[55px] md:w-full"
               />
             </div>
           </motion.div>

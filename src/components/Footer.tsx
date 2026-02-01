@@ -95,7 +95,7 @@ const Footer = () => {
                 >
                   <FaInstagram />
                 </motion.a>
-                <motion.a
+                {/* <motion.a
                   animate="animate"
                   transition={{ delay: 0.2 }}
                   href={businessData.socialMedia.twitter}
@@ -105,7 +105,7 @@ const Footer = () => {
                   className="text-carbon-300 hover:text-copper transition-colors duration-300 transform hover:scale-110"
                 >
                   <FaXTwitter />
-                </motion.a>
+                </motion.a> */}
                 <motion.a
                   animate="animate"
                   transition={{ delay: 0.4 }}

@@ -279,9 +279,9 @@ export default function Home() {
   };
 
   return (
-    <main className="bg-white text-carbon">
+    <main className="bg-white text-carbon w-full overflow-x-hidden">
       {/* Hero Carousel Section */}
-      <section
+      {/* <section
         ref={heroRef}
         className="relative h-[calc(100vh-60px)] overflow-hidden"
       >
@@ -307,7 +307,6 @@ export default function Home() {
           {featuredProjects.map((project) => (
             <SwiperSlide key={project.id}>
               <div className="relative h-full w-full">
-                {/* Enhanced Background with Parallax */}
                 <motion.div
                   className="absolute inset-0 w-full h-full"
                   initial={{ opacity: 0, scale: 1.1 }}
@@ -340,7 +339,6 @@ export default function Home() {
                   />
                 </motion.div>
 
-                {/* Content with Staggered Animation */}
                 <motion.div
                   className="relative h-full flex items-center z-10"
                   initial="hidden"
@@ -362,7 +360,6 @@ export default function Home() {
                       className="max-w-3xl"
                       variants={staggerContainerVariants}
                     >
-                      {/* Subtitle with floating line */}
                       <motion.div
                         variants={slideUpVariants}
                         data-swiper-parallax="-100"
@@ -372,7 +369,6 @@ export default function Home() {
                           className="w-16 h-px bg-gradient-to-r from-copper to-transparent"
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
-                          // FIX: valid easing string is "backOut" (not "backOut(1.7)") [page:1]
                           transition={{ duration: 0.6, ease: "backOut" }}
                         />
                         <motion.span
@@ -388,7 +384,6 @@ export default function Home() {
                         </motion.span>
                       </motion.div>
 
-                      {/* Floating Title */}
                       <motion.h1
                         variants={titleVariants}
                         data-swiper-parallax="-200"
@@ -397,7 +392,6 @@ export default function Home() {
                         {project.title}
                       </motion.h1>
 
-                      {/* Description */}
                       <motion.p
                         variants={slideUpVariants}
                         data-swiper-parallax="-300"
@@ -406,7 +400,6 @@ export default function Home() {
                         {project.description}
                       </motion.p>
 
-                      {/* Metadata */}
                       <motion.div
                         variants={slideUpVariants}
                         data-swiper-parallax="-350"
@@ -430,7 +423,6 @@ export default function Home() {
                         </motion.div>
                       </motion.div>
 
-                      {/* CTA */}
                       <motion.div
                         variants={slideUpVariants}
                         data-swiper-parallax="-400"
@@ -459,7 +451,6 @@ export default function Home() {
                   </div>
                 </motion.div>
 
-                {/* Enhanced Decorative Elements */}
                 <motion.div
                   className="absolute top-12 right-12 z-10 pointer-events-none hidden lg:block"
                   data-swiper-parallax="-50"
@@ -480,7 +471,6 @@ export default function Home() {
           ))}
         </Swiper>
 
-        {/* Enhanced Navigation Controls */}
         <motion.div
           className="absolute bottom-10 left-0 right-0 z-20 pointer-events-none"
           initial={{ y: 20, opacity: 0 }}
@@ -489,7 +479,6 @@ export default function Home() {
         >
           <div className="container mx-auto px-8 md:px-16 lg:px-24">
             <div className="flex items-end justify-between">
-              {/* Slide Counter */}
               <motion.div
                 className="pointer-events-auto"
                 initial={{ opacity: 0, x: -20 }}
@@ -511,7 +500,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Glassmorphism Controls */}
               <motion.div
                 className="flex items-center gap-4 pointer-events-auto"
                 initial={{ opacity: 0, x: 20 }}
@@ -540,6 +528,188 @@ export default function Home() {
 
                 <motion.button
                   whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="swiper-button-next-custom w-12 h-12 flex items-center justify-center bg-gradient-to-r from-copper to-copper-600 text-white hover:from-copper-500 hover:to-copper-700 transition-all duration-300 backdrop-blur-sm shadow-2xl hover:shadow-3xl rounded-xl group"
+                >
+                  <ChevronRight
+                    className="group-hover:translate-x-0.5 transition-transform"
+                    size={24}
+                  />
+                </motion.button>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+
+        <div className="swiper-pagination-custom absolute bottom-8 left-8 md:left-16 lg:left-24 z-20"></div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          onClick={scrollToProjects}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 cursor-pointer hover:text-copper transition-colors"
+          variants={scrollIndicatorVariants}
+        >
+          <span className="text-xs tracking-[0.3em] uppercase">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown size={20} />
+          </motion.div>
+        </motion.div>
+      </section> */}
+
+      {/* Hero Carousel Section */}
+      <section
+        ref={heroRef}
+        className="relative w-full h-[calc(100vh-60px)] overflow-hidden"
+      >
+        <Swiper
+          modules={[Autoplay, Pagination, Navigation, EffectFade]}
+          effect="fade"
+          speed={1200}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{
+            clickable: true,
+            bulletClass: "swiper-pagination-bullet-custom",
+            bulletActiveClass: "swiper-pagination-bullet-active-custom",
+          }}
+          navigation={{
+            nextEl: ".swiper-button-next-custom",
+            prevEl: ".swiper-button-prev-custom",
+          }}
+          onSwiper={setSwiperInstance}
+          onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
+          className="h-full w-full"
+        >
+          {featuredProjects.map((project) => (
+            <SwiperSlide key={project.id}>
+              <div className="relative h-full w-full">
+                {/* Static Background - No Framer Motion */}
+                <div className="absolute inset-0 w-full h-full">
+                  <img
+                    src={project.thumbnail}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/80 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-taupe-100/80 via-transparent to-transparent" />
+                </div>
+
+                {/* Content - Simplified Animations */}
+                <div className="relative h-full flex items-center z-10">
+                  <div className="container mx-auto px-8 md:px-16 lg:px-24">
+                    <div className="max-w-3xl">
+                      {/* Subtitle with floating line */}
+                      <div className="flex items-center gap-3 mb-6 animate-fadeInUp">
+                        <div className="w-16 h-px bg-gradient-to-r from-copper to-transparent" />
+                        <span className="text-copper text-sm tracking-[0.3em] uppercase font-medium">
+                          {project.type}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h1 className="text-5xl md:text-5xl lg:text-6xl font-light text-carbon-500 mb-6 tracking-tight leading-none animate-fadeInUp animation-delay-200">
+                        {project.title}
+                      </h1>
+
+                      {/* Description */}
+                      <p className="text-lg md:text-xl text-carbon-400 mb-8 font-light leading-relaxed max-w-2xl animate-fadeInUp animation-delay-400">
+                        {project.description}
+                      </p>
+
+                      {/* Metadata */}
+                      <div className="flex flex-wrap items-center gap-6 mb-10 text-sm text-carbon-300 animate-fadeInUp animation-delay-600">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1 h-1 rounded-full bg-copper" />
+                          <span>{project.location}</span>
+                        </div>
+                      </div>
+
+                      {/* CTA */}
+                      <div className="flex flex-wrap gap-4 animate-fadeInUp animation-delay-800">
+                        <button
+                          onClick={scrollToProjects}
+                          className="group bg-copper hover:bg-copper-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-102"
+                        >
+                          <span>View Projects</span>
+                          <ArrowRight
+                            className="group-hover:translate-x-1 transition-transform"
+                            size={20}
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decorative Element */}
+                <div className="absolute top-12 right-12 z-10 pointer-events-none hidden lg:block">
+                  <div className="w-32 h-32 border-2 border-copper/30 rounded-full animate-pulse-slow" />
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Enhanced Navigation Controls - Keep as is */}
+        <motion.div
+          className="absolute bottom-10 left-0 right-0 z-20 pointer-events-none"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+        >
+          <div className="container mx-auto px-8 md:px-16 lg:px-24">
+            <div className="flex items-end justify-between">
+              {/* Slide Counter */}
+              <motion.div
+                className="pointer-events-auto"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.4 }}
+              >
+                <div className="flex items-center gap-4 text-carbon-400">
+                  <div className="text-4xl font-light">
+                    {String(currentSlide + 1).padStart(2, "0")}
+                  </div>
+                  <div className="w-12 h-px bg-gradient-to-r from-transparent via-copper to-transparent" />
+                  <div className="text-lg text-carbon-200">
+                    {String(featuredProjects.length).padStart(2, "0")}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Glassmorphism Controls */}
+              <motion.div
+                className="flex items-center gap-4 pointer-events-auto"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 1.5 }}
+              >
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={toggleAutoplay}
+                  className="w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper text-copper hover:text-copper-600 transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl"
+                >
+                  {isAutoplay ? <Pause size={18} /> : <Play size={18} />}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper hover:bg-copper hover:text-white text-copper transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl group"
+                >
+                  <ChevronLeft
+                    className="group-hover:-translate-x-0.5 transition-transform"
+                    size={24}
+                  />
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   className="swiper-button-next-custom w-12 h-12 flex items-center justify-center bg-gradient-to-r from-copper to-copper-600 text-white hover:from-copper-500 hover:to-copper-700 transition-all duration-300 backdrop-blur-sm shadow-2xl hover:shadow-3xl rounded-xl group"
                 >
@@ -1026,26 +1196,66 @@ export default function Home() {
       </section>
 
       <style jsx global>{`
-        .swiper-pagination-custom {
-          display: flex;
-          gap: 0.5rem;
+        // .swiper-pagination-custom {
+        //   display: flex;
+        //   gap: 0.5rem;
+        // }
+        // .testimonial-marquee .swiper-wrapper {
+        //   transition-timing-function: linear !important;
+        // }
+        // .swiper-pagination-bullet-custom {
+        //   width: 40px;
+        //   height: 2px;
+        //   background: rgba(255, 255, 255, 0.3);
+        //   transition: all 0.3s ease;
+        //   cursor: pointer;
+        // }
+        // .swiper-pagination-bullet-active-custom {
+        //   width: 80px;
+        //   background: #d4a574;
+        // }
+        // .swiper-pagination-bullet-custom:hover {
+        //   background: rgba(255, 255, 255, 0.5);
+        // }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-        .testimonial-marquee .swiper-wrapper {
-          transition-timing-function: linear !important;
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+          opacity: 0;
         }
-        .swiper-pagination-bullet-custom {
-          width: 40px;
-          height: 2px;
-          background: rgba(255, 255, 255, 0.3);
-          transition: all 0.3s ease;
-          cursor: pointer;
+
+        .animation-delay-200 {
+          animation-delay: 0.2s;
         }
-        .swiper-pagination-bullet-active-custom {
-          width: 80px;
-          background: #d4a574;
+
+        .animation-delay-400 {
+          animation-delay: 0.4s;
         }
-        .swiper-pagination-bullet-custom:hover {
-          background: rgba(255, 255, 255, 0.5);
+
+        .animation-delay-600 {
+          animation-delay: 0.6s;
+        }
+
+        .animation-delay-800 {
+          animation-delay: 0.8s;
+        }
+
+        .animate-pulse-slow {
+          animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .hover\:scale-102:hover {
+          transform: scale(1.02);
         }
       `}</style>
     </main>

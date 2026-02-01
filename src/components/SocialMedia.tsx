@@ -21,7 +21,7 @@ function SocialMedia({ className }: SocialMediaProps) {
           <div className="absolute opacity-0 group-hover:opacity-100 w-8 h-8 border border-copper top-1 left-1 !z-10 shadow-gray-600 transition-all duration-300 ease-in-out" />
         </a>
 
-        <a
+        {/* <a
           href={businessData.socialMedia.twitter}
           target="_blank"
           rel="noopener noreferrer"
@@ -31,7 +31,7 @@ function SocialMedia({ className }: SocialMediaProps) {
             X
           </p>
           <div className="absolute opacity-0 group-hover:opacity-100 w-8 h-8 border border-copper top-1 left-1 !z-10 shadow-gray-600 transition-all duration-300 ease-in-out" />
-        </a>
+        </a> */}
 
         <a
           href={businessData.socialMedia.linkedin}

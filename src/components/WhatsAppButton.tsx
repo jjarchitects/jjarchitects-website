@@ -5,9 +5,8 @@ import { useState, useEffect } from "react";
 const WhatsAppButton = () => {
   // WhatsApp Business parameters
   const phoneNumber = "+919601451268";
-  const businessName = "JJ Architects";
-  const message =
-    "Hey! Looking forward to discussing my project with you. Let&apos;s chat about transforming my space into something truly special.";
+  const businessName = "Jatan Joshi Architects";
+  const message = "Hey! Looking forward to discussing a project with you.";
 
   // For the pulse animation
   const [isPulsing, setIsPulsing] = useState(false);
@@ -61,7 +60,7 @@ const WhatsAppButton = () => {
             className="bg-white text-green-700 text-sm font-medium 
                         py-2 px-4 rounded-lg shadow-md whitespace-nowrap"
           >
-            Chat with {businessName}
+            Chat with us
             <div
               className="h-2 w-2 bg-white transform rotate-45 
                           absolute -bottom-1 right-5"
