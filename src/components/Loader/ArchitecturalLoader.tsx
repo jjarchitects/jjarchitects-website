@@ -15,8 +15,17 @@ const ArchitecturalLoader = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Prevent page scrolling while loader is visible
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
-    <div className="w-screen h-screen inset-0 bg-white/80 flex items-center justify-center z-50">
+    <div className="fixed inset-0 w-screen h-screen bg-white/80 flex items-center justify-center z-30">
       {/* Subtle Grid Background */}
       <div className="absolute inset-0 opacity-5">
         <div

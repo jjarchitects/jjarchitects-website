@@ -32,14 +32,14 @@ const ProjectsPage: React.FC = () => {
       (projectsData as any[]).map((project) => ({
         ...project,
         category: project.category || "Uncategorized",
-      }))
+      })),
     );
     setProjects(loadedProjects);
     setFilteredProjects(loadedProjects);
 
     const timer = setTimeout(
       () => setLoading(false),
-      Math.floor(Math.random() * 4001) + 3000
+      Math.floor(Math.random() * 4001) + 3000,
     );
 
     return () => clearTimeout(timer);
@@ -138,7 +138,7 @@ const ProjectsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="w-full flex justify-center py-8 max-w-7xl mx-auto">
+      <div className="w-full h-screen flex justify-center py-8 max-w-7xl mx-auto">
         <ArchitecturalLoader />
       </div>
     );
@@ -186,7 +186,7 @@ const ProjectsPage: React.FC = () => {
                   window.history.pushState(
                     {},
                     "",
-                    `/projects?filter=${filter}`
+                    `/projects?filter=${filter}`,
                   );
                 }}
               >
