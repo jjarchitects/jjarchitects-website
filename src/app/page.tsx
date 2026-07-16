@@ -5,7 +5,6 @@ import { useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ChevronDown,
-  ExternalLink,
   ChevronLeft,
   ChevronRight,
   Pause,
@@ -26,19 +25,12 @@ import SocialMedia from "@/components/SocialMedia";
 import FrameView from "@/components/FrameView";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
-import {
-  Autoplay,
-  Pagination,
-  Navigation,
-  EffectFade,
-  Parallax,
-} from "swiper/modules";
+import { Autoplay, Pagination, Navigation, EffectFade } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
-import "swiper/css/parallax";
 
 type Project = {
   id: string;
@@ -61,12 +53,12 @@ function InstructionDot({
   const scale = useTransform(
     scrollYProgress,
     [i * 0.1, (i + 1) * 0.1],
-    [1, 1.4]
+    [1, 1.4],
   );
   const opacity = useTransform(
     scrollYProgress,
     [i * 0.1, (i + 1) * 0.1, (i + 2) * 0.1],
-    [0.3, 1, 0.3]
+    [0.3, 1, 0.3],
   );
 
   return (
@@ -91,6 +83,29 @@ function CornerGuide({
   return <motion.div key={i} style={{ opacity }} className={className} />;
 }
 
+function TestimonialCard({
+  testimonial,
+}: {
+  testimonial: (typeof testimonialsData)[number];
+}) {
+  return (
+    <div className="w-72 whitespace-normal inline-block flex-shrink-0">
+      <div className="border h-[330px] border-gray-200 p-8 hover:border-copper hover:shadow-lg transition-all duration-300">
+        <div className="text-3xl font-light mb-4 text-copper">
+          0{testimonial.id}
+        </div>
+        <h3 className="text-xl font-light mb-2">{testimonial.name}</h3>
+        <p className="text-[12px] leading-5 text-gray-600 mb-4">
+          {testimonial.title}
+        </p>
+        <p className="text-sm font-light leading-relaxed">
+          {testimonial.testimonial}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function ProgressSidebarBar({
   i,
   scrollYProgress,
@@ -101,12 +116,12 @@ function ProgressSidebarBar({
   const height = useTransform(
     scrollYProgress,
     [0.3 + i * 0.1, 0.4 + i * 0.1],
-    [8, 24]
+    [8, 24],
   );
   const backgroundColor = useTransform(
     scrollYProgress,
     [0.3 + i * 0.1, 0.4 + i * 0.1],
-    ["rgba(212, 165, 116, 0.3)", "rgba(212, 165, 116, 1)"]
+    ["rgba(212, 165, 116, 0.3)", "rgba(212, 165, 116, 1)"],
   );
 
   return (
@@ -126,16 +141,11 @@ export default function Home() {
     return (projects as Project[]).filter((p) => p.featured).slice(0, 5);
   }, []);
 
-  // const [activeProject, setActiveProject] = useState<string>(
-  //   featuredProjects[0]?.id ?? ""
-  // );
-
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroRef = useRef<HTMLElement | null>(null);
-  const projectsRef = useRef<HTMLElement | null>(null);
   const containerRef = useRef<HTMLElement | null>(null);
 
   const staggerItemVariants = {
@@ -160,22 +170,22 @@ export default function Home() {
   const width = useTransform(
     scrollYProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    ["45%", "70%", "100%", "100%", "100%"]
+    ["45%", "70%", "100%", "100%", "100%"],
   );
   const scale = useTransform(
     scrollYProgress,
     [0, 0.25, 0.5, 0.75, 1],
-    [0.92, 0.96, 1, 1, 0.98]
+    [0.92, 0.96, 1, 1, 0.98],
   );
   const opacity = useTransform(
     scrollYProgress,
     [0, 0.15, 0.85, 1],
-    [0.4, 1, 1, 0.6]
+    [0.4, 1, 1, 0.6],
   );
   const borderRadius = useTransform(
     scrollYProgress,
     [0, 0.35, 0.5],
-    ["32px", "12px", "0px"]
+    ["32px", "12px", "0px"],
   );
   const y = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [100, 0, 0, -50]);
   const headerOpacity = useTransform(scrollYProgress, [0, 0.42], [1, 0]);
@@ -183,23 +193,12 @@ export default function Home() {
   const instructionsOpacity = useTransform(
     scrollYProgress,
     [0, 0.2, 0.45, 0.6],
-    [1, 1, 1, 0]
+    [1, 1, 1, 0],
   );
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
-  // Auto-rotate featured projects (activeProject used elsewhere in full file; keeping it)
-  // useEffect(() => {
-  //   if (featuredProjects.length === 0) return;
-  //   let index = 0;
-  //   const interval = setInterval(() => {
-  //     setActiveProject(featuredProjects[index].id);
-  //     index = (index + 1) % featuredProjects.length;
-  //   }, 5000);
-  //   return () => clearInterval(interval);
-  // }, [featuredProjects]);
-
-  const scrollToProjects = () => {
-    projectsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const scrollToNextSection = () => {
+    containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const toggleAutoplay = () => {
@@ -281,287 +280,6 @@ export default function Home() {
   return (
     <main className="bg-white text-carbon w-full overflow-x-hidden">
       {/* Hero Carousel Section */}
-      {/* <section
-        ref={heroRef}
-        className="relative h-[calc(100vh-60px)] overflow-hidden"
-      >
-        <Swiper
-          modules={[Autoplay, Pagination, Navigation, EffectFade, Parallax]}
-          effect="fade"
-          speed={1200}
-          parallax
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          pagination={{
-            clickable: true,
-            bulletClass: "swiper-pagination-bullet-custom",
-            bulletActiveClass: "swiper-pagination-bullet-active-custom",
-          }}
-          navigation={{
-            nextEl: ".swiper-button-next-custom",
-            prevEl: ".swiper-button-prev-custom",
-          }}
-          onSwiper={setSwiperInstance}
-          onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
-          className="h-full w-full"
-        >
-          {featuredProjects.map((project) => (
-            <SwiperSlide key={project.id}>
-              <div className="relative h-full w-full">
-                <motion.div
-                  className="absolute inset-0 w-full h-full"
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1.2, ease: easeInOut }}
-                  data-swiper-parallax="-23%"
-                >
-                  <img
-                    src={project.thumbnail}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/80 to-transparent"
-                    animate={{ opacity: [0.9, 1, 0.9] }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-taupe-100/80 via-transparent to-transparent"
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{
-                      duration: 6,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
-                </motion.div>
-
-                <motion.div
-                  className="relative h-full flex items-center z-10"
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.1,
-                        delayChildren: 0.3,
-                        duration: 0.8,
-                      },
-                    },
-                  }}
-                >
-                  <div className="container mx-auto px-8 md:px-16 lg:px-24">
-                    <motion.div
-                      className="max-w-3xl"
-                      variants={staggerContainerVariants}
-                    >
-                      <motion.div
-                        variants={slideUpVariants}
-                        data-swiper-parallax="-100"
-                        className="flex items-center gap-3 mb-6"
-                      >
-                        <motion.div
-                          className="w-16 h-px bg-gradient-to-r from-copper to-transparent"
-                          initial={{ scaleX: 0 }}
-                          animate={{ scaleX: 1 }}
-                          transition={{ duration: 0.6, ease: "backOut" }}
-                        />
-                        <motion.span
-                          className="text-copper text-sm tracking-[0.3em] uppercase font-medium"
-                          animate={{ y: [0, -2, 0] }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                          }}
-                        >
-                          {project.type}
-                        </motion.span>
-                      </motion.div>
-
-                      <motion.h1
-                        variants={titleVariants}
-                        data-swiper-parallax="-200"
-                        className="text-5xl md:text-7xl lg:text-8xl font-light text-carbon-500 mb-6 tracking-tight leading-none"
-                      >
-                        {project.title}
-                      </motion.h1>
-
-                      <motion.p
-                        variants={slideUpVariants}
-                        data-swiper-parallax="-300"
-                        className="text-lg md:text-xl text-carbon-400 mb-8 font-light leading-relaxed max-w-2xl"
-                      >
-                        {project.description}
-                      </motion.p>
-
-                      <motion.div
-                        variants={slideUpVariants}
-                        data-swiper-parallax="-350"
-                        className="flex flex-wrap items-center gap-6 mb-10 text-sm text-carbon-300"
-                      >
-                        <motion.div
-                          className="flex items-center gap-2 group"
-                          whileHover={{ scale: 1.05 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 17,
-                          }}
-                        >
-                          <motion.div
-                            className="w-1 h-1 rounded-full bg-copper"
-                            animate={{ scale: [1, 1.3, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                          <span>{project.location}</span>
-                        </motion.div>
-                      </motion.div>
-
-                      <motion.div
-                        variants={slideUpVariants}
-                        data-swiper-parallax="-400"
-                        className="flex flex-wrap gap-4"
-                      >
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={scrollToProjects}
-                          className="group bg-copper hover:bg-copper-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 font-medium shadow-lg hover:shadow-xl"
-                        >
-                          <span>View Projects</span>
-                          <motion.div
-                            animate={{ x: [0, 4, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="origin-left"
-                          >
-                            <ArrowRight
-                              className="group-hover:translate-x-1 transition-transform"
-                              size={20}
-                            />
-                          </motion.div>
-                        </motion.button>
-                      </motion.div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="absolute top-12 right-12 z-10 pointer-events-none hidden lg:block"
-                  data-swiper-parallax="-50"
-                  animate={{ rotate: [0, 2, -2, 0], scale: [1, 1.02, 1] }}
-                  transition={{
-                    rotate: {
-                      duration: 8,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    },
-                    scale: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                  }}
-                >
-                  <div className="w-32 h-32 border-2 border-copper/30 rounded-full" />
-                </motion.div>
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        <motion.div
-          className="absolute bottom-10 left-0 right-0 z-20 pointer-events-none"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-        >
-          <div className="container mx-auto px-8 md:px-16 lg:px-24">
-            <div className="flex items-end justify-between">
-              <motion.div
-                className="pointer-events-auto"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.4 }}
-              >
-                <div className="flex items-center gap-4 text-carbon-400">
-                  <motion.div
-                    className="text-4xl font-light"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    {String(currentSlide + 1).padStart(2, "0")}
-                  </motion.div>
-                  <div className="w-12 h-px bg-gradient-to-r from-transparent via-copper to-transparent" />
-                  <div className="text-lg text-carbon-200">
-                    {String(featuredProjects.length).padStart(2, "0")}
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="flex items-center gap-4 pointer-events-auto"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.5 }}
-              >
-                <motion.button
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={toggleAutoplay}
-                  className="w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper text-copper hover:text-copper-600 transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl"
-                >
-                  {isAutoplay ? <Pause size={18} /> : <Play size={18} />}
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper hover:bg-copper hover:text-white text-copper transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl group"
-                >
-                  <ChevronLeft
-                    className="group-hover:-translate-x-0.5 transition-transform"
-                    size={24}
-                  />
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="swiper-button-next-custom w-12 h-12 flex items-center justify-center bg-gradient-to-r from-copper to-copper-600 text-white hover:from-copper-500 hover:to-copper-700 transition-all duration-300 backdrop-blur-sm shadow-2xl hover:shadow-3xl rounded-xl group"
-                >
-                  <ChevronRight
-                    className="group-hover:translate-x-0.5 transition-transform"
-                    size={24}
-                  />
-                </motion.button>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-
-        <div className="swiper-pagination-custom absolute bottom-8 left-8 md:left-16 lg:left-24 z-20"></div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          onClick={scrollToProjects}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 cursor-pointer hover:text-copper transition-colors"
-          variants={scrollIndicatorVariants}
-        >
-          <span className="text-xs tracking-[0.3em] uppercase">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown size={20} />
-          </motion.div>
-        </motion.div>
-      </section> */}
-
-      {/* Hero Carousel Section */}
       <section
         ref={heroRef}
         className="relative w-full h-[calc(100vh-60px)] overflow-hidden"
@@ -584,18 +302,21 @@ export default function Home() {
           onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
           className="h-full w-full"
         >
-          {featuredProjects.map((project) => (
+          {featuredProjects.map((project, index) => (
             <SwiperSlide key={project.id}>
               <div className="relative h-full w-full">
                 {/* Static Background - No Framer Motion */}
                 <div className="absolute inset-0 w-full h-full">
-                  <img
+                  <Image
                     src={project.thumbnail}
                     alt={project.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    priority={index === 0}
+                    loading={index === 0 ? undefined : "lazy"}
+                    sizes="100vw"
+                    className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/80 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-taupe-100/80 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-white/75 to-transparent" />
                 </div>
 
                 {/* Content - Simplified Animations */}
@@ -630,8 +351,8 @@ export default function Home() {
 
                       {/* CTA */}
                       <div className="flex flex-wrap gap-4 animate-fadeInUp animation-delay-800">
-                        <button
-                          onClick={scrollToProjects}
+                        <Link
+                          href="/projects"
                           className="group bg-copper hover:bg-copper-600 text-white px-8 py-4 flex items-center gap-3 transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:scale-102"
                         >
                           <span>View Projects</span>
@@ -639,7 +360,7 @@ export default function Home() {
                             className="group-hover:translate-x-1 transition-transform"
                             size={20}
                           />
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -689,17 +410,22 @@ export default function Home() {
                 transition={{ delay: 1.5 }}
               >
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={toggleAutoplay}
+                  aria-label={isAutoplay ? "Pause slideshow" : "Play slideshow"}
+                  aria-pressed={isAutoplay}
                   className="w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper text-copper hover:text-copper-600 transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl"
                 >
                   {isAutoplay ? <Pause size={18} /> : <Play size={18} />}
                 </motion.button>
 
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
+                  aria-label="Previous slide"
                   className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center border-2 border-copper/30 hover:border-copper hover:bg-copper hover:text-white text-copper transition-all duration-300 backdrop-blur-sm bg-white/20 shadow-xl hover:shadow-2xl rounded-xl group"
                 >
                   <ChevronLeft
@@ -709,8 +435,10 @@ export default function Home() {
                 </motion.button>
 
                 <motion.button
+                  type="button"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
+                  aria-label="Next slide"
                   className="swiper-button-next-custom w-12 h-12 flex items-center justify-center bg-gradient-to-r from-copper to-copper-600 text-white hover:from-copper-500 hover:to-copper-700 transition-all duration-300 backdrop-blur-sm shadow-2xl hover:shadow-3xl rounded-xl group"
                 >
                   <ChevronRight
@@ -727,12 +455,14 @@ export default function Home() {
         <div className="swiper-pagination-custom absolute bottom-8 left-8 md:left-16 lg:left-24 z-20"></div>
 
         {/* Scroll Indicator */}
-        <motion.div
+        <motion.button
+          type="button"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          onClick={scrollToProjects}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 cursor-pointer hover:text-copper transition-colors"
+          onClick={scrollToNextSection}
+          aria-label="Scroll to next section"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-white/60 hover:text-copper transition-colors"
           variants={scrollIndicatorVariants}
         >
           <span className="text-xs tracking-[0.3em] uppercase">Scroll</span>
@@ -742,7 +472,7 @@ export default function Home() {
           >
             <ChevronDown size={20} />
           </motion.div>
-        </motion.div>
+        </motion.button>
       </section>
 
       {/* 360 View Frame */}
@@ -982,7 +712,7 @@ export default function Home() {
               <div className="grid grid-cols-12 gap-3 md:gap-6">
                 <motion.div
                   variants={staggerItemVariants}
-                  className="col-span-8 relative aspect-square duration-300 hover:contrast-110"
+                  className="col-span-8 relative aspect-square duration-300 hover:contrast-[1.1]"
                   onMouseEnter={() => setHoveredImage("image1")}
                   onMouseLeave={() => setHoveredImage(null)}
                 >
@@ -997,7 +727,7 @@ export default function Home() {
 
                 <motion.div
                   variants={staggerItemVariants}
-                  className="col-span-4 relative aspect-square duration-300 hover:contrast-110"
+                  className="col-span-4 relative aspect-square duration-300 hover:contrast-[1.1]"
                   onMouseEnter={() => setHoveredImage("image2")}
                   onMouseLeave={() => setHoveredImage(null)}
                 >
@@ -1012,6 +742,8 @@ export default function Home() {
                 <motion.div
                   variants={staggerItemVariants}
                   className="col-span-4 relative aspect-square md:m-0 mt-2"
+                  onMouseEnter={() => setHoveredImage("image4")}
+                  onMouseLeave={() => setHoveredImage(null)}
                 >
                   <div className="absolute inset-0 border-2 border-carbon-300"></div>
                   <div className="absolute inset-2 sm:inset-4 md:inset-6 bg-gray-100 flex items-center justify-center p-2 sm:p-4">
@@ -1023,7 +755,7 @@ export default function Home() {
 
                 <motion.div
                   variants={staggerItemVariants}
-                  className="col-span-8 relative md:m-0 mt-2 duration-300 hover:contrast-110"
+                  className="col-span-8 relative md:m-0 mt-2 duration-300 hover:contrast-[1.1]"
                   onMouseEnter={() => setHoveredImage("image3")}
                   onMouseLeave={() => setHoveredImage(null)}
                 >
@@ -1062,46 +794,24 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <div className="relative whitespace-nowrap overflow-hidden pb-8">
-          <motion.div
-            animate={{
-              x: ["0%", "-50%"], // Changed order: start at 0%, move to -50%
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 60,
-                ease: "linear",
-              },
-            }}
-            className="inline-flex gap-8"
-          >
-            {/* Render testimonials twice for seamless loop */}
-            {[...testimonialsData, ...testimonialsData].map(
-              (testimonial, idx) => (
-                <div
-                  key={`testimonial-${idx}`}
-                  className="w-72 whitespace-normal inline-block flex-shrink-0"
-                >
-                  <div className="border h-[330px] border-gray-200 p-8 hover:border-copper hover:shadow-lg transition-all duration-300">
-                    <div className="text-3xl font-light mb-4 text-copper">
-                      0{testimonial.id}
-                    </div>
-                    <h3 className="text-xl font-light mb-2">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-[12px] leading-5 text-gray-600 mb-4">
-                      {testimonial.title}
-                    </p>
-                    <p className="text-sm font-light leading-relaxed">
-                      {testimonial.testimonial}
-                    </p>
-                  </div>
-                </div>
-              )
-            )}
-          </motion.div>
+        <div className="testimonials-marquee relative whitespace-nowrap overflow-hidden pb-8">
+          <div className="inline-flex gap-8 animate-marquee motion-reduce:animate-none">
+            {testimonialsData.map((testimonial) => (
+              <TestimonialCard
+                key={`testimonial-${testimonial.id}`}
+                testimonial={testimonial}
+              />
+            ))}
+            {/* Duplicate set for a seamless loop; hidden from assistive tech to avoid repeating content */}
+            <div aria-hidden="true" className="inline-flex gap-8">
+              {testimonialsData.map((testimonial) => (
+                <TestimonialCard
+                  key={`testimonial-dup-${testimonial.id}`}
+                  testimonial={testimonial}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -1132,9 +842,13 @@ export default function Home() {
               </p>
               <Link
                 href="/contact"
-                className="bg-copper text-white px-8 py-3 md:px-12 md:py-4 hover:bg-copper-600 transition-all duration-300 flex items-center gap-3 w-fit"
+                className="group bg-copper text-white px-8 py-3 md:px-12 md:py-4 hover:bg-copper-600 transition-all duration-300 flex items-center gap-3 w-fit"
               >
-                Get in Touch <ExternalLink size={18} />
+                <span>Get in Touch</span>
+                <ArrowRight
+                  className="group-hover:translate-x-1 transition-transform"
+                  size={18}
+                />
               </Link>
             </motion.div>
 
@@ -1154,7 +868,7 @@ export default function Home() {
                     href={`${businessData.contactDetails.address_link}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm"
+                    className="text-sm text-carbon-300 hover:text-copper transition-colors duration-300"
                   >
                     <address className="not-italic">
                       {businessData.contactDetails.address.street}, <br />
@@ -1170,7 +884,7 @@ export default function Home() {
                   <p className="text-base md:text-lg font-light mb-2">Email</p>
                   <a
                     href={`mailto:${businessData.contactDetails.email}`}
-                    className="text-sm"
+                    className="text-sm text-carbon-300 hover:text-copper transition-colors duration-300"
                   >
                     {businessData.contactDetails.email}
                   </a>
@@ -1180,7 +894,7 @@ export default function Home() {
                   <p className="text-base md:text-lg font-light mb-2">Phone</p>
                   <a
                     href={`tel:${businessData.contactDetails.phone}`}
-                    className="text-sm"
+                    className="text-sm text-carbon-300 hover:text-copper transition-colors duration-300"
                   >
                     {businessData.contactDetails.phone}
                   </a>
@@ -1196,27 +910,23 @@ export default function Home() {
       </section>
 
       <style jsx global>{`
-        // .swiper-pagination-custom {
-        //   display: flex;
-        //   gap: 0.5rem;
-        // }
-        // .testimonial-marquee .swiper-wrapper {
-        //   transition-timing-function: linear !important;
-        // }
-        // .swiper-pagination-bullet-custom {
-        //   width: 40px;
-        //   height: 2px;
-        //   background: rgba(255, 255, 255, 0.3);
-        //   transition: all 0.3s ease;
-        //   cursor: pointer;
-        // }
-        // .swiper-pagination-bullet-active-custom {
-        //   width: 80px;
-        //   background: #d4a574;
-        // }
-        // .swiper-pagination-bullet-custom:hover {
-        //   background: rgba(255, 255, 255, 0.5);
-        // }
+        @keyframes marquee {
+          from {
+            transform: translateX(0);
+          }
+          to {
+            transform: translateX(-50%);
+          }
+        }
+
+        .animate-marquee {
+          animation: marquee 60s linear infinite;
+        }
+
+        .testimonials-marquee:hover .animate-marquee,
+        .testimonials-marquee:focus-within .animate-marquee {
+          animation-play-state: paused;
+        }
 
         @keyframes fadeInUp {
           from {

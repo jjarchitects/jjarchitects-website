@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function AutoCADCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const cursorRef = useRef<HTMLDivElement>(null);
   const [isClicking, setIsClicking] = useState(false);
   const [isTouch, setIsTouch] = useState(false);
 
@@ -16,8 +16,12 @@ export default function AutoCADCursor() {
   }, []);
 
   useEffect(() => {
+    // Mutate the DOM directly instead of going through React state, so
+    // moving the mouse doesn't trigger a re-render on every event.
     const move = (e: MouseEvent): void => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -36,12 +40,10 @@ export default function AutoCADCursor() {
 
   return (
     <div
+      ref={cursorRef}
       className={`${
         isTouch ? "hidden" : "block"
       } pointer-events-none fixed top-0 left-0 z-[9999]`}
-      style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-      }}
     >
       {/* Main Crosshair */}
       <div className="w-12 h-12 -translate-x-1/2 -translate-y-1/2 relative">

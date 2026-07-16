@@ -6,7 +6,7 @@ interface SocialMediaProps {
 
 function SocialMedia({ className }: SocialMediaProps) {
   return (
-    <div className={`col-a-2 pt-4 md:pt-6 ${className}`}>
+    <div className={`pt-4 md:pt-6 ${className}`}>
       <p className="text-base md:text-lg font-light mb-2 md:mb-4">Follow Us</p>
       <div className="flex gap-4 md:gap-6">
         <a

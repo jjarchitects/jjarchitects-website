@@ -86,7 +86,6 @@ const Footer = () => {
             <div className="pt-4">
               <div className="flex items-center gap-5 text-lg">
                 <motion.a
-                  animate="animate"
                   href={businessData.socialMedia.instagram}
                   target="_blank"
                   aria-label="Instagram"
@@ -107,8 +106,6 @@ const Footer = () => {
                   <FaXTwitter />
                 </motion.a> */}
                 <motion.a
-                  animate="animate"
-                  transition={{ delay: 0.4 }}
                   href={businessData.socialMedia.linkedin}
                   target="_blank"
                   aria-label="LinkedIn"
@@ -118,8 +115,6 @@ const Footer = () => {
                   <FaLinkedinIn />
                 </motion.a>
                 <motion.a
-                  animate="animate"
-                  transition={{ delay: 0.6 }}
                   href={businessData.socialMedia.facebook}
                   target="_blank"
                   aria-label="Facebook"

@@ -604,7 +604,7 @@ export default function ProjectPage() {
                 >
                   <Link
                     href="/projects"
-                    className="inline-flex items-center gap-2 bg-copper-600 hover:bg-copper-700 text-white px-5 py-3 transition shadow-md"
+                    className="inline-flex items-center gap-2 bg-copper hover:bg-copper-600 text-white px-5 py-3 transition shadow-md"
                   >
                     <span>View All Projects</span>
                     <motion.span
@@ -623,7 +623,7 @@ export default function ProjectPage() {
                   >
                     <Link
                       href={`/projects/${nextProject.id}`}
-                      className="inline-flex items-center gap-2 bg-taupe-100 border border-taupe-600 hover:border-taupe-800 hover:text-stone-600 text-taupe-800 px-5 py-3 transition shadow-sm"
+                      className="inline-flex items-center gap-2 bg-taupe-100 border border-taupe-600 hover:border-copper text-taupe-800 hover:text-copper px-5 py-3 transition shadow-sm"
                     >
                       <span>Next Project</span>
                       <motion.span
@@ -659,7 +659,7 @@ export default function ProjectPage() {
                       ?.classList.remove("animate-pulse");
                   }}
                 />
-                <div className="absolute inset-0 bg-black/10 hover:bg-indigo-600/0 transition-colors duration-300"></div>
+                <div className="absolute inset-0 bg-black/10 hover:bg-black/0 transition-colors duration-300"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent">
                   <h3 className="text-white leading-tight text-xl truncate">
                     {nextProject.title}

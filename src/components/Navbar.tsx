@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LuMenu, LuX } from "react-icons/lu";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { filters } from "@/app/constants";
@@ -18,6 +18,34 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [isProjectsMenuOpen, setIsProjectsMenuOpen] = useState(false);
+  const projectsCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+
+  const openProjectsMenu = () => {
+    if (projectsCloseTimeoutRef.current) {
+      clearTimeout(projectsCloseTimeoutRef.current);
+      projectsCloseTimeoutRef.current = null;
+    }
+    setIsProjectsMenuOpen(true);
+  };
+
+  // Small grace period so crossing the gap between the trigger and the
+  // dropdown doesn't momentarily drop hover and flicker the menu closed.
+  const scheduleCloseProjectsMenu = () => {
+    projectsCloseTimeoutRef.current = setTimeout(() => {
+      setIsProjectsMenuOpen(false);
+    }, 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (projectsCloseTimeoutRef.current) {
+        clearTimeout(projectsCloseTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -28,6 +56,20 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu and Projects dropdown on route change (e.g. back/forward navigation)
+  useEffect(() => {
+    setIsOpen(false);
+    setIsProjectsMenuOpen(false);
+  }, [pathname]);
+
+  // Lock background scroll while mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   // Animation variants for navbar items
   const navVariants = {
@@ -143,6 +185,8 @@ const Navbar = () => {
             >
               {item.label === "Projects" ? (
                 <div
+                  onMouseEnter={openProjectsMenu}
+                  onMouseLeave={scheduleCloseProjectsMenu}
                   className={`transition-all duration-300 ease-in-out inline-block py-1 cursor-none relative ${
                     (item.href === "/" && pathname === "/") ||
                     (item.href !== "/" && pathname.startsWith(item.href))
@@ -150,13 +194,24 @@ const Navbar = () => {
                       : "text-carbon group-hover:text-copper"
                   }`}
                 >
-                  <div>{item.label}</div>
+                  <Link
+                    href={item.href}
+                    onClick={(e) => {
+                      setIsProjectsMenuOpen(false);
+                      e.currentTarget.blur();
+                    }}
+                  >
+                    {item.label}
+                  </Link>
                   {item.label === "Projects" && (
                     <div
-                      className={`absolute top-full left-0 mt-2 min-w-[200px] z-50 opacity-0 invisible group-hover:opacity-100
-                      group-hover:visible transform translate-y-[-10px] group-hover:translate-y-0 transition-all duration-300 
+                      className={`absolute top-full left-0 mt-2 min-w-[200px] z-50 transform transition-all duration-300
                       ease-out backdrop-blur-xl border border-copper/20 shadow-xl ${
                         scrolled ? "bg-taupe/80" : "bg-taupe/90"
+                      } ${
+                        isProjectsMenuOpen
+                          ? "opacity-100 visible translate-y-0"
+                          : "opacity-0 invisible translate-y-[-10px] group-focus-within:opacity-100 group-focus-within:visible group-focus-within:translate-y-0"
                       }
                     `}
                     >
@@ -167,7 +222,11 @@ const Navbar = () => {
                             href={`/projects?filter=${encodeURIComponent(
                               filter
                             )}`}
-                            className={`block w-full px-4 py-2.5 text-sm font-normal normal-case text-carbon/80 hover:text-copper 
+                            onClick={(e) => {
+                              setIsProjectsMenuOpen(false);
+                              e.currentTarget.blur();
+                            }}
+                            className={`block w-full px-4 py-2.5 text-sm font-normal normal-case text-carbon/80 hover:text-copper
                             hover:bg-copper/10 transition-all duration-200 ease-in-out border-l-2 border-transparent 
                             hover:border-copper/30 text-left ${
                               index !== filters.length - 1
@@ -218,7 +277,10 @@ const Navbar = () => {
         </motion.ul>
 
         {/* Mobile Icon */}
-        <div
+        <button
+          type="button"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isOpen}
           className="md:hidden cursor-pointer z-50 text-carbon p-2"
           onClick={() => setIsOpen(!isOpen)}
         >
@@ -230,7 +292,7 @@ const Navbar = () => {
               className="text-carbon transition-all duration-300"
             />
           )}
-        </div>
+        </button>
 
         {/* Mobile Menu */}
         <AnimatePresence>

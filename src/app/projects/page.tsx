@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
+import { SearchX } from "lucide-react";
 import projectsData from "@/data/projectsData.json";
 import Link from "next/link";
 import { filters } from "@/app/constants";
@@ -36,13 +37,6 @@ const ProjectsPage: React.FC = () => {
     );
     setProjects(loadedProjects);
     setFilteredProjects(loadedProjects);
-
-    const timer = setTimeout(
-      () => setLoading(false),
-      Math.floor(Math.random() * 4001) + 3000,
-    );
-
-    return () => clearTimeout(timer);
   }, []);
 
   // Update active filter from URL
@@ -58,10 +52,6 @@ const ProjectsPage: React.FC = () => {
         : projects.filter((project) => project.type === activeFilter);
     setFilteredProjects(filtered);
   }, [activeFilter, projects]);
-
-  const handleFilterClick = (filter: string) => {
-    setActiveFilter(filter);
-  };
 
   // Animation variants
   const containerVariants = {
@@ -139,7 +129,7 @@ const ProjectsPage: React.FC = () => {
   if (loading) {
     return (
       <div className="w-full h-screen flex justify-center py-8 max-w-7xl mx-auto">
-        <ArchitecturalLoader />
+        <ArchitecturalLoader onComplete={() => setLoading(false)} />
       </div>
     );
   }
@@ -171,26 +161,18 @@ const ProjectsPage: React.FC = () => {
         className="flex flex-col md:flex-row justify-end gap-6 mb-10"
       >
         <div className="flex flex-wrap gap-4 md:gap-6">
-          {filters.map((filter, index) => (
-            <motion.div key={filter} variants={filterVariants}>
+          {filters.map((filterOption) => (
+            <motion.div key={filterOption} variants={filterVariants}>
               <Link
-                href={`/projects?filter=${filter}`}
+                href={`/projects?filter=${filterOption}`}
+                aria-current={activeFilter === filterOption ? "true" : undefined}
                 className={`block px-4 py-2 border border-carbon-200 text-carbon-300 hover:bg-carbon hover:text-white hover:border-carbon-300 transition-colors duration-300 text-sm md:text-base font-medium ${
-                  activeFilter === filter
+                  activeFilter === filterOption
                     ? "bg-carbon text-white border-carbon"
                     : ""
                 }`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleFilterClick(filter);
-                  window.history.pushState(
-                    {},
-                    "",
-                    `/projects?filter=${filter}`,
-                  );
-                }}
               >
-                {filter}
+                {filterOption}
               </Link>
             </motion.div>
           ))}
@@ -203,93 +185,7 @@ const ProjectsPage: React.FC = () => {
         className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4 px-4 py-6"
       >
         <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project, index) => (
-            // <motion.div
-            //   key={project.id}
-            //   layout
-            //   variants={projectCardVariants}
-            //   initial="hidden"
-            //   animate="visible"
-            //   exit="exit"
-            //   transition={{
-            //     layout: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
-            //   }}
-            //   className="relative break-inside-avoid drop-shadow-lg overflow-hidden group mb-4"
-            // >
-            //   <Link href={`/projects/${project.id}`}>
-            //     <motion.div
-            //       className="overflow-hidden"
-            //       whileHover={{ scale: 1.02 }}
-            //       transition={{ duration: 0.4 }}
-            //     >
-            //       <motion.img
-            //         src={project.thumbnail}
-            //         alt={project.title}
-            //         className="w-full h-auto object-cover grayscale-[95%] group-hover:grayscale-0 transition-all duration-500"
-            //         whileHover={{ scale: 1.05 }}
-            //         transition={{ duration: 0.5 }}
-            //         loading="lazy"
-            //       />
-            //     </motion.div>
-
-            //     {/* Overlay with slide-up animation */}
-            //     <motion.div
-            //       initial={{ y: "100%" }}
-            //       whileHover={{ y: 0 }}
-            //       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            //       className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-carbon via-carbon/95 to-carbon/80 text-white p-4"
-            //     >
-            //       <motion.h3
-            //         initial={{ opacity: 0, y: 20 }}
-            //         whileHover={{ opacity: 1, y: 0 }}
-            //         transition={{ duration: 0.3, delay: 0.1 }}
-            //         className="text-lg font-semibold mb-2"
-            //       >
-            //         {project.title}
-            //       </motion.h3>
-            //       <motion.p
-            //         initial={{ opacity: 0, y: 20 }}
-            //         whileHover={{ opacity: 1, y: 0 }}
-            //         transition={{ duration: 0.3, delay: 0.15 }}
-            //         className="text-sm line-clamp-2"
-            //       >
-            //         {project.description}
-            //       </motion.p>
-
-            //       {/* View Project Button */}
-            //       <motion.div
-            //         initial={{ opacity: 0, x: -20 }}
-            //         whileHover={{ opacity: 1, x: 0 }}
-            //         transition={{ duration: 0.3, delay: 0.2 }}
-            //         className="mt-3 flex items-center gap-2 text-copper text-sm font-medium"
-            //       >
-            //         View Project
-            //         <motion.span
-            //           animate={{ x: [0, 5, 0] }}
-            //           transition={{ duration: 1.5, repeat: Infinity }}
-            //         >
-            //           →
-            //         </motion.span>
-            //       </motion.div>
-            //     </motion.div>
-
-            //     {/* Permanent bottom gradient (fallback) */}
-            //     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-carbon to-transparent text-white p-4 md:hidden">
-            //       <h3 className="text-lg font-semibold">{project.title}</h3>
-            //       <p className="text-sm mt-2 line-clamp-2">
-            //         {project.description}
-            //       </p>
-            //     </div>
-            //   </Link>
-
-            //   {/* Decorative corner on hover */}
-            //   <motion.div
-            //     initial={{ opacity: 0, scale: 0 }}
-            //     whileHover={{ opacity: 1, scale: 1 }}
-            //     transition={{ duration: 0.3 }}
-            //     className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-copper pointer-events-none"
-            //   />
-            // </motion.div>
+          {filteredProjects.map((project) => (
             <motion.div
               key={project.id}
               layout
@@ -302,7 +198,10 @@ const ProjectsPage: React.FC = () => {
               }}
               className="relative break-inside-avoid drop-shadow-lg overflow-hidden group mb-4"
             >
-              <Link href={`/projects/${project.id}`}>
+              <Link
+                href={`/projects/${project.id}`}
+                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-copper focus-visible:ring-offset-2"
+              >
                 <motion.div
                   className="overflow-hidden"
                   whileHover={{ scale: 1.02 }}
@@ -311,7 +210,7 @@ const ProjectsPage: React.FC = () => {
                   <motion.img
                     src={project.thumbnail}
                     alt={project.title}
-                    className="w-full h-auto object-cover grayscale-[95%] group-hover:grayscale-0 transition-all duration-500"
+                    className="w-full h-auto object-cover grayscale-[95%] group-hover:grayscale-0 group-focus-within:grayscale-0 transition-all duration-500"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.5 }}
                     loading="lazy"
@@ -327,24 +226,14 @@ const ProjectsPage: React.FC = () => {
                     {project.description}
                   </p>
 
-                  {/* Additional details on hover - Desktop only */}
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    whileHover={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3, ease: easeInOut }}
-                    className="hidden md:block overflow-hidden"
-                  >
+                  {/* Additional details on hover/focus - Desktop only */}
+                  <div className="hidden md:block overflow-hidden max-h-0 opacity-0 group-hover:max-h-32 group-hover:opacity-100 group-focus-within:max-h-32 group-focus-within:opacity-100 transition-all duration-300 ease-in-out">
                     <div className="pt-2 border-t border-white/20">
                       <div className="flex items-center justify-between text-xs text-zinc-300 mb-2">
                         <span>{project.type}</span>
                         <span>{project.year}</span>
                       </div>
-                      <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileHover={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
-                        className="flex items-center gap-2 text-copper text-sm font-medium"
-                      >
+                      <div className="flex items-center gap-2 text-copper text-sm font-medium">
                         View Project
                         <motion.span
                           animate={{ x: [0, 5, 0] }}
@@ -352,18 +241,13 @@ const ProjectsPage: React.FC = () => {
                         >
                           →
                         </motion.span>
-                      </motion.div>
+                      </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
 
-                {/* Decorative corner on hover */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileHover={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-copper pointer-events-none hidden md:block"
-                />
+                {/* Decorative corner on hover/focus */}
+                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-copper pointer-events-none hidden md:block opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100 transition-all duration-300" />
               </Link>
             </motion.div>
           ))}
@@ -378,17 +262,23 @@ const ProjectsPage: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center py-20"
         >
-          <motion.div
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-6xl mb-4"
-          >
-            🏗️
-          </motion.div>
+          <SearchX
+            size={48}
+            strokeWidth={1}
+            className="mx-auto mb-6 text-carbon-200"
+          />
           <h3 className="text-2xl font-light text-carbon mb-2">
             No projects found
           </h3>
-          <p className="text-carbon-300">Try selecting a different filter</p>
+          <p className="text-carbon-300 mb-6">
+            Try selecting a different filter
+          </p>
+          <Link
+            href="/projects?filter=All"
+            className="inline-block px-6 py-2.5 border border-carbon-200 text-carbon-300 hover:bg-carbon hover:text-white hover:border-carbon-300 transition-colors duration-300 text-sm font-medium"
+          >
+            View all projects
+          </Link>
         </motion.div>
       )}
     </motion.div>
