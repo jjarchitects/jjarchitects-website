@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   Lock,
-  User,
+  Mail,
   ArrowRight,
   AlertCircle,
   Eye,
@@ -20,7 +20,7 @@ function AdminLoginForm() {
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/admin";
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,13 +35,15 @@ function AdminLoginForm() {
       const res = await fetch("/api/admin/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Login failed. Please check credentials.");
+        throw new Error(
+          data.error || "Login failed. Please check credentials.",
+        );
       }
 
       // Success -> navigate to target page
@@ -109,8 +111,8 @@ function AdminLoginForm() {
             Studio Sign In
           </h2>
           <p className="text-xs text-carbon-400 text-center mb-6 leading-relaxed">
-            Enter authorized studio credentials to access portfolio data entry and
-            homepage curation.
+            Enter authorized studio credentials to access portfolio data entry
+            and homepage curation.
           </p>
 
           {/* Error notice */}
@@ -122,24 +124,24 @@ function AdminLoginForm() {
           )}
 
           <form onSubmit={handleLogin} className="space-y-4">
-            {/* Username / Email */}
-              <div>
-                <label className="block text-xs uppercase tracking-wider text-carbon-400 font-medium mb-1.5">
-                  Email or Username
-                </label>
-                <div className="relative">
-                  <User className="w-4 h-4 text-carbon-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  <input
-                    type="text"
-                    required
-                    autoComplete="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="admin@jjarchitects.co.in"
-                    className="w-full pl-10 pr-4 py-2.5 bg-taupe-100/50 border border-taupe-300 focus:border-copper focus:bg-white focus:outline-none text-carbon text-sm transition-colors"
-                  />
-                </div>
+            {/* Email */}
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-carbon-400 font-medium mb-1.5">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="w-4 h-4 text-carbon-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="email"
+                  required
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-4 py-2.5 bg-taupe-100/50 border border-taupe-300 focus:border-copper focus:bg-white focus:outline-none text-carbon text-sm transition-colors"
+                />
               </div>
+            </div>
 
             {/* Password */}
             <div>
@@ -153,7 +155,7 @@ function AdminLoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="••••••••••••••••"
                   className="w-full pl-10 pr-10 py-2.5 bg-taupe-100/50 border border-taupe-300 focus:border-copper focus:bg-white focus:outline-none text-carbon text-sm transition-colors"
                 />
                 <button

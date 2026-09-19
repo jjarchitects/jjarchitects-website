@@ -7,7 +7,6 @@ import {
   verifyPassword,
   hashPassword,
   DEFAULT_ADMIN_EMAIL,
-  DEFAULT_ADMIN_USERNAME,
   createSessionToken,
 } from "@/lib/auth";
 
@@ -16,7 +15,7 @@ export async function POST(req: NextRequest) {
     const token = req.cookies.get(COOKIE_NAME)?.value;
     const session = verifySessionToken(token);
 
-    if (!session.valid || !session.username) {
+    if (!session.valid || (!session.email && !session.username)) {
       return NextResponse.json(
         { error: "Unauthorized. Please log in to change your password." },
         { status: 401 }
@@ -56,13 +55,11 @@ export async function POST(req: NextRequest) {
     }
 
     // Find the current admin user
-    const identifier = session.username.toLowerCase();
+    const identifier = (session.email || session.username || "").toLowerCase();
     let user = await UserModel.findOne({
       $or: [
         { email: identifier },
-        { username: identifier },
         { email: DEFAULT_ADMIN_EMAIL.toLowerCase() },
-        { username: DEFAULT_ADMIN_USERNAME.toLowerCase() },
       ],
     });
 

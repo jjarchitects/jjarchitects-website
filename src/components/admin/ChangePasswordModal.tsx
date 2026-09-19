@@ -106,7 +106,7 @@ export default function ChangePasswordModal({
                 Change Admin Password
               </h3>
               <p className="text-[11px] text-carbon-400">
-                Update credentials for admin@jjarchitects.co.in
+                Update administrator account credentials
               </p>
             </div>
           </div>

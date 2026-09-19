@@ -4,16 +4,17 @@ import { authenticateAdminUser, createSessionToken, COOKIE_NAME } from "@/lib/au
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { username, password } = body;
+    const email = body.email || body.username;
+    const { password } = body;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "Please provide both email/username and password." },
+        { error: "Please provide both email and password." },
         { status: 400 }
       );
     }
 
-    const authResult = await authenticateAdminUser(username, password);
+    const authResult = await authenticateAdminUser(email, password);
 
     if (!authResult.success || !authResult.user) {
       return NextResponse.json(

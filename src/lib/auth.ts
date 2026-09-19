@@ -6,8 +6,7 @@ import UserModel, { IUser } from "@/models/User";
 export const COOKIE_NAME = "jj_admin_session";
 const SESSION_EXPIRY_DAYS = 7;
 
-export const DEFAULT_ADMIN_EMAIL = "admin@jjarchitects.co.in";
-export const DEFAULT_ADMIN_USERNAME = "admin";
+export const DEFAULT_ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@jjarchitects.co.in";
 
 function getSecret() {
   return process.env.AUTH_SECRET || "jj-architects-studio-secret-auth-key-2025";
@@ -54,6 +53,7 @@ export function createSessionToken(identifier: string): string {
  */
 export function verifySessionToken(token: string | undefined | null): {
   valid: boolean;
+  email?: string;
   username?: string;
 } {
   if (!token) return { valid: false };
@@ -62,14 +62,14 @@ export function verifySessionToken(token: string | undefined | null): {
     const parts = token.split(":");
     if (parts.length !== 3) return { valid: false };
 
-    const [username, expiryStr, signature] = parts;
+    const [identifier, expiryStr, signature] = parts;
     const expiry = Number(expiryStr);
 
     if (isNaN(expiry) || Date.now() > expiry) {
       return { valid: false };
     }
 
-    const payload = `${username}:${expiryStr}`;
+    const payload = `${identifier}:${expiryStr}`;
     const hmac = crypto.createHmac("sha256", getSecret());
     hmac.update(payload);
     const expectedSignature = hmac.digest("hex");
@@ -80,7 +80,7 @@ export function verifySessionToken(token: string | undefined | null): {
         Buffer.from(expectedSignature)
       )
     ) {
-      return { valid: true, username };
+      return { valid: true, email: identifier, username: identifier };
     }
   } catch (e) {
     return { valid: false };
@@ -105,7 +105,7 @@ export async function isAuthenticated(): Promise<boolean> {
 
 /**
  * Ensures the default admin user exists in MongoDB.
- * If not found, automatically creates the admin@jjarchitects.co.in document.
+ * If not found, automatically creates the admin user document.
  */
 export async function ensureAdminUser(): Promise<IUser | null> {
   const conn = await connectToDatabase();
@@ -113,17 +113,13 @@ export async function ensureAdminUser(): Promise<IUser | null> {
 
   try {
     let admin = await UserModel.findOne({
-      $or: [
-        { email: DEFAULT_ADMIN_EMAIL.toLowerCase() },
-        { username: DEFAULT_ADMIN_USERNAME.toLowerCase() },
-      ],
+      email: DEFAULT_ADMIN_EMAIL.toLowerCase(),
     });
 
     if (!admin) {
       const initialPassword = process.env.ADMIN_PASSWORD || "admin123";
       admin = await UserModel.create({
-        email: DEFAULT_ADMIN_EMAIL,
-        username: DEFAULT_ADMIN_USERNAME,
+        email: DEFAULT_ADMIN_EMAIL.toLowerCase(),
         name: "Studio Admin",
         passwordHash: hashPassword(initialPassword),
         role: "admin",
@@ -142,15 +138,15 @@ export async function ensureAdminUser(): Promise<IUser | null> {
  * Authenticates credentials against MongoDB User collection.
  */
 export async function authenticateAdminUser(
-  identifier: string,
+  email: string,
   passwordPlain: string
 ): Promise<{ success: boolean; user?: { email: string; name?: string; role: string }; error?: string }> {
-  if (!identifier || !passwordPlain) {
-    return { success: false, error: "Please provide both email/username and password." };
+  if (!email || !passwordPlain) {
+    return { success: false, error: "Please provide both email and password." };
   }
 
   const conn = await connectToDatabase();
-  const cleanIdentifier = identifier.trim().toLowerCase();
+  const cleanEmail = email.trim().toLowerCase();
 
   if (conn) {
     try {
@@ -158,16 +154,16 @@ export async function authenticateAdminUser(
       await ensureAdminUser();
 
       const user = await UserModel.findOne({
-        $or: [{ email: cleanIdentifier }, { username: cleanIdentifier }],
+        email: cleanEmail,
       });
 
       if (!user) {
-        return { success: false, error: "Invalid email/username or password." };
+        return { success: false, error: "Invalid email or password." };
       }
 
       const isValid = verifyPassword(passwordPlain, user.passwordHash);
       if (!isValid) {
-        return { success: false, error: "Invalid email/username or password." };
+        return { success: false, error: "Invalid email or password." };
       }
 
       return {
@@ -186,7 +182,7 @@ export async function authenticateAdminUser(
   // Fallback if MongoDB is temporarily unreachable
   const fallbackPass = process.env.ADMIN_PASSWORD || "admin123";
   const isFallbackMatch =
-    (cleanIdentifier === DEFAULT_ADMIN_EMAIL || cleanIdentifier === DEFAULT_ADMIN_USERNAME) &&
+    cleanEmail === DEFAULT_ADMIN_EMAIL.toLowerCase() &&
     passwordPlain === fallbackPass;
 
   if (isFallbackMatch) {
@@ -200,5 +196,5 @@ export async function authenticateAdminUser(
     };
   }
 
-  return { success: false, error: "Invalid email/username or password." };
+  return { success: false, error: "Invalid email or password." };
 }
