@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence, easeInOut } from "framer-motion";
 import { SearchX } from "lucide-react";
 import projectsData from "@/data/projectsData.json";
@@ -18,7 +18,7 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-const ProjectsPage: React.FC = () => {
+const ProjectsContent: React.FC = () => {
   const searchParams = useSearchParams();
   const filter = searchParams.get("filter");
 
@@ -314,4 +314,10 @@ const ProjectsPage: React.FC = () => {
   );
 };
 
-export default ProjectsPage;
+export default function ProjectsPage() {
+  return (
+    <Suspense fallback={<ArchitecturalLoader />}>
+      <ProjectsContent />
+    </Suspense>
+  );
+}
