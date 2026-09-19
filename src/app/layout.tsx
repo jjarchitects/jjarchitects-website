@@ -17,6 +17,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
+
 export const metadata: Metadata = {
   title: "Jatan Joshi Architects",
   description:
@@ -57,15 +59,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased !cursor-none`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <CustomCursor />
-        <Navbar />
-        <Suspense>
-          <div className="mt-[60px]">{children}</div>
-        </Suspense>
-        <Footer />
-        <WhatsAppButton />
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>
   );

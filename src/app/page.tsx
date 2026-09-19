@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
   ChevronDown,
@@ -137,8 +137,26 @@ export default function Home() {
     null | "image1" | "image2" | "image3" | "image4"
   >(null);
 
-  const featuredProjects = useMemo(() => {
-    return (projects as Project[]).filter((p) => p.featured).slice(0, 5);
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>(() => {
+    return (projects as Project[]).filter((p) => p.featured).slice(0, 10);
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch("/api/projects?featured=true")
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.projects && data.projects.length > 0) {
+          setFeaturedProjects(data.projects);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to load dynamic featured projects:", err);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
@@ -285,6 +303,7 @@ export default function Home() {
         className="relative w-full h-[calc(100vh-60px)] overflow-hidden"
       >
         <Swiper
+          key={featuredProjects.map((p) => p.id).join("-") || "hero-swiper"}
           modules={[Autoplay, Pagination, Navigation, EffectFade]}
           effect="fade"
           speed={1200}

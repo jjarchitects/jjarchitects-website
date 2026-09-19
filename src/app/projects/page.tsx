@@ -27,16 +27,45 @@ const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
 
-  // Load and shuffle projects on mount
+  // Load and shuffle projects on mount with API fetch
   useEffect(() => {
-    const loadedProjects = shuffleArray<Project>(
-      (projectsData as any[]).map((project) => ({
-        ...project,
-        category: project.category || "Uncategorized",
-      })),
-    );
-    setProjects(loadedProjects);
-    setFilteredProjects(loadedProjects);
+    let isMounted = true;
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        const sourceData =
+          data.projects && data.projects.length > 0
+            ? data.projects
+            : (projectsData as any[]);
+        const loadedProjects = shuffleArray<Project>(
+          sourceData.map((project: any) => ({
+            ...project,
+            category: project.category || "Uncategorized",
+          }))
+        );
+        setProjects(loadedProjects);
+        setFilteredProjects(
+          activeFilter === "All"
+            ? loadedProjects
+            : loadedProjects.filter((p: any) => p.type === activeFilter)
+        );
+      })
+      .catch((err) => {
+        console.error("Failed to load projects from API, using fallback:", err);
+        const loadedProjects = shuffleArray<Project>(
+          (projectsData as any[]).map((project) => ({
+            ...project,
+            category: project.category || "Uncategorized",
+          }))
+        );
+        setProjects(loadedProjects);
+        setFilteredProjects(loadedProjects);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Update active filter from URL

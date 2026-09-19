@@ -12,6 +12,7 @@ import {
   easeInOut,
 } from "framer-motion";
 import projectsData from "@/data/projectsData.json";
+import ArchitecturalLoader from "@/components/Loader/ArchitecturalLoader";
 import {
   Calendar1,
   Fullscreen,
@@ -32,12 +33,47 @@ export default function ProjectPage() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
-  // Next project suggestion
-  const currentIndex = projectsData.findIndex((p) => p.id === id);
-  const nextProject = projectsData[(currentIndex + 1) % projectsData.length];
+  const [project, setProject] = useState<Project | null>(() => {
+    return (projectsData.find((p) => p.id === id) as Project) || null;
+  });
+  const [projectList, setProjectList] = useState<Project[]>(projectsData as Project[]);
+  const [loading, setLoading] = useState(!project);
 
-  // Find project data
-  const project = projectsData.find((p) => p.id === id);
+  useEffect(() => {
+    let isMounted = true;
+    fetch(`/api/projects/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isMounted) return;
+        if (data.project) {
+          setProject(data.project);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load project from API:", err);
+        setLoading(false);
+      });
+
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted && data.projects && data.projects.length > 0) {
+          setProjectList(data.projects);
+        }
+      })
+      .catch((err) => console.error("Failed to load project list from API:", err));
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
+
+  const currentIndex = projectList.findIndex((p) => p.id === id);
+  const nextProject =
+    projectList.length > 0
+      ? projectList[((currentIndex >= 0 ? currentIndex : 0) + 1) % projectList.length]
+      : null;
 
   // Handle keyboard navigation for lightbox
   useEffect(() => {
@@ -68,6 +104,10 @@ export default function ProjectPage() {
       document.body.style.overflow = "";
     };
   }, [activeImage]);
+
+  if (loading) {
+    return <ArchitecturalLoader />;
+  }
 
   if (!project) {
     return notFound();
@@ -396,7 +436,7 @@ export default function ProjectPage() {
             viewport={{ once: true, amount: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           >
-            {project.images.map((src, index) => (
+            {project.images.map((src: string, index: number) => (
               <motion.div
                 key={index}
                 variants={galleryItemVariants}

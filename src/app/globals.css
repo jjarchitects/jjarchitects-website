@@ -44,12 +44,40 @@
 
 
 :root {
-  cursor: none !important;
   color: var(--color-carbon);
 }
 
-a, button, label, input, textarea {
+/* Marketing site custom cursor */
+body:not(:has(.admin-root)),
+body:not(:has(.admin-root)) a,
+body:not(:has(.admin-root)) button,
+body:not(:has(.admin-root)) label,
+body:not(:has(.admin-root)) input,
+body:not(:has(.admin-root)) textarea {
   cursor: none !important;
+}
+
+/* Admin panel native cursor styles */
+.admin-root,
+.admin-root * {
+  cursor: auto !important;
+}
+
+.admin-root a,
+.admin-root button,
+.admin-root [role="button"],
+.admin-root input[type="submit"],
+.admin-root input[type="button"],
+.admin-root input[type="checkbox"],
+.admin-root select {
+  cursor: pointer !important;
+}
+
+.admin-root input[type="text"],
+.admin-root input[type="number"],
+.admin-root input[type="url"],
+.admin-root textarea {
+  cursor: text !important;
 }
 
 .form-label {
