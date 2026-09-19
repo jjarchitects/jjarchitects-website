@@ -1,27 +1,48 @@
 import { cookies } from "next/headers";
 import crypto from "crypto";
+import { connectToDatabase } from "@/lib/mongodb";
+import UserModel, { IUser } from "@/models/User";
 
 export const COOKIE_NAME = "jj_admin_session";
 const SESSION_EXPIRY_DAYS = 7;
 
-// Default credentials if not set in .env
-export function getAdminCredentials() {
-  return {
-    username: process.env.ADMIN_USERNAME || "admin",
-    password: process.env.ADMIN_PASSWORD || "admin123",
-  };
-}
+export const DEFAULT_ADMIN_EMAIL = "admin@jjarchitects.co.in";
+export const DEFAULT_ADMIN_USERNAME = "admin";
 
 function getSecret() {
   return process.env.AUTH_SECRET || "jj-architects-studio-secret-auth-key-2025";
 }
 
 /**
- * Creates a signed session token: username:expiry:signature
+ * Hashes a plain-text password using salt and scryptSync
  */
-export function createSessionToken(username: string): string {
+export function hashPassword(password: string): string {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = crypto.scryptSync(password, salt, 64).toString("hex");
+  return `${salt}:${hash}`;
+}
+
+/**
+ * Validates a plain-text password against a stored salt:hash string
+ */
+export function verifyPassword(password: string, storedHash: string): boolean {
+  try {
+    if (!storedHash || !storedHash.includes(":")) return false;
+    const [salt, key] = storedHash.split(":");
+    if (!salt || !key) return false;
+    const hash = crypto.scryptSync(password, salt, 64).toString("hex");
+    return crypto.timingSafeEqual(Buffer.from(hash, "hex"), Buffer.from(key, "hex"));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Creates a signed session token: identifier:expiry:signature
+ */
+export function createSessionToken(identifier: string): string {
   const expiry = Date.now() + SESSION_EXPIRY_DAYS * 24 * 60 * 60 * 1000;
-  const payload = `${username}:${expiry}`;
+  const payload = `${identifier}:${expiry}`;
   const hmac = crypto.createHmac("sha256", getSecret());
   hmac.update(payload);
   const signature = hmac.digest("hex");
@@ -80,4 +101,104 @@ export async function isAuthenticated(): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/**
+ * Ensures the default admin user exists in MongoDB.
+ * If not found, automatically creates the admin@jjarchitects.co.in document.
+ */
+export async function ensureAdminUser(): Promise<IUser | null> {
+  const conn = await connectToDatabase();
+  if (!conn) return null;
+
+  try {
+    let admin = await UserModel.findOne({
+      $or: [
+        { email: DEFAULT_ADMIN_EMAIL.toLowerCase() },
+        { username: DEFAULT_ADMIN_USERNAME.toLowerCase() },
+      ],
+    });
+
+    if (!admin) {
+      const initialPassword = process.env.ADMIN_PASSWORD || "admin123";
+      admin = await UserModel.create({
+        email: DEFAULT_ADMIN_EMAIL,
+        username: DEFAULT_ADMIN_USERNAME,
+        name: "Studio Admin",
+        passwordHash: hashPassword(initialPassword),
+        role: "admin",
+      });
+      console.log(`✨ Created default admin user: ${DEFAULT_ADMIN_EMAIL}`);
+    }
+
+    return admin;
+  } catch (err) {
+    console.error("Error in ensureAdminUser:", err);
+    return null;
+  }
+}
+
+/**
+ * Authenticates credentials against MongoDB User collection.
+ */
+export async function authenticateAdminUser(
+  identifier: string,
+  passwordPlain: string
+): Promise<{ success: boolean; user?: { email: string; name?: string; role: string }; error?: string }> {
+  if (!identifier || !passwordPlain) {
+    return { success: false, error: "Please provide both email/username and password." };
+  }
+
+  const conn = await connectToDatabase();
+  const cleanIdentifier = identifier.trim().toLowerCase();
+
+  if (conn) {
+    try {
+      // Ensure default user exists if db is empty
+      await ensureAdminUser();
+
+      const user = await UserModel.findOne({
+        $or: [{ email: cleanIdentifier }, { username: cleanIdentifier }],
+      });
+
+      if (!user) {
+        return { success: false, error: "Invalid email/username or password." };
+      }
+
+      const isValid = verifyPassword(passwordPlain, user.passwordHash);
+      if (!isValid) {
+        return { success: false, error: "Invalid email/username or password." };
+      }
+
+      return {
+        success: true,
+        user: {
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        },
+      };
+    } catch (err: any) {
+      console.error("Database authentication error:", err);
+    }
+  }
+
+  // Fallback if MongoDB is temporarily unreachable
+  const fallbackPass = process.env.ADMIN_PASSWORD || "admin123";
+  const isFallbackMatch =
+    (cleanIdentifier === DEFAULT_ADMIN_EMAIL || cleanIdentifier === DEFAULT_ADMIN_USERNAME) &&
+    passwordPlain === fallbackPass;
+
+  if (isFallbackMatch) {
+    return {
+      success: true,
+      user: {
+        email: DEFAULT_ADMIN_EMAIL,
+        name: "Studio Admin (Fallback)",
+        role: "admin",
+      },
+    };
+  }
+
+  return { success: false, error: "Invalid email/username or password." };
 }

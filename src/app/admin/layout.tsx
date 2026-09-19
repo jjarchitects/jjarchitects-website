@@ -14,8 +14,10 @@ import {
   X,
   RefreshCw,
   LogOut,
+  KeyRound,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import ChangePasswordModal from "@/components/admin/ChangePasswordModal";
 
 interface StatusState {
   mongo: {
@@ -38,6 +40,7 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const [status, setStatus] = useState<StatusState | null>(null);
   const [checkingStatus, setCheckingStatus] = useState(false);
 
@@ -218,6 +221,16 @@ export default function AdminLayout({
               <ExternalLink className="w-3.5 h-3.5" />
             </Link>
 
+            {/* Change Password Button */}
+            <button
+              onClick={() => setPasswordModalOpen(true)}
+              title="Change Admin Password"
+              className="flex items-center gap-1.5 text-xs text-taupe-300 hover:text-copper hover:border-copper/50 transition-colors px-2.5 py-1.5 border border-carbon-600 bg-carbon-800"
+            >
+              <KeyRound className="w-3.5 h-3.5 text-copper" />
+              <span className="hidden sm:inline">Password</span>
+            </button>
+
             {/* Logout Button */}
             <button
               onClick={handleLogout}
@@ -265,6 +278,17 @@ export default function AdminLayout({
               );
             })}
 
+            <button
+              onClick={() => {
+                setMobileNavOpen(false);
+                setPasswordModalOpen(true);
+              }}
+              className="w-full flex items-center gap-2 px-3 py-2 text-sm uppercase tracking-wider font-medium text-taupe-200 hover:bg-carbon-600 transition-colors"
+            >
+              <KeyRound className="w-4 h-4 text-copper" />
+              <span>Change Password</span>
+            </button>
+
             <div className="pt-2 border-t border-carbon-600 flex flex-col gap-1.5 text-xs text-taupe-300">
               <div className="flex items-center gap-2">
                 <Database className="w-3.5 h-3.5" />
@@ -302,6 +326,11 @@ export default function AdminLayout({
           </span>
         </div>
       </footer>
+      {/* Change Password Modal */}
+      <ChangePasswordModal
+        isOpen={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+      />
     </div>
   );
 }

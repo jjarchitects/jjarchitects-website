@@ -1,35 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSessionToken, getAdminCredentials, COOKIE_NAME } from "@/lib/auth";
+import { authenticateAdminUser, createSessionToken, COOKIE_NAME } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { username, password } = body;
 
-    const credentials = getAdminCredentials();
-
-    // Verify credentials
-    const isUsernameValid =
-      username &&
-      (username.trim().toLowerCase() === credentials.username.toLowerCase() ||
-        username.trim().toLowerCase() === "admin@jjarchitects.co.in");
-
-    const isPasswordValid = password && password === credentials.password;
-
-    if (!isUsernameValid || !isPasswordValid) {
+    if (!username || !password) {
       return NextResponse.json(
-        { error: "Invalid username or password." },
+        { error: "Please provide both email/username and password." },
+        { status: 400 }
+      );
+    }
+
+    const authResult = await authenticateAdminUser(username, password);
+
+    if (!authResult.success || !authResult.user) {
+      return NextResponse.json(
+        { error: authResult.error || "Invalid credentials." },
         { status: 401 }
       );
     }
 
-    // Generate signed session token
-    const token = createSessionToken(credentials.username);
+    // Generate signed session token using user email
+    const token = createSessionToken(authResult.user.email);
 
     const response = NextResponse.json({
       success: true,
       message: "Authentication successful.",
-      user: { username: credentials.username },
+      user: authResult.user,
     });
 
     // Set HTTP-only secure session cookie

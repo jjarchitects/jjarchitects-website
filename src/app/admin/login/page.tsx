@@ -20,7 +20,7 @@ export default function AdminLoginPage() {
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || "/admin";
 
-  const [username, setUsername] = useState("admin");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -123,22 +123,23 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-4">
             {/* Username / Email */}
-            <div>
-              <label className="block text-xs uppercase tracking-wider text-carbon-400 font-medium mb-1.5">
-                Username / Email
-              </label>
-              <div className="relative">
-                <User className="w-4 h-4 text-carbon-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                <input
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="admin"
-                  className="w-full pl-10 pr-4 py-2.5 bg-taupe-100/50 border border-taupe-300 focus:border-copper focus:bg-white focus:outline-none text-carbon text-sm transition-colors"
-                />
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-carbon-400 font-medium mb-1.5">
+                  Email or Username
+                </label>
+                <div className="relative">
+                  <User className="w-4 h-4 text-carbon-300 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    required
+                    autoComplete="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="admin@jjarchitects.co.in"
+                    className="w-full pl-10 pr-4 py-2.5 bg-taupe-100/50 border border-taupe-300 focus:border-copper focus:bg-white focus:outline-none text-carbon text-sm transition-colors"
+                  />
+                </div>
               </div>
-            </div>
 
             {/* Password */}
             <div>
@@ -180,13 +181,11 @@ export default function AdminLoginPage() {
             </button>
           </form>
 
-          {/* Quick Credential Hint */}
+          {/* Studio Security Notice */}
           <div className="mt-6 pt-5 border-t border-taupe-200 text-center">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-taupe-100 text-[11px] text-carbon-400 rounded border border-taupe-200">
+            <div className="inline-flex items-center gap-1.5 text-[11px] text-carbon-400">
               <ShieldCheck className="w-3.5 h-3.5 text-copper shrink-0" />
-              <span>
-                Default Login: <strong>admin</strong> / <strong>admin123</strong>
-              </span>
+              <span>Protected Studio Management System</span>
             </div>
           </div>
         </div>
